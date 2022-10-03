@@ -1,0 +1,1 @@
+export const redirectLogout = "https://sunsafe.suneducationgroup.com/home"

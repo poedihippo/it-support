@@ -1,0 +1,29 @@
+Button Logout > public/sideMenu.js
+
+dataUser
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzU3IiwidXNlcm5hbWUiOiJwb2VkaSIsImZ1bGxuYW1lIjoiUG9lZGkiLCJuaWNrbmFtZSI6IiIsImluaXNpYWwiOiJwb2UiLCJjYWJhbmdfaWQiOiIxIiwiZW1haWwiOiJwb2VkaUBzdW5lZHVjYXRpb25ncm91cC5jb20iLCJoYW5kcGhvbmUiOiIwIiwic3VwZXJ2aXNvciI6IiIsIm5hbWVjYXJkX3Bvc2l0aW9uIjoiIiwidmFsaWRfbmFtZWNhcmQiOiIwIiwiZGlyaWQiOiIiLCJwcm9maWxlX2ltYWdlIjowLCJpYXQiOjE2NjQzNDc3MjksImV4cCI6MTY2NDQzNDEyOX0.GNxNPl7dc8i6cz-j41ayMCvAU0yO67MOGspXytuS0Bc
+
+id: 757
+
+profile_image: 0
+
+userName: Poedi
+
+email: poedi@suneducationgroup.com
+
+Task:
+remove token dan data user ketika logout dan redirect ke sunsafe <done>
+redirect ke login ketika tidak ada token <done>
+
+Red
+HardwareSpecEdit.js <button>
+Open Ticket
+Form Permintaan Edit.
+Hardware Add Stock
+
+Lisence Expired,
+perbaikan hardware
+
+--Add Data Lisensi Software
+lokasi
+lisence >> software
