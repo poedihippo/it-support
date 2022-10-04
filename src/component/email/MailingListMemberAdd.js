@@ -17,6 +17,7 @@ function MailingListMemberAdd({ state, dispatch }) {
     console.log(data, "check data")
     const resSplit = data.email.split('\n')
     console.log(resSplit, "check split data")
+    
     setIsLoad(true)
     try {
       const res = await axios.post(
