@@ -15,6 +15,8 @@ function MailingListMemberAdd({ state, dispatch }) {
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const clickHandler = async () => {
     console.log(data, "check data")
+    const resSplit = data.email.split('\n')
+    console.log(resSplit, "check split data")
     setIsLoad(true)
     try {
       const res = await axios.post(
@@ -22,6 +24,7 @@ function MailingListMemberAdd({ state, dispatch }) {
         data,
         axiosConfig
       );
+      console.log(res, "check")
       const { validEmail, inValidEmail } = res.data.payload;
       if (validEmail.length > 0) {
         let message = "";

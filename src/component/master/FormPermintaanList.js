@@ -11,11 +11,13 @@ function FormPermintaanList({ state, dispatch }) {
   const [data, setData] = useState([]);
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const generatePDF = async () => {
-    await axios.post(
-      `${config.SERVER_URL}formpermintaan/generatepdf`,
-      "test",
-      axiosConfig
-    );
+    console.log(data, "check data");
+    
+    // await axios.post(
+    //   `${config.SERVER_URL}formpermintaan/generatepdf`,
+    //   "test",
+    //   axiosConfig
+    // );
   };
   useEffect(() => {
     // Update the document title using the browser API

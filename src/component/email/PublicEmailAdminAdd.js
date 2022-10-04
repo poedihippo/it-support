@@ -22,8 +22,8 @@ function PublicEmailAdminAdd({ state, dispatch }) {
   });
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const onSubmit = async (data) => {
-    console.log(datas, "check data")
     setIsLoad(true)
+
     try {
       const res = await axios.post(
         `${config.SERVER_URL}publicemailadmin`,
