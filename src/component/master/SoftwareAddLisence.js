@@ -53,7 +53,6 @@ function SoftwareAddLisence({ state, dispatch }) {
           newObj[keyObj] = isData[keyObj]
         }
         newArr.push(newObj)
-        setLisenceValue(newArr)
         setIsError(true);
       }else {
         console.log(lisences, "check kok")
@@ -76,7 +75,7 @@ function SoftwareAddLisence({ state, dispatch }) {
         }
       }
     })
-    
+    setLisenceValue(newArr)
   };
   useEffect(async () => {
     try {

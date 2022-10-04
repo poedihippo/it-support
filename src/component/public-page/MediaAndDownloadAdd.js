@@ -166,7 +166,7 @@ function MediaAndDownloadAdd({ state, dispatch, setFieldValue }) {
                               style={{marginLeft: "40px"}}
                               className="btn btn-primary waves-effect"
                               onClick={() => {
-                                window.location.assign(`/mediaanddownload`)
+                                dispatch("LIST")
                               }}
                             >Back</button>
                             </div>

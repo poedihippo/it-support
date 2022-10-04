@@ -64,7 +64,7 @@ function FormPermintaanList({ state, dispatch }) {
                             <td>{i.nama_pt}</td>
                             <td>{i.tanggal_pengajuan}</td>
                             <td>
-                              <Link to={{pathname:`/form-permintaan/${i.nama_pt.split(" ").join("-")}/edit`, state:{data:i}}}>
+                              
                               <button
                                 type="button"
                                 className="btn btn-primary waves-effect "
@@ -74,7 +74,7 @@ function FormPermintaanList({ state, dispatch }) {
                               >
                                 Edit
                               </button>
-                              </Link>
+            
                               <button
                                 type="button"
                                 className="btn btn-danger waves-effect "

@@ -7,7 +7,8 @@ import axios from 'axios'
 import * as Yup from "yup";
 import IsLoading from "../loading";
 // focused error
-function FormPermintaanEdit() {
+function FormPermintaanEdit({state, dispatch}) {
+  console.log(state, "check dispatch")
   const location = useLocation();
   const [isLoad, setIsLoad] = useState(false)
   const axiosConfig = AuthenticationService.getAxiosConfig();
@@ -18,11 +19,6 @@ function FormPermintaanEdit() {
     supplier: Yup.string(),
   });
   
-  useEffect(() => {
-    if(location.state === undefined){
-      window.location.assign('/form-permintaan')
-    }
-  }, [location])
   const handleChange = (e) => {
     setValues(prev => {
       return{
@@ -85,7 +81,7 @@ function FormPermintaanEdit() {
                               style={{marginLeft: "40px"}}
                                 className="btn btn-primary waves-effect"
                                 onClick={() => {
-                                  window.location.assign('/form-permintaan')
+                                  dispatch("LIST")
                                 }}
                               >
                                 Back

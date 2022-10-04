@@ -113,7 +113,7 @@ function FAQAdd({ state, dispatch }) {
                                   style={{marginLeft: "40px"}}
                                   className="btn btn-primary waves-effect"
                                   onClick={() => {
-                                    window.location.assign('/faq')
+                                    dispatch("LIST")
                                   }}
                                 >Back</button>
                             </div>

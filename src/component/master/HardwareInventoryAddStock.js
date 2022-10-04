@@ -32,18 +32,7 @@ const initialValues = {
   qty: 0,
 };
 
-const onSubmit = async ({ inventoris }) => {
-  try {
-    const result = await axios.post(
-      `${config.SERVER_URL}hardwareinventori`,
-      inventoris,
-      axiosConfig
-    );
-    history.push("/hardware-spec");
-  } catch (e) {
-    console.log(e);
-  }
-};
+
 
 const consumableSubmit = async ({
   hardwareSpecId,
@@ -85,9 +74,40 @@ function HardwareInventoryAddStock() {
   const [hardwareSpec, setHardwareSpec] = useState({});
   const [spesifikasi, setSpesifikasi] = useState({});
   const [isConsumable, setIsConsumable] = useState(true);
-
+  const [isError, setIsError] = useState(false);
+  const [dataError, setdataError] = useState([])
   console.log("cek hardwareSpec", spesifikasi);
-
+  const onSubmit = async ({ inventoris }) => {
+    let checkError = false
+    let newArr = []
+    inventoris.forEach(isData => {
+      let newObj = {}
+      for(let keyObj in isData){
+        if(isData[keyObj] === "" || isData[keyObj] === 0){
+          newObj[keyObj] = isData[keyObj]
+          checkError = true
+        }
+      }
+      newArr.push(newObj)
+    })
+    if(checkError !== true){
+      setIsLoad(true)
+      try {
+        const result = await axios.post(
+          `${config.SERVER_URL}hardwareinventori`,
+          inventoris,
+          axiosConfig
+        );
+        setIsLoad(false)
+        history.push("/hardware-spec");
+      } catch (e) {
+        console.log(e);
+      }
+    }else {
+      setdataError(newArr)
+      setIsError(checkError)
+    }
+  };
   useEffect(async () => {
     //console.log(hardwareSpecId);
     try {
@@ -122,7 +142,7 @@ function HardwareInventoryAddStock() {
       console.log(e);
     }
   }, []);
-
+  console.log(dataError, isError, "check lah error")
   return (
     <React.Fragment>
       <section className="content">
@@ -188,6 +208,7 @@ function HardwareInventoryAddStock() {
                                   id="form_permintaan"
                                   name="form_permintaan"
                                 />
+                                
                               </div>
                             </div>
                             <label> Harga</label>
@@ -229,7 +250,7 @@ function HardwareInventoryAddStock() {
                     <Form>
                       <div className="body">
                         <FieldArray name="inventoris">
-                          {({ form, push }) => {
+                          {({ form, push, remove }) => {
                             const { inventoris } = form.values;
                             return (
                               <div>
@@ -280,43 +301,51 @@ function HardwareInventoryAddStock() {
                                                 )
                                               )}
                                             </Field>
+                                            {dataError[index]?.supplier_id === 0 && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                           </td>
                                           <td>
                                             <Field
                                               type="text"
                                               name={`inventoris[${index}].merek`}
                                             />
+                                            {dataError[index]?.merek === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                           </td>
                                           <td>
                                             <Field
                                               type="text"
                                               name={`inventoris[${index}].tipe`}
                                             />
+                                            {dataError[index]?.tipe === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                           </td>
                                           <td>
                                             <Field
                                               type="text"
                                               name={`inventoris[${index}].serial_number`}
                                             />
+                                            {dataError[index]?.serial_number === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                           </td>
                                           <td>
                                             <Field
                                               type="number"
                                               name={`inventoris[${index}].harga`}
                                             />
+                                            {dataError[index]?.harga === 0 && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                           </td>
                                           <td>
                                             <Field
                                               type="date"
                                               name={`inventoris[${index}].tanggal_pembelian`}
                                             />
+                                            {dataError[index]?.tanggal_pembelian === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                           </td>
                                           <td>
                                             <Field
                                               type="text"
                                               name={`inventoris[${index}].form_permintaan`}
                                             />
+                                            {dataError[index]?.form_permintaan === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                           </td>
+                                          
                                           {Object.keys(spesifikasi).map(
                                             (specItem, specIndex) => (
                                               <td
@@ -333,11 +362,8 @@ function HardwareInventoryAddStock() {
                                               className="btn btn-primary waves-effect"
                                               type="button"
                                               onClick={() => {
-                                                console.log(
-                                                  "jaran",
-                                                  inventoris
-                                                );
-                                                inventoris.splice(0, 1);
+                                                console.log(defaultRow, "check defaultRow", item)
+                                                remove({merek: "wdwd"})
                                               }}
                                             >
                                               X

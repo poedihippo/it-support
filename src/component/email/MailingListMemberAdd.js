@@ -14,6 +14,7 @@ function MailingListMemberAdd({ state, dispatch }) {
   });
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const clickHandler = async () => {
+    console.log(data, "check data")
     setIsLoad(true)
     try {
       const res = await axios.post(
@@ -56,12 +57,12 @@ function MailingListMemberAdd({ state, dispatch }) {
                 <div className="body">
                   <>
                     {errorMessage ? (
-                      <div class="alert alert-warning " role="alert">
+                      <div className="alert alert-warning " role="alert">
                         {`${errorMessage} gagal ditambahkan`}
                       </div>
                     ) : null}
                     {successMessage ? (
-                      <div class="alert alert-success " role="alert">
+                      <div className="alert alert-success " role="alert">
                         {`${successMessage} sukses ditambahkan`}
                       </div>
                     ) : null}

@@ -29,7 +29,6 @@ import ConnectionLost from "./component/public/ConnectionLost";
 import HardwareInventoryAddStock from "./component/master/HardwareInventoryAddStock";
 import Software from "./component/master/Software";
 import FormPermintaan from "./component/master/FormPermintaan";
-import FormPermintaanEdit from "./component/master/FormPermintaanEdit";
 import TicketList from "./component/Ticket/TicketList";
 import TicketAdd from "./component/Ticket/TicketAdd";
 import Ticket from "./component/Ticket/Ticket";
@@ -178,7 +177,6 @@ function App() {
               path="/perbaikan-hardware"
               component={PerbaikanHardware}
             />
-            <Route exact path="/form-permintaan/:supplier/edit" component={FormPermintaanEdit}/>
             <Route exact path="/ticket-list">
               <Ticket user="ADMIN" />
             </Route>

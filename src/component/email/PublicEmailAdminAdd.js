@@ -9,7 +9,7 @@ function PublicEmailAdminAdd({ state, dispatch }) {
   const [isLoad, setIsLoad] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null);
   const publicEmailId = state.publicEmailId;
-  const [data, setData] = useState({
+  const [datas, setData] = useState({
     publicemail_id: publicEmailId,
     email: "",
   });
@@ -18,18 +18,19 @@ function PublicEmailAdminAdd({ state, dispatch }) {
     email: "",
   };
   const ValidationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Required"),
+    email: Yup.string().email("Invalid email"),
   });
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const onSubmit = async (data) => {
+    console.log(datas, "check data")
     setIsLoad(true)
     try {
       const res = await axios.post(
         `${config.SERVER_URL}publicemailadmin`,
-        data,
+        datas,
         axiosConfig
       );
-      console.log("res.data", res.data);
+      console.log("res.data", res);
       if (res.data.error_code !== 0) {
         setIsLoad(false)
         setErrorMessage(res.data.message);
@@ -93,7 +94,7 @@ function PublicEmailAdminAdd({ state, dispatch }) {
                                     rows="5"
                                     name="email"
                                     className="form-control no-resize"
-                                    value={data.email}
+                                    value={datas.email}
                                     onChange={(e) => setData(prev => {return{...prev, [e.target.name]: e.target.value}})}
                                   ></textarea>
                                 </div>

@@ -148,7 +148,7 @@ function TipsAndTrickAdd({ state, dispatch }) {
                               style={{marginLeft: "40px"}}
                               className="btn btn-primary waves-effect"
                               onClick={() => {
-                                window.location.assign(`/tipsandtrick`)
+                                dispatch("LIST")
                               }}
                             >Back</button>
                           </div>
