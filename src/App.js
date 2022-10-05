@@ -58,11 +58,11 @@ function App() {
       console.log(userData);
       history.push("/");
     }
-    if(pathname !== '/authentication' ){
-      if(authService.token === "" || authService.token === undefined || authService.token === null){
-        window.location.assign('https://sunsafe.suneducationgroup.com/home')
-      }
-    }
+    // if(pathname !== '/authentication' ){
+    //   if(authService.token === "" || authService.token === undefined || authService.token === null){
+    //     window.location.assign('https://sunsafe.suneducationgroup.com/home')
+    //   }
+    // }
     /*
     const axiosConfig = AuthenticationService.getAxiosConfig();
     console.log("app");
