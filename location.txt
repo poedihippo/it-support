@@ -1,3 +1,7 @@
+new
+Open Ticket: Perbaiki yang tidak kelihata di list.
+
+
 Button Logout > public/sideMenu.js
 
 dataUser
@@ -22,7 +26,7 @@ Form Permintaan Edit.
 Hardware Add Stock
 
 Lisence Expired,
-perbaikan hardware
+perbaikan hardware.
 
 --Add Data Lisensi Software
 lokasi

@@ -103,10 +103,10 @@ function App() {
         console.log(err);
       }*/
   }, []);
+  const isTrue = true
   return (
     <div className="App">
-      {authService.token !== "" && authService.token !== undefined && authService.token !== null
-      ?userLogin.id !== undefined ? (
+     (
        
         <React.Fragment>
           <TopMenu />
@@ -196,7 +196,7 @@ function App() {
       ) : (
         <ConnectionLost user={userLogin} />
       )
-    :window.location.assign('https://sunsafe.suneducationgroup.com/login')}
+    
     </div>
   );
 }

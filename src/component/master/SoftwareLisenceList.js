@@ -10,7 +10,7 @@ function SoftwareLisenceList({ state, dispatch }) {
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const softwareData = state.currentRow;
   const softwareId = state.currentId;
-
+  console.log(softwareData, "check software data")
   useEffect(async () => {
     try {
       const res = await axios.get(
@@ -62,7 +62,7 @@ function SoftwareLisenceList({ state, dispatch }) {
                               <button
                                 type="button"
                                 onClick={() => {
-                                dispatch({ type: "VIEW_LISENCE", id:i.id, row:i });
+                                dispatch({ type: "VIEW_LISENCE", id:i.id, row:softwareData });
                               }}
                                 className="btn btn-primary waves-effect "
                               >
