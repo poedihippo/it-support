@@ -4,10 +4,12 @@ import AuthenticationService from "./../../logic/AuthenticationService";
 import config from "../../config.json";
 const SoftwareLisenceView = ({state, dispatch}) => {
     const [isData, setIsData] = useState([]) 
-    const softwareData = state.currentRow;
+    const softwareData = state.currentRow.main;
+    const lisenceData = state.currentRow.lisence;
+    console.log(lisenceData, "yeay")
     const axiosConfig = AuthenticationService.getAxiosConfig();
     const softwareId = state.currentId;
-    console.log('woww', softwareData)
+    console.log(softwareId,'woww', softwareData)
     useEffect(() => {
         const getDataLisence = async () => {
             try{
@@ -16,7 +18,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                     axiosConfig
                 );
                 const resFilter = res.data.filter(resData => parseInt(resData.id) === parseInt(softwareId));
-                console.log(resFilter, "check data filter")
+                console.log(resFilter, "check data filter", res)
                 setIsData(resFilter);
 
             }catch(error){
@@ -162,13 +164,8 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                                 )
                               )} */}
                               <label> Lisence</label>
-                              {/* <FieldArray name="lisences">
-                                {({ form, push }) => {
-                                  const { lisences } = form.values;
-                                  let no_seq = 1;
-                                  console.log("lisences", lisences);
-                                  return (
-                                    <React.Fragment>
+                              <div name="lisences">
+                            
                                       <table className="table table-bordered ">
                                         <thead>
                                           <tr>
@@ -180,7 +177,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                                           </tr>
                                         </thead>
                                         <tbody>
-                                          {lisences.map((item, index) => (
+                                          {/* {lisences.map((item, index) => (
                                             <tr key={index}>
                                               <td style={{ width: "500px" }}>
                                                 {item.nama_software}
@@ -210,7 +207,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                                                 </button>
                                               </td>
                                             </tr>
-                                          ))}
+                                          ))} */}
                                         </tbody>
                                       </table>
                                       <div>
@@ -218,16 +215,14 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                                           type="button"
                                           className="btn btn-primary waves-effect"
                                           onClick={() => {
-                                            setViewState("ASSIGN");
+                                            dispatch({type: "ASSIGN_LISENCE", id: softwareId, row: {main:softwareData, lisence:lisenceData}})
                                           }}
                                         >
                                           [+]
                                         </button>
                                       </div>
-                                    </React.Fragment>
-                                  );
-                                }}
-                              </FieldArray> */}
+                                   
+                              </div>
 
                               {/* <label> Spesifikasi</label>
                             <div className="form-group">

@@ -5,7 +5,7 @@ import SoftwareEdit from "./SoftwareEdit";
 import SoftwareLisenceList from "./SoftwareLisenceList";
 import SoftwareLisenceView from "./SoftwareLisenceView";
 import SoftwareList from "./SoftwareList";
-
+import SoftwareLisenceAssign from "./SoftwareLisenceAssign";
 const initialState = {
   pageState: "LIST",
   currentId: 0,
@@ -41,6 +41,13 @@ const reducer = (state, action) => {
         pageState: "VIEW_LISENCE",
         currentId: action.id,
         currentRow: action.row,
+        listAssign: action.assign
+      };
+      case "ASSIGN_LISENCE":
+        return {
+        pageState: "ASSIGN_LISENCE",
+        currentId: action.id,
+        currentRow: action.row
       };
     default:
       return initialState;
@@ -79,6 +86,13 @@ function Software() {
       {
         state.pageState === "VIEW_LISENCE" ? (
           <SoftwareLisenceView state={state} dispatch={dispatch} />
+        ) : (
+          0
+        )
+      }
+      {
+        state.pageState === "ASSIGN_LISENCE" ? (
+          <SoftwareLisenceAssign state={state} dispatch={dispatch} />
         ) : (
           0
         )

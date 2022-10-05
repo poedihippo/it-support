@@ -23,6 +23,7 @@ function HardwareSpecList({ state, dispatch }) {
       })
       .catch((err) => console.log(err));
   }, []);
+  console.log(data, "check lagi ahs ")
   return (
     <React.Fragment>
       <section className="content">
