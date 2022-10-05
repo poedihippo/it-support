@@ -51,6 +51,7 @@ function App() {
   //console.log("location", location);
   useEffect(async () => {
     if (pathname === "/authentication") {
+      console.log('masuk kaga si?')
       const params = new URLSearchParams(search);
       const login_token = params.get("login_token");
       const userData = await AuthenticationService.authentication(login_token);
@@ -106,7 +107,8 @@ function App() {
   const isTrue = true
   return (
     <div className="App">
-     (
+     {authService.token !== "" && authService.token !== undefined && authService.token !== null
+       ?userLogin.id !== undefined ?(
        
         <React.Fragment>
           <TopMenu />
@@ -195,10 +197,12 @@ function App() {
       
       ) : (
         <ConnectionLost user={userLogin} />
-      )
-    
+      ) : window.location.assign('https://sunsafe.suneducationgroup.com/home')
+    }
     </div>
   );
 }
 
 export default App;
+// authService.token !== "" && authService.token !== undefined && authService.token !== null
+//       ?userLogin.id !== undefined ?
