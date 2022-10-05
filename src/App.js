@@ -1,14 +1,11 @@
 import { Route, useLocation, useHistory } from "react-router-dom";
 
-import axios from "axios";
-import config from "./config.json";
+
 import AuthenticationService from "./logic/AuthenticationService";
-import DashBoard from "./component/public/DashBoard";
 import FormPage from "./component/FormPage";
 import TopMenu from "./component/public/TopMenu";
 import SideMenu from "./component/public/SideMenu";
 import TablePage from "./component/TablePage";
-//import Authentication from "./component/public/Authentication";
 import MailingList from "./component/email/MailingList";
 import MailingListMember from "./component/email/MailingListMember";
 import PublicEmail from "./component/email/PublicEmail";
@@ -24,12 +21,11 @@ import MediaAndDownloadPreview from "./component/public-page/MediaAndDownloadPre
 import SupplierVendor from "./component/master/SupplierVendor";
 import HardwareSpec from "./component/master/HardwareSpec";
 import HardwareInventory from "./component/master/HardwareInventory";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ConnectionLost from "./component/public/ConnectionLost";
 import HardwareInventoryAddStock from "./component/master/HardwareInventoryAddStock";
 import Software from "./component/master/Software";
 import FormPermintaan from "./component/master/FormPermintaan";
-import TicketList from "./component/Ticket/TicketList";
 import TicketAdd from "./component/Ticket/TicketAdd";
 import Ticket from "./component/Ticket/Ticket";
 import MyInventory from "./component/user/MyInventory";
@@ -40,15 +36,11 @@ import HardwareInventoryView from "./component/master/HardwareInventoryView";
 import Logout from "./component/Logout";
 
 function App() {
-  //console.log(RouteConfig);
-  const [dbConnection, setDbConnection] = useState(false);
-  const [user, setUser] = useState({});
-  const [authen, setAuthen] = useState(false);
-  const authService = AuthenticationService.getLocalCredential()
+ 
   const { pathname, search } = useLocation();
   const history = useHistory();
   const userLogin = AuthenticationService.getLocalCredential();
-  //console.log("location", location);
+ 
   useEffect(async () => {
     if (pathname === "/authentication") {
       console.log('masuk kaga si?')
@@ -63,51 +55,6 @@ function App() {
     //     window.location.assign('https://sunsafe.suneducationgroup.com/home')
     //   }
     // }
-    /*
-    const axiosConfig = AuthenticationService.getAxiosConfig();
-    console.log("app");
-    try {
-      //const res = await axios.get(`${config.SERVER_URL}validate`, axiosConfig);
-      //console.log("val res", res.data);
-      const userLogin = AuthenticationService.getLocalCredential();
-      if (userLogin.id !== "") {
-        setUser(userLogin);
-        //setAuthen(true);
-        //AuthenticationService.setToken(res.data.token);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-
-    */
-    /*
-
-    if (pathname === "/authentication") {
-      const params = new URLSearchParams(search);
-      const login_token = params.get("login_token");
-      const userData = await AuthenticationService.authentication(login_token);
-      console.log(userData);
-    }*/
-    //login
-    /*
-      const axiosConfig = AuthenticationService.getAxiosConfig();
-      console.log("config", axiosConfig);
-      console.log("authen", authen);
-      try {
-        const res = await axios.get(
-          `${config.SERVER_URL}validate`,
-          axiosConfig
-        );
-        console.log(res.data);
-        if (res.status == 200) {
-          setDbConnection(res.data.DBConnection);
-          setUser(res.data.user);
-          setAuthen(true);
-          //AuthenticationService.setToken(res.data.token);
-        }
-      } catch (err) {
-        console.log(err);
-      }*/
   }, []);
   const isTrue = true
   return (
@@ -120,7 +67,6 @@ function App() {
 
           <React.Fragment>
             <Route exact path="/" component={UserView} />
-            {/* <Route exact path="/" component={DashBoard} /> */}
             <Route exact path="/testpdf" component={TestPDF} />
             <Route exact path="/testemail" component={TestEmail} />
             <Route exact path="/formpage" component={FormPage} />
@@ -199,10 +145,7 @@ function App() {
           </React.Fragment>
         </React.Fragment>
       
-      ) : (
-        <ConnectionLost user={userLogin} />
-      )
-    
+      ) 
     </div>
   );
 }
