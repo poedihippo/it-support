@@ -30,21 +30,26 @@ function MediaAndDownloadList({ state, dispatch }) {
       });
   }, []);
   const handleDelete = async (e) => {
-    try {
-      const deleteResult = await axios.delete(
-        `${config.SERVER_URL}mediaanddownload/${isDataDelete.id}`,
-        axiosConfig
-      );
-      if (deleteResult.data.error_code === 0) {
-        const res = await axios.get(
-          `${config.SERVER_URL}mediaanddownload`,
-          axiosConfig
-        );
-        setData(res.data);
+      if(e.currentTarget.textContent.toUpperCase() === "YES"){
+        try {
+          const deleteResult = await axios.delete(
+            `${config.SERVER_URL}mediaanddownload/${isDataDelete.id}`,
+            axiosConfig
+          );
+          if (deleteResult.data.error_code === 0) {
+            const res = await axios.get(
+              `${config.SERVER_URL}mediaanddownload`,
+              axiosConfig
+            );
+            setIsDelete(false)
+            setData(res.data);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }else {
+        setIsDelete(false)
       }
-    } catch (e) {
-      console.log(e);
-    }
   }
   return (
     <React.Fragment>
