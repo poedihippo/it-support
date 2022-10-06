@@ -13,7 +13,6 @@ function HardwareSpecList({ state, dispatch }) {
       .get(`${config.SERVER_URL}hardwarespec`, axiosConfig)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
           setData(res.data);
 
           $(".js-mailing-list").DataTable({

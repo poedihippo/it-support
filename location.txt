@@ -1,3 +1,5 @@
+if(e.currentTarget.textContent.toUpperCase() === "YES"){
+
 Catatan Error
 
 -MailingListMember
@@ -110,3 +112,25 @@ BE SoftwareLisenceView
 path URL: http://localhost:3000/software
 path File: component/master/SoftwareLisenceAssign (POST) & component/master/SoftwareLisenceView (GET)
 Desk: Dibagian "SoftwareLisence" membutuhkan endpoint untuk post agar bisa menampilkan list lisence dibagian SoftwareLisenceView.
+
+
+
+
+
+
+Tombol Delete Backup:
+<div style={{position:"absolute", zIndex: "10", height: "100%", width:"100%", display: isDelete ? "block": "none"}} role="dialog">
+          <div className={`${isDelete ? "" : "modal"} position-absolute`}style={{position:"absolute", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"0", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
+            <div className="modal-dialog " role="document">
+              <div className="modal-content">
+                <div className="modal-body">
+                  <p>Are you sure you wish to delete this item?</p>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-primary" onClick={handleDelete}>Yes</button>
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={handleDelete}>No</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

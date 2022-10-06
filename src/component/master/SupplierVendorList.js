@@ -4,21 +4,18 @@ import "datatables.net";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
-import dateFormat from "dateformat";
 
 function SupplierVendorList({ state, dispatch }) {
   const [data, setData] = useState([]);
+  const [isDelete, setIsDelete] = useState(false);
+  const [isDataDelete, setIsDataDelete] = useState()
   const axiosConfig = AuthenticationService.getAxiosConfig();
   useEffect(() => {
-    // Update the document title using the browser API
-    //console.log(state);
 
     axios
       .get(`${config.SERVER_URL}suppliervendor`, axiosConfig)
       .then((res) => {
-        //console.log(res.data);
         if (res.status === 200) {
-          console.log(res.data);
           setData(res.data);
 
           $(".js-mailing-list").DataTable({
@@ -29,21 +26,45 @@ function SupplierVendorList({ state, dispatch }) {
       .catch((err) => console.log(err));
   }, []);
   const deleteData = async (item) => {
-    try {
-      const res = await axios.delete(
-        `${config.SERVER_URL}suppliervendor/${item.id}`,
-        axiosConfig
-      );
-      if (res.status === 200) setData(res.data);
-    } catch (e) {
-      console.log(e);
-    }
+    setIsDelete(true);
+    setIsDataDelete(item)
   };
-  //console.log(data);
-
+  const handleDelete = async (e) => {
+    if(e.currentTarget.textContent.toUpperCase() === "YES"){
+      try {
+        const res = await axios.delete(
+          `${config.SERVER_URL}suppliervendor/${isDataDelete.id}`,
+          axiosConfig
+        );
+        if (res.status === 200){
+          setIsDelete(false)
+          setData(res.data);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }else {
+      setIsDelete(false)
+    }
+  }
   return (
     <React.Fragment>
       <section className="content">
+      <div role="dialog">
+          <div className={`${isDelete ? "" : "modal"} position-absolute`}style={{position:"fixed", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"30rem", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
+            <div className="modal-dialog " role="document">
+              <div className="modal-content">
+                <div className="modal-body">
+                  <p>Are you sure you wish to delete this item?</p>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-primary" onClick={handleDelete}>Yes</button>
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={handleDelete}>No</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="container-fluid">
           <div className="row clearfix">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -81,11 +102,6 @@ function SupplierVendorList({ state, dispatch }) {
                                 type="button"
                                 className="btn btn-danger waves-effect "
                                 onClick={() => {
-                                  if (
-                                    window.confirm(
-                                      "Are you sure you wish to delete this item?"
-                                    )
-                                  )
                                     deleteData(i);
                                 }}
                               >

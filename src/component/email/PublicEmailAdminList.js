@@ -12,7 +12,6 @@ function PublicEmailAdminList({ state, dispatch }) {
   const [data, setData] = useState([]);
   const publicEmailId = state.publicEmailId;
   const axiosConfig = AuthenticationService.getAxiosConfig();
-  //console.log(mailingListId);
   useEffect(async () => {
     const res = await axios.get(
       `${config.SERVER_URL}publicemailadmin/publicemail`,
@@ -31,15 +30,6 @@ function PublicEmailAdminList({ state, dispatch }) {
   const deleteData = async (data) => {
     setIsDelete(true);
     setDataDelete(data)
-    // try {
-    //   const res = await axios.delete(`${config.SERVER_URL}publicemailadmin`, {
-    //     ...axiosConfig,
-    //     params: { publicemail_id: publicEmailId, user_id: dataDelete.user_id },
-    //   });
-    //   if (res.status === 200) setData(res.data);
-    // } catch (e) {
-    //   console.log(e);
-    // }
   };
   const handleDelete = (e) => {
     if(e.currentTarget.textContent.toUpperCase() === "YES"){
@@ -60,8 +50,8 @@ function PublicEmailAdminList({ state, dispatch }) {
   return (
     <React.Fragment>
       <section className="content" style={{position:"relative"}}>
-        <div style={{position:"absolute", zIndex: "10", backgroundColor: "rgb(0,0,0, 0.5)", height: "100%", width:"100rem", display: isDelete ? "block": "none"}} role="dialog">
-          <div className={`${isDelete ? "" : "modal"} position-absolute`}style={{position:"absolute", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"0", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
+        <div role="dialog">
+          <div className={`${isDelete ? "" : "modal"} position-absolute`}style={{position:"fixed", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"30rem", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
             <div className="modal-dialog " role="document">
               <div className="modal-content">
                 <div className="modal-body">

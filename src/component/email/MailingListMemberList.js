@@ -75,8 +75,8 @@ function MailingListMemberList({ state, dispatch }) {
     <React.Fragment>
       {!loading ? (
         <section className="content"style={{position:"relative"}}>
-          <div style={{position:"absolute", zIndex: "10", backgroundColor: "rgb(0,0,0, 0.5)", height: "100%", width:"100rem", display: isDelete ? "block": "none"}} role="dialog">
-          <div className={`${isDelete ? "" : "modal"} position-absolute`}style={{position:"absolute", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"0", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
+          <div role="dialog">
+          <div className={`${isDelete ? "" : "modal"} position-absolute`}style={{position:"fixed", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"30rem", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
               <div className="modal-dialog " role="document">
                 <div className="modal-content">
                   <div className="modal-body">
