@@ -71,7 +71,7 @@ function FormPermintaanAdd({ state, dispatch }) {
             <h2>Form Permintaan</h2>
           </div>
 
-          <div className="row clearfix">
+          <div className="row clearfix" style={{width: "max-content"}}>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div className="card">
                 <div className="body">
@@ -120,12 +120,12 @@ function FormPermintaanAdd({ state, dispatch }) {
                       </div>
                       <label> Detail</label>
                       <FieldArray name="details">
-                        {({ form, push }) => {
+                        {({ form, push, remove }) => {
                           const { details } = form.values;
                           let no_seq = 1;
                           return (
                             <React.Fragment>
-                              {!isLoad ? (<table className="table table-bordered ">
+                              {!isLoad ? (<table className="table table-bordered edit-table">
                                 <thead>
                                   <tr>
                                     <th>No</th>
@@ -141,7 +141,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                                 <tbody>
                                   {details.map((item, index) => (
                                     <tr key={index}>
-                                      <td style={{ width: "500px" }}>
+                                      <td>
                                         <Field
                                           type="text"
                                           name={`details[${index}].no_urut`}
@@ -196,6 +196,9 @@ function FormPermintaanAdd({ state, dispatch }) {
                                             details[index].harga_satuan
                                           }
                                         />
+                                      </td>
+                                      <td>
+                                        <button className="btn btn-primary waves-effect" onClick={()=> remove(defaultRow)}>X</button>
                                       </td>
                                     </tr>
                                   ))}

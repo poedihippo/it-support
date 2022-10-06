@@ -11,6 +11,7 @@ function MailingListMemberAdd({ state, dispatch }) {
   const [data, setData] = useState({
     mailinglist_id: mailingListId,
     email: "",
+    fullname:"",
   });
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const clickHandler = async () => {
@@ -74,8 +75,9 @@ function MailingListMemberAdd({ state, dispatch }) {
                   <h2 className="card-inside-title">Add</h2>
                   <div className="row clearfix">
                     <div className="col-sm-12">
-                      <label> Emaill</label>
-                      {!isLoad ? (<div className="form-group">
+                      
+                      {!isLoad ? (<><label> Emaill</label>
+                      <div className="form-group">
                         <div className="form-line">
                           <textarea
                             rows="4"
@@ -86,7 +88,17 @@ function MailingListMemberAdd({ state, dispatch }) {
                             value={data.email}
                           ></textarea>
                         </div>
-                      </div>)
+                      </div><label> Full Name</label>
+                      <div className='form-group'>
+                            <div className='form-line'>
+                              <textarea rows="4"
+                                className="form-control no-resize"
+                                onChange={(e) => setData({...data, fullname:e.target.value})
+                              }
+                              value={data.fullName}
+                              ></textarea>
+                            </div>
+                        </div></>)
                       :<IsLoading />}
                     </div>
                     <div className="col-sm-12">

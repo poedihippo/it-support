@@ -1,3 +1,58 @@
+Catatan Error
+
+-MailingListMember
+1: Error-MailingListFullName(FullName tidak ikut terdaftar ke dalam database);
+
+-PublicEmailAdmin
+1: Error-PublicEmailAdminAddMassalEmail(Email tidak bisa ditambahkan secara massal);
+
+-- !! --
+Catatan Sukses:
+-Mailing List
+1: Add Email dan Deskripsi (Loading), Menampilkan Email dan Deskripsi;
+2: Button Back;
+3: Pagenation;
+4: Edit (Loading);
+5: Delete;
+6: Menampilkan Pop Up Ketika button delete ditekan;
+
+-Mailing List Member
+1: Add MailingListMember berhasil, Add MailingListMember secara massal berhasil;
+2: Pop Up muncul ketika salah satu email sudah ada di database;
+
+3: Error-MailingListFullName;
+
+4: Button Back berfungsi
+5: Berhasil menampilkan Delete ketika button dipencet, dan menghapus data ketika didelete
+
+-Public Email
+1: Menambahkan(Add) Email Baru, dan menampilkan Email Baru;
+2: Menampilkan Pop Up Ketika button Delete Dihapus, dan menghapus salah satu email;
+3: Berhasil meng-edit email;
+4: Loading untuk semua save;
+
+-Public Email Admin
+1: Berhasil menambahkan/add email;
+2: Loading untuk semnua save;
+
+3: Error-PublicEmailAdminAddMassalEmail;
+
+4: Menghapus dan menampilkan Pop Up ketika button delete ditekan;
+5: Button Back berfungsi dengan baik;
+
+-User List & User View
+1: Semua Berjalan dengan semestinya;
+
+-Public Page > FAQ
+1: Berhasil Menambahkan/Add FAQ serta menampilkannya;
+2: Loading berfungsi;
+3: Button edit berfungi dengan baik;
+4: Button delete berfungis dengan baik dan menampilkan Pop Up ketika ditekan;
+5: Button back berfungsi dengan baik;
+
+-User List & Tips And Trick
+-- !! --
+
 new
 Open Ticket: Perbaiki yang tidak kelihata di list.
 
@@ -31,3 +86,27 @@ perbaikan hardware.
 --Add Data Lisensi Software
 lokasi
 lisence >> software
+
+
+New Task(OP)
+
+Question
+1. Mengalami error "Email yang anda masukkan tidak terdaftar di sunafe". Tidak error jika memasukkan
+email yang dari page userList, lalu userList ini di add melalui apa?
+
+New Task
+di mailingstmember ketika di add tidak ada form untuk fullname.
+
+Tanya
+1. di MailingListMember Add, coba periksa bagian back-end apakah untuk fullname sudah tersedia.
+2. tombol view untuk lisence belum ada endpoint untuk post dan get.
+
+BE MailingListMember
+path URL:http://localhost:3000/mailinglistmember/19
+path File: component/email/MailingListMemberAdd.js
+Desk: Ketika menambahkan member fullname tidak ikut terdaftar.
+
+BE SoftwareLisenceView
+path URL: http://localhost:3000/software
+path File: component/master/SoftwareLisenceAssign (POST) & component/master/SoftwareLisenceView (GET)
+Desk: Dibagian "SoftwareLisence" membutuhkan endpoint untuk post agar bisa menampilkan list lisence dibagian SoftwareLisenceView.

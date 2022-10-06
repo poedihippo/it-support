@@ -101,7 +101,7 @@ function HardwareSpecAdd({ state, dispatch }) {
               <div className="card">
                 <div className="body">
                   <h2 className="card-inside-title">Add</h2>
-                  {isError !== "" && (<label className='error' style={{color: "red"}}>{isError}</label>)}
+                  {isError !== "" && (<label className='error' style={{color: "white", width: "100%", textAlign: "center", padding:"30px 0", backgroundColor:"red",borderRadius:"10px",fontSize:"20px"}}>{isError}</label>)}
                   <div className="row clearfix">
                     <div className="col-sm-12">
                       <div className="form-group">

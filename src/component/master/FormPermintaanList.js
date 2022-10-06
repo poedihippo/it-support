@@ -39,7 +39,11 @@ function FormPermintaanList({ state, dispatch }) {
       .catch((err) => console.log(err));
   }, []);
   //console.log(data);
-
+  const handleDelete = (data) => {
+    axios.delete(`${config.SERVER_URL}formpermintaan/${data.id}`, axiosConfig)
+    .then(res => console.log('chek'))
+    .catch(error => console.log(error.response," check lah"))
+  }
   return (
     <React.Fragment>
       <section className="content">
@@ -80,6 +84,7 @@ function FormPermintaanList({ state, dispatch }) {
                               <button
                                 type="button"
                                 className="btn btn-danger waves-effect "
+                                onClick={() => handleDelete(i)}
                               >
                                 Delete
                               </button>

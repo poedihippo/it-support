@@ -8,24 +8,13 @@ import dateFormat from "dateformat";
 
 function MediaAndDownloadList({ state, dispatch }) {
   const [data, setData] = useState([]);
+  const [isDelete, setIsDelete] = useState(false);
+  const [isDataDelete, setIsDataDelete] = useState();
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const deleteData = async (values) => {
-    try {
-      const deleteResult = await axios.delete(
-        `${config.SERVER_URL}mediaanddownload/${values.id}`,
-        axiosConfig
-      );
-      if (deleteResult.data.error_code === 0) {
-        const res = await axios.get(
-          `${config.SERVER_URL}mediaanddownload`,
-          axiosConfig
-        );
-        setData(res.data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+    setIsDataDelete(values)
+    setIsDelete(true)
+  }
   useEffect(() => {
     // Update the document title using the browser API
     axios
@@ -40,10 +29,41 @@ function MediaAndDownloadList({ state, dispatch }) {
         }
       });
   }, []);
-
+  const handleDelete = async (e) => {
+    try {
+      const deleteResult = await axios.delete(
+        `${config.SERVER_URL}mediaanddownload/${isDataDelete.id}`,
+        axiosConfig
+      );
+      if (deleteResult.data.error_code === 0) {
+        const res = await axios.get(
+          `${config.SERVER_URL}mediaanddownload`,
+          axiosConfig
+        );
+        setData(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return (
     <React.Fragment>
       <section className="content">
+        <div style={{position:"absolute", zIndex: "10", backgroundColor: "rgb(0,0,0, 0.5)", height: "100%", width:"100rem", display: isDelete ? "block": "none"}} role="dialog">
+          <div className={`${isDelete ? "" : "modal"} position-absolute`}style={{position:"absolute", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"0", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
+            <div className="modal-dialog " role="document">
+              <div className="modal-content">
+                <div className="modal-body">
+                  <p>Are you sure you wish to delete this item?</p>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-primary" onClick={handleDelete}>Yes</button>
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={handleDelete}>No</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="container-fluid">
           <div className="row clearfix">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

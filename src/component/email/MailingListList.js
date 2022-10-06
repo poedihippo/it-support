@@ -48,7 +48,7 @@ function MailingListList({ state, dispatch }) {
   return (
     <React.Fragment>
       <section className="content position-relative">
-        <div style={{position:"absolute", zIndex: "10", backgroundColor: "rgb(0,0,0, 0.5)", height: "100vh", width:"100rem", display: isDelete ? "block": "none"}} role="dialog">
+        <div style={{position:"absolute", zIndex: "10", backgroundColor: "rgb(0,0,0, 0.5)", height: "100%", width:"100rem", display: isDelete ? "block": "none"}} role="dialog">
           <div className={`${isDelete ? "" : "modal"} position-absolute`}style={{position:"absolute", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"0", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
             <div className="modal-dialog " role="document">
               <div className="modal-content">
