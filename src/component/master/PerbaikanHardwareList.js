@@ -15,7 +15,7 @@ function PerbaikanHardwareList({ state, dispatch }) {
         axiosConfig
       );
       setData(res.data);
-
+        console.log(res.data, "check apakah tanggl ada yang beubah")
       $(".js-mailing-list").DataTable({
         responsive: true,
       });

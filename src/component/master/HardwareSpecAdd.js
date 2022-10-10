@@ -87,10 +87,26 @@ function HardwareSpecAdd({ state, dispatch }) {
 
     
   };
-  console.log(isError, "wkowkow")
+  const handleErrorModal = () => {
+
+  }
   return (
     <React.Fragment>
-      <section className="content">
+      <section className="content" style={{position:"relative"}}>
+        <div role="dialog">
+          <div className={`${isError !== "" ? "" : "modal"} position-absolute`}style={{position:"fixed", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"30rem", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
+            <div className="modal-dialog " role="document">
+              <div className="modal-content">
+                <div className="modal-body">
+                  <p>{isError}</p>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-primary" onClick={() => setIsError("")}>Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="container-fluid">
           <div className="block-header">
             <h2>Hardware Spesifikasi</h2>
@@ -101,7 +117,6 @@ function HardwareSpecAdd({ state, dispatch }) {
               <div className="card">
                 <div className="body">
                   <h2 className="card-inside-title">Add</h2>
-                  {isError !== "" && (<label className='error' style={{color: "white", width: "100%", textAlign: "center", padding:"30px 0", backgroundColor:"red",borderRadius:"10px",fontSize:"20px"}}>{isError}</label>)}
                   <div className="row clearfix">
                     <div className="col-sm-12">
                       <div className="form-group">
@@ -316,7 +331,7 @@ function HardwareSpecAdd({ state, dispatch }) {
                                     style={{marginLeft: "40px"}}
                                     className="btn btn-primary waves-effect"
                                     onClick={() => {
-                                    window.location.assign(`/hardware-spec`)
+                                    dispatch({type:"LIST"})
                                   }}
                                 >Back</button>
                               </div>

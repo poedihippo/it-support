@@ -34,6 +34,14 @@ export default class AuthService {
       },
     };
   }
+  static getAxiosConfigV1() {
+    return {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+  }
 
   static clearLocalCredential() {
     const emptyString = "";

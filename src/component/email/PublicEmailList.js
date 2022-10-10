@@ -12,23 +12,51 @@ function PublicEmailList({ state, dispatch }) {
   const [dataDelete, setDataDelete] = useState()
   const axiosConfig = AuthenticationService.getAxiosConfig();
 
-  useEffect(async () => {
+  useEffect(() => {
+
+    // const getDataPublicEmail = async () => {
+    //   const tokenAuth = await localStorage.getItem("token")
+    //   fetch(`${config.SERVER_URL}publicemail`, {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: "Bearer " + tokenAuth,
+    //     },
+    //   })
+    //   .then(res => res.json())
+    //   .then(res => {
+    //     console.log(res, "check hasil")
+    //     setData(res);
+    //     $(".js-mailing-list").DataTable({
+    //       responsive: true,
+    //     });
+    //   })
+    //   .catch(error => console.log(error.response, "check error get mailinglist"))
+    // }
+    // getDataPublicEmail()
+
+
     // Update the document title using the browser API
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}publicemail`,
-        axiosConfig
-      );
-      //console.log(res.data);
-      if (res.status === 200) {
-        setData(res.data);
-        $(".js-mailing-list").DataTable({
-          responsive: true,
-        });
+
+    const getDataPublicEmails = async () => {
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}publicemail`,
+          axiosConfig
+        );
+        console.log(res.data);
+        if (res.status === 200) {
+          console.log(res, "check public email")
+          setData(res.data);
+          $(".js-mailing-list").DataTable({
+            responsive: true,
+          });
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
+    getDataPublicEmails()
+    
   }, []);
 
   const deleteData = async (item) => {

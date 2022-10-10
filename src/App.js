@@ -1,6 +1,6 @@
 import { Route, useLocation, useHistory } from "react-router-dom";
 
-
+import RequireAuth from "./logic/require";
 import AuthenticationService from "./logic/AuthenticationService";
 import FormPage from "./component/FormPage";
 import TopMenu from "./component/public/TopMenu";
@@ -66,6 +66,7 @@ function App() {
           <SideMenu user={userLogin} />
 
           <React.Fragment>
+            <RequireAuth>
             <Route exact path="/" component={UserView} />
             <Route exact path="/testpdf" component={TestPDF} />
             <Route exact path="/testemail" component={TestEmail} />
@@ -142,6 +143,7 @@ function App() {
             <Route exact path="/ticket-open" component={TicketAdd} />
             <Route exact path="/my-inventory" component={MyInventory} />
             <Route exact path="/logout" component={Logout} />
+            </RequireAuth>
           </React.Fragment>
         </React.Fragment>
       

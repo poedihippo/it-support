@@ -6,7 +6,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
     const [isData, setIsData] = useState([]) 
     const softwareData = state.currentRow.main;
     const lisenceData = state.currentRow.lisence;
-    console.log(lisenceData, "yeay")
+    console.log(lisenceData, "yeay", softwareData)
     const axiosConfig = AuthenticationService.getAxiosConfig();
     const softwareId = state.currentId;
     console.log(softwareId,'woww', softwareData)

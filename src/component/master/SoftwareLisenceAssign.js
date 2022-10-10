@@ -1,8 +1,17 @@
 import React from 'react';
-
+import Axios from 'axios';
+import config from "../../config.json";
+import AuthenticationService from "./../../logic/AuthenticationService";
 const SoftwareLisenceAssign = ({state, dispatch}) => {
     const dataLisence = state.currentRow.lisence;
     const softwareData = state.currentRow.main;
+    const axiosConfig = AuthenticationService.getAxiosConfig();
+    const handleAssign = async (data) => {
+      console.log(data, "check data")
+      Axios.post(`${config.SERVER_URL}softwarelisence`, data, axiosConfig)
+      .then(res => console.log(res, "berarti berhasil"))
+      .catch(error => console.log(error.response, "berarti ada yang error"))
+    }
     return(
         <React.Fragment>
       <section className="content">
@@ -36,7 +45,7 @@ const SoftwareLisenceAssign = ({state, dispatch}) => {
                               <button
                                 type="button"
                                 onClick={() => {
-                                dispatch({ type: "VIEW_LISENCE" });
+                                handleAssign(i)
                               }}
                                 className="btn btn-primary waves-effect "
                               >

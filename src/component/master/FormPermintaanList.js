@@ -12,6 +12,7 @@ function FormPermintaanList({ state, dispatch }) {
   const [isDelete, setIsDelete] = useState(false);
   const [isDataDelete, setIsDataDelete] = useState()
   const axiosConfig = AuthenticationService.getAxiosConfig();
+  const axiosConfigV1 = AuthenticationService.getAxiosConfigV1()
   const generatePDF = async () => {
     console.log(data, "check data");
     
@@ -39,9 +40,8 @@ function FormPermintaanList({ state, dispatch }) {
   }, []);
   const handleDelete = (e) => {
     if(e.currentTarget.textContent.toUpperCase() === "YES"){
-      axios.delete(`${config.SERVER_URL}formpermintaan/${isDataDelete.id}`, axiosConfig)
+      axios.delete(`${config.SERVER_URL}formpermintaan/${isDataDelete.id}`, axiosConfigV1)
       .then(res => {
-        console.log(res, "check apalagi ini?")
         setIsDelete(false)
       })
       .catch(error => console.log(error.response," check lah"))

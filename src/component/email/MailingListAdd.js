@@ -9,6 +9,7 @@ function MailingListAdd({ state, dispatch }) {
   const [isLoad, setIsLoad] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null);
   const axiosConfig = AuthenticationService.getAxiosConfig();
+  const axiosConfigV1 = AuthenticationService.getAxiosConfigV1()
   const initialValues = {
     id: "",
     email: "",
@@ -25,7 +26,7 @@ function MailingListAdd({ state, dispatch }) {
       const res = await axios.post(
         `${config.SERVER_URL}mailinglist`,
         data,
-        axiosConfig
+        axiosConfigV1
       );
       console.log("res", res);
 

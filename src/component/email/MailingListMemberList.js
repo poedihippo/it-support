@@ -14,32 +14,40 @@ function MailingListMemberList({ state, dispatch }) {
   const mailingListId = state.mailingListId;
   const axiosConfig = AuthenticationService.getAxiosConfig();
   //console.log(mailingListId);
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      console.log("loading", loading);
-      const res = await axios.get(
-        `${config.SERVER_URL}mailinglistmember/mailinglist`,
-        {
-          ...axiosConfig,
-          params: { mailinglist_id: mailingListId },
+  useEffect( () => {
+    const getDataMailingListMember = async () => {
+      console.log(mailingListId, "check error", axiosConfig)
+      try {
+        setLoading(true);
+        console.log("loading", loading, axiosConfig);
+        const res = await axios.get(
+          `${config.SERVER_URL}mailinglistmember/mailinglist`,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            params: { mailinglist_id: mailingListId },
+          }
+        );
+        console.log(res, "check list mailinglistmember")
+  
+        if (res.status === 200) {
+          setData(res.data);
+  
+          setLoading(false);
+          console.log("loading", loading);
         }
-      );
-      console.log(res, "check list mailinglistmember")
-
-      if (res.status === 200) {
-        setData(res.data);
-
-        setLoading(false);
-        console.log("loading", loading);
+      } catch (error) {
+        console.log(error.response);
       }
-    } catch (e) {
-      console.log(e);
+      $(".js-mailing-list").DataTable({
+        responsive: true,
+        ordering: false,
+      });
     }
-    $(".js-mailing-list").DataTable({
-      responsive: true,
-      ordering: false,
-    });
+
+    getDataMailingListMember()
+    
   }, []);
   const deleteData = async (data) => {
     setIsDeleteData(data)

@@ -4,7 +4,6 @@ import "datatables.net";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
-import dateFormat from "dateformat";
 
 function SoftwareList({ state, dispatch }) {
   const [data, setData] = useState([]);

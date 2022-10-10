@@ -13,17 +13,41 @@ function MailingListList({ state, dispatch }) {
   let mailingListObject = null;
 
   useEffect(() => {
-    // Update the document title using the browser API
+    // const getDataMailingList = async () => {
+    //   const tokenAuth = await localStorage.getItem("token")
+    //   fetch(`${config.SERVER_URL}mailinglist`, {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: "Bearer " + tokenAuth,
+    //     },
+    //   })
+    //   .then(res => res.json())
+    //   .then(res => {
+    //     console.log(res, "check hasil")
+    //     setMailingListData(res);
+    //     $(".js-mailing-list").DataTable({
+    //         responsive: true,
+    //       });
+    //   })
+    //   .catch(error => console.log(error.response, "check error get mailinglist"))
+    // }
+    // getDataMailingList()
+    // console.log(localStorage.getItem("token"), "check storaget")
 
+
+    
+    // Update the document title using the browser API
+    
     axios.get(`${config.SERVER_URL}mailinglist`, axiosConfig).then((res) => {
-      //console.log(res.data);
       if (res.status === 200) {
         setMailingListData(res.data);
         $(".js-mailing-list").DataTable({
           responsive: true,
         });
       }
-    });
+    }).catch(error => {
+      console.log(error.response, "check error mailing list")
+    })
   }, []);
 
   const deleteData = (data) => {

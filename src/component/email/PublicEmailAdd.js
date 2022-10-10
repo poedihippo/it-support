@@ -26,7 +26,11 @@ function PublicEmailAdd({ state, dispatch }) {
       const res = await axios.post(
         `${config.SERVER_URL}publicemail`,
         data,
-        axiosConfig
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        },
       );
       if (res.data.error_code === 0) {
         setIsLoad(false)

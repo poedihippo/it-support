@@ -11,8 +11,34 @@ function SoftwareLisenceList({ state, dispatch }) {
   const softwareData = state.currentRow;
   const softwareId = state.currentId;
   console.log(softwareData, "check software data")
-  useEffect(async () => {
+  useEffect( async () => {
+
+    // const getDataLisenceList = async () => {
+    //   const tokenAuth = await localStorage.getItem("token");
+    //   console.log(tokenAuth, "check softwareLisenceList", softwareId)
+    //   fetch(`${config.SERVER_URL}softwarelisence/software/${softwareId}`, {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: "Bearer " + tokenAuth,
+    //     },
+    //   })
+    //   .then(data => data.json())
+    //   .then(res => {
+        
+    //     console.log(res, "check re")
+    //     setData(res)
+    //     $(".js-mailing-list").DataTable({
+    //       responsive: true,
+    //     });
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response, "check")
+    //   })
+    // } 
+    // getDataLisenceList()
+
     try {
+      console.log('check lisence')
       const res = await axios.get(
         `${config.SERVER_URL}softwarelisence/software/${softwareId}`,
         axiosConfig
@@ -28,7 +54,7 @@ function SoftwareLisenceList({ state, dispatch }) {
       console.log(e);
     }
   }, []);
-
+  console.log(data, "check data")
   return (
     <React.Fragment>
       <section className="content">
@@ -45,9 +71,12 @@ function SoftwareLisenceList({ state, dispatch }) {
                       <thead>
                         <tr>
                           <th>Nama Software</th>
-                          <th>ID Lisensi</th>
+                          <th>Form Permintaan</th>
+                          <th>Harga</th>
+                          <th>Lisence Id</th>
                           <th>Tanggal Aktif</th>
                           <th>Tanggal Expired</th>
+                          <th>Tanggal Pembelian</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -55,9 +84,12 @@ function SoftwareLisenceList({ state, dispatch }) {
                         {data.map((i) => (
                           <tr key={i.id}>
                             <td>{softwareData.nama_software}</td>
+                            <td>{i.form_permintaan}</td>
+                            <td>{i.harga}</td>
                             <td>{i.lisence_id}</td>
                             <td>{i.tanggal_aktif}</td>
                             <td>{i.tanggal_expired}</td>
+                            <td>{i.tanggal_pembelian}</td>
                             <td>
                               <button
                                 type="button"

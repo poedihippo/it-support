@@ -83,7 +83,7 @@ function PublicEmailAdminList({ state, dispatch }) {
                         </tr>
                       </thead>
                       <tbody>
-                        {data.map((i) => (
+                        {data.length !== 0 && data.map((i) => (
                           <tr key={i.user_id}>
                             <td>{i.email}</td>
                             <td>{i.fullname}</td>
