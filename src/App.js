@@ -50,11 +50,7 @@ function App() {
       console.log(userData);
       history.push("/");
     }
-    // if(pathname !== '/authentication' ){
-    //   if(authService.token === "" || authService.token === undefined || authService.token === null){
-    //     window.location.assign('https://sunsafe.suneducationgroup.com/home')
-    //   }
-    // }
+    
   }, []);
   const isTrue = true
   return (
@@ -66,8 +62,9 @@ function App() {
           <SideMenu user={userLogin} />
 
           <React.Fragment>
-            <RequireAuth>
-            <Route exact path="/" component={UserView} />
+          <Route exact path="/" component={UserView} />
+           
+            
             <Route exact path="/testpdf" component={TestPDF} />
             <Route exact path="/testemail" component={TestEmail} />
             <Route exact path="/formpage" component={FormPage} />
@@ -143,7 +140,7 @@ function App() {
             <Route exact path="/ticket-open" component={TicketAdd} />
             <Route exact path="/my-inventory" component={MyInventory} />
             <Route exact path="/logout" component={Logout} />
-            </RequireAuth>
+           
           </React.Fragment>
         </React.Fragment>
       
