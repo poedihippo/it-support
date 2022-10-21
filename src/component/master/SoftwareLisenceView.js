@@ -4,29 +4,28 @@ import AuthenticationService from "./../../logic/AuthenticationService";
 import config from "../../config.json";
 const SoftwareLisenceView = ({state, dispatch}) => {
     const [isData, setIsData] = useState([]) 
-    const softwareData = state.currentRow.main;
-    const lisenceData = state.currentRow.lisence;
-    console.log(lisenceData, "yeay", softwareData)
+    const dataLisence = state.currentRow.dataLisence
     const axiosConfig = AuthenticationService.getAxiosConfig();
     const softwareId = state.currentId;
-    console.log(softwareId,'woww', softwareData)
+    console.log(dataLisence, "check data lisence")
     useEffect(() => {
         const getDataLisence = async () => {
             try{
                 const res = await Axios.get(
-                    `${config.SERVER_URL}softwarelisence/software/${softwareId}`,
+                    `${config.SERVER_URL}softwarelisence/${dataLisence?.software_id}`,
                     axiosConfig
                 );
-                const resFilter = res.data.filter(resData => parseInt(resData.id) === parseInt(softwareId));
-                console.log(resFilter, "check data filter", res)
-                setIsData(resFilter);
+                // const resFilter = res.data.filter(resData => parseInt(resData.id) === parseInt(softwareId));
+                console.log("check data filter", res)
+                setIsData(res.data.data);
 
             }catch(error){
 
             }
         }
         getDataLisence();
-    }, [])
+    }, []);
+    console.log(isData, "check data")
     return (
         <React.Fragment>
             <section className='content'>
@@ -38,131 +37,51 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                   <h2>View</h2>
                 </div>
                 <div className="body">
-                          <div className="row clearfix">
-                            <div className="col-sm-12">
-                              <label>Software</label>
-                              <div className="form-group">
-                                <div className="form-line">
-                                  {/* <Field
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Question"
-                                    id="nama_hardware"
-                                    name="nama_hardware"
-                                  /> */}
-                                  <span>{softwareData?.nama_software}</span>
-                                </div>
-                              </div>
-                              <label>Deskripsi</label>
-                              <div className="form-group">
-                                <div className="form-line">
-                                  {/* <Field
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Question"
-                                    id="no_asset"
-                                    name="no_asset"
-                                  /> */}
-                                  <span>{softwareData?.deskripsi}</span>
-                                </div>
-                              </div>
+                  <div className="row clearfix">
+                    <div className="col-sm-12">
+                      <label>Software</label>
+                        <div className="form-group">
+                          <div className="form-line">
+                            <span>{isData?.nama_software}</span>
+                          </div>
+                        </div>
                               <label>Form Permintaan</label>
                               <div className="form-group">
                                 <div className="form-line">
-                                  {/* <Field
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Question"
-                                    id="merek"
-                                    name="merek"
-                                  /> */}
-                                  <span>{isData[0]?.form_permintaan}</span>
+                                  <span>{isData?.form_permintaan}</span>
                                 </div>
                               </div>
                               <label>Harga</label>
                               <div className="form-group">
                                 <div className="form-line">
-                                  {/* <Field
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Question"
-                                    id="tipe"
-                                    name="tipe"
-                                  /> */}
-                                  <span>{isData[0]?.harga}</span>
+                                  <span>{isData?.harga}</span>
                                 </div>
                               </div>
 
                               <label>Lisence Id</label>
                               <div className="form-group">
                                 <div className="form-line">
-                                  {/* <Field
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Question"
-                                    id="serial_number"
-                                    name="serial_number"
-                                  /> */}
-                                  <span>{isData[0]?.lisence_id}</span>
+                                  <span>{isData?.lisence_id}</span>
                                 </div>
                               </div>
                               <label>Tanggal Pembelian</label>
                               <div className="form-group">
                                 <div className="form-line">
-                                  {/* <Field
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Question"
-                                    id="harga"
-                                    name="harga"
-                                  /> */}
-                                  <span>{isData[0]?.tanggal_pembelian}</span>
+                                  <span>{isData?.tanggal_pembelian}</span>
                                 </div>
                               </div>
                               <label>Tanggal Aktif</label>
                               <div className="form-group">
                                 <div className="form-line">
-                                  {/* <Field
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Question"
-                                    id="nama_supplier"
-                                    name="nama_supplier"
-                                  /> */}
-                                  <span>{isData[0]?.tanggal_aktif}</span>
+                                  <span>{isData?.tanggal_aktif}</span>
                                 </div>
                               </div>
                               <label>Tanggal Expired</label>
                               <div className="form-group">
                                 <div className="form-line">
-                                  {/* <Field
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Question"
-                                    id="nama_supplier"
-                                    name="nama_supplier"
-                                  /> */}
-                                  <span>{isData[0]?.tanggal_expired}</span>
+                                  <span>{isData?.tanggal_expired}</span>
                                 </div>
                               </div>
-                              {/* {Object.keys(values.spesifikasi).map(
-                                (specKey, specIndex) => (
-                                  <>
-                                    <label> {specKey}</label>
-                                    <div className="form-group">
-                                      <div className="form-line">
-                                        <Field
-                                          type="text"
-                                          className="form-control"
-                                          placeholder="Question"
-                                          id={`spesifikasi[${specKey}]`}
-                                          name={`spesifikasi[${specKey}]`}
-                                        />
-                                      </div>
-                                    </div>
-                                  </>
-                                )
-                              )} */}
                               <label> Lisence</label>
                               <div name="lisences">
                             
@@ -215,7 +134,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                                           type="button"
                                           className="btn btn-primary waves-effect"
                                           onClick={() => {
-                                            dispatch({type: "ASSIGN_LISENCE", id: softwareId, row: {main:softwareData, lisence:lisenceData}})
+                                            dispatch({type: "ASSIGN_LISENCE", id: "softwareId", row: {main:"softwareData", lisence:"lisenceData"}})
                                           }}
                                         >
                                           [+]

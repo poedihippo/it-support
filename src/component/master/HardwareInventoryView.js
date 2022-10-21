@@ -356,7 +356,7 @@ function HardwareInventoryView({ state, dispatch }) {
                             </div> */}
                             </div>
                             <div className="col-sm-12">
-                              <button className="btn btn-primary" type="submit">
+                              <button className="btn btn-primary" type="submit" >
                                 Back
                               </button>
                             </div>

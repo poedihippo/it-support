@@ -83,7 +83,7 @@ function HardwareInventoryList({ state, dispatch }) {
                             </td>
                             <td>
                               <Link to={`/hardware-inventori-view/${i.id}`}>
-                                <button className="btn btn-primary waves-effect ">
+                                <button className="btn btn-primary waves-effect " onClick={() => dispatch({type: "VIEW", row: {data:i}})}>
                                   View
                                 </button>
                               </Link>

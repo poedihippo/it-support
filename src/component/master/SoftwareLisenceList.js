@@ -94,7 +94,7 @@ function SoftwareLisenceList({ state, dispatch }) {
                               <button
                                 type="button"
                                 onClick={() => {
-                                dispatch({ type: "VIEW_LISENCE", id:softwareId, row:{main:softwareData, lisence:data} });
+                                dispatch({ type: "VIEW_LISENCE", id:softwareId, row:{main:softwareData, lisence:data, dataLisence:i} });
                               }}
                                 className="btn btn-primary waves-effect "
                               >
