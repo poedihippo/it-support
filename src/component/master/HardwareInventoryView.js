@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import "datatables.net";
 
-import { useParams } from "react-router";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import config from "../../config.json";
@@ -24,10 +23,9 @@ function HardwareInventoryView({ state, dispatch }) {
     spesifikasi: "",
     lisences: [],
   });
-
   const axiosConfig = AuthenticationService.getAxiosConfig();
-  let { id } = useParams();
-  //console.log("userparan", useParams());
+  const getIdFromState = state?.currentRow?.data?.id
+ 
   const initialValues = {
     id: 0,
     nama_hardware: "",
@@ -43,7 +41,6 @@ function HardwareInventoryView({ state, dispatch }) {
   const validationSchema = Yup.object({});
   const onSubmit = (values) => {};
   const assignLisence = async (values) => {
-    console.log("values", values);
     try {
       const res = await axios.post(
         `${config.SERVER_URL}hardwareinventori/addlisence`,
@@ -52,11 +49,9 @@ function HardwareInventoryView({ state, dispatch }) {
           ...axiosConfig,
         }
       );
-      console.log(res.data);
       const payload = await res.data;
 
       if (payload.error_code === 0) {
-        //initialValues = res.data.data;
         const spesifikasi = JSON.parse(payload.data.spesifikasi);
 
         setData({ ...data, ...payload.data, spesifikasi });
@@ -84,16 +79,12 @@ function HardwareInventoryView({ state, dispatch }) {
           ...axiosConfig,
         }
       );
-      console.log(res.data);
       const payload = await res.data;
 
       if (payload.error_code === 0) {
-        //initialValues = res.data.data;
         const spesifikasi = JSON.parse(payload.data.spesifikasi);
 
         setData({ ...data, ...payload.data, spesifikasi });
-        //console.log(res.data);
-        //setUser(res.data.data);
         const lisenceRes = await axios.get(
           `${config.SERVER_URL}hardwareinventorilisence/available`,
           {
@@ -113,7 +104,7 @@ function HardwareInventoryView({ state, dispatch }) {
 
     try {
       const res = await axios.get(
-        `${config.SERVER_URL}hardwareinventori/${id}`,
+        `${config.SERVER_URL}hardwareinventori/${getIdFromState}`,
         {
           ...axiosConfig,
         }
@@ -122,12 +113,9 @@ function HardwareInventoryView({ state, dispatch }) {
       console.log(payload);
 
       if (payload.error_code === 0) {
-        //initialValues = res.data.data;
         const spesifikasi = JSON.parse(payload.data.spesifikasi);
 
         setData({ ...data, ...payload.data, spesifikasi });
-        //console.log(res.data);
-        //setUser(res.data.data);
       }
 
       const lisenceRes = await axios.get(
@@ -278,7 +266,6 @@ function HardwareInventoryView({ state, dispatch }) {
                                 {({ form, push }) => {
                                   const { lisences } = form.values;
                                   let no_seq = 1;
-                                  console.log("lisences", lisences);
                                   return (
                                     <React.Fragment>
                                       <table className="table table-bordered ">
@@ -356,7 +343,9 @@ function HardwareInventoryView({ state, dispatch }) {
                             </div> */}
                             </div>
                             <div className="col-sm-12">
-                              <button className="btn btn-primary" type="submit" >
+                              <button className="btn btn-primary" type="submit" onClick={() => {
+                                dispatch({type:"LIST"})
+                              }}>
                                 Back
                               </button>
                             </div>
@@ -397,7 +386,7 @@ function HardwareInventoryView({ state, dispatch }) {
                                       className="btn btn-primary waves-effect "
                                       onClick={() => {
                                         assignLisence({
-                                          inventori_id: id,
+                                          inventori_id: getIdFromState,
                                           lisence_id: i.id,
                                         });
                                       }}

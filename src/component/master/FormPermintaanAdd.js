@@ -27,6 +27,7 @@ function FormPermintaanAdd({ state, dispatch }) {
     alasan_pembelian: "",
     details: [defaultRow],
   };
+  console.log(initialValues.details, "check lagu olm")
   const onSubmit = async (values) => {
     setIsLoad(true)
     try {
@@ -71,10 +72,10 @@ function FormPermintaanAdd({ state, dispatch }) {
             <h2>Form Permintaan</h2>
           </div>
 
-          <div className="row clearfix" style={{width: "max-content"}}>
+          <div className="row clearfix" style={{width: "100%"}}>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div className="card">
-                <div className="body">
+                <div className="body" style={{overflowX: "scroll"}}>
                   <h2 className="card-inside-title">Add</h2>
 
                   <Formik

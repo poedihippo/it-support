@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import $ from "jquery";
 import "datatables.net";
+import { useParams } from "react-router-dom";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
@@ -10,9 +11,11 @@ statusMapping[4] = "Perlu Perbaikan";
 statusMapping[5] = "Sedang diperbaiki";
 statusMapping[6] = "Rusak";
 function HardwareInventoryList({ state, dispatch }) {
+  const { id: hardwareSpecsId } = useParams();
   const [data, setData] = useState([]);
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const { hardwareSpecId } = state;
+  console.log(state, "check state", hardwareSpecsId)
   const assignForRepair = async (inventori) => {
     const result = await axios.post(
       `${config.SERVER_URL}hardwareinventori/assignforrepair`,
@@ -24,10 +27,11 @@ function HardwareInventoryList({ state, dispatch }) {
   useEffect(() => {
     axios
       .get(
-        `${config.SERVER_URL}hardwareinventori/hardwarespecid/${hardwareSpecId}`,
+        `${config.SERVER_URL}hardwareinventori/hardwarespecid/${hardwareSpecsId}`,
         axiosConfig
       )
       .then((res) => {
+        console.log(res, "check statu sres dari list")
         if (res.status === 200) {
           console.log(res.data);
           setData(res.data);
@@ -69,7 +73,7 @@ function HardwareInventoryList({ state, dispatch }) {
                       <tbody>
                         {data.map((i) => (
                           <tr key={i.id}>
-                            <td>{state.hardwareSpecRow.nama_hardware}</td>
+                            <td>{i.nama_hardware}</td>
                             <td>{i.no_asset}</td>
                             <td>{i.merek}</td>
                             <td>{i.tipe}</td>
@@ -82,11 +86,11 @@ function HardwareInventoryList({ state, dispatch }) {
                                 : null}
                             </td>
                             <td>
-                              <Link to={`/hardware-inventori-view/${i.id}`}>
+                              {/* <Link to={`/hardware-inventori-view/${i.id}`}> */}
                                 <button className="btn btn-primary waves-effect " onClick={() => dispatch({type: "VIEW", row: {data:i}})}>
                                   View
                                 </button>
-                              </Link>
+                              {/* </Link> */}
                               <button
                                 className="btn btn-primary waves-effect "
                                 onClick={() => {

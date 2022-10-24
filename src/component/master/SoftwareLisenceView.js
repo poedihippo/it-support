@@ -7,7 +7,6 @@ const SoftwareLisenceView = ({state, dispatch}) => {
     const dataLisence = state.currentRow.dataLisence
     const axiosConfig = AuthenticationService.getAxiosConfig();
     const softwareId = state.currentId;
-    console.log(dataLisence, "check data lisence")
     useEffect(() => {
         const getDataLisence = async () => {
             try{
@@ -15,8 +14,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                     `${config.SERVER_URL}softwarelisence/${dataLisence?.software_id}`,
                     axiosConfig
                 );
-                // const resFilter = res.data.filter(resData => parseInt(resData.id) === parseInt(softwareId));
-                console.log("check data filter", res)
+                
                 setIsData(res.data.data);
 
             }catch(error){
@@ -25,7 +23,6 @@ const SoftwareLisenceView = ({state, dispatch}) => {
         }
         getDataLisence();
     }, []);
-    console.log(isData, "check data")
     return (
         <React.Fragment>
             <section className='content'>
@@ -159,7 +156,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                             </div>
                             <div className="col-sm-12">
                               <button className="btn btn-primary" type="submit" onClick={() => {
-                                dispatch({type: "LIST"})
+                                dispatch({type: "LISENCE_LIST", id: state.currentId, row: state.currentRow.lisence})
                               }}>
                                 Back
                               </button>

@@ -10,7 +10,6 @@ function SoftwareLisenceList({ state, dispatch }) {
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const softwareData = state.currentRow;
   const softwareId = state.currentId;
-  console.log(softwareData, "check software data")
   useEffect( async () => {
 
     // const getDataLisenceList = async () => {
@@ -38,15 +37,11 @@ function SoftwareLisenceList({ state, dispatch }) {
     // getDataLisenceList()
 
     try {
-      console.log('check lisence')
       const res = await axios.get(
         `${config.SERVER_URL}softwarelisence/software/${softwareId}`,
         axiosConfig
       );
-      console.log("lisence list");
-
       setData(res.data);
-      console.log(res.data);
       $(".js-mailing-list").DataTable({
         responsive: true,
       });
@@ -54,7 +49,6 @@ function SoftwareLisenceList({ state, dispatch }) {
       console.log(e);
     }
   }, []);
-  console.log(data, "check data")
   return (
     <React.Fragment>
       <section className="content">
@@ -94,7 +88,7 @@ function SoftwareLisenceList({ state, dispatch }) {
                               <button
                                 type="button"
                                 onClick={() => {
-                                dispatch({ type: "VIEW_LISENCE", id:softwareId, row:{main:softwareData, lisence:data, dataLisence:i} });
+                                dispatch({ type: "VIEW_LISENCE", id:softwareId, row:{main:softwareData, lisence:softwareData, dataLisence:i} });
                               }}
                                 className="btn btn-primary waves-effect "
                               >
