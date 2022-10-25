@@ -110,7 +110,7 @@ function SoftwareList({ state, dispatch }) {
                                   });
                                 }}
                               >
-                                Lisence List
+                                License List
                               </button>
                               <button
                                 type="button"
@@ -123,7 +123,7 @@ function SoftwareList({ state, dispatch }) {
                                   });
                                 }}
                               >
-                                Add Lisence
+                                Add License
                               </button>
                               <button
                                 type="button"

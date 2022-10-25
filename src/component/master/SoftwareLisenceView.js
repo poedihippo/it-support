@@ -7,28 +7,25 @@ const SoftwareLisenceView = ({state, dispatch}) => {
     const dataLisence = state.currentRow.dataLisence
     const axiosConfig = AuthenticationService.getAxiosConfig();
     const softwareId = state.currentId;
+    console.log(dataLisence, "check data lisence")
     useEffect(() => {
-        const getDataLisence = async () => {
-            try{
-                const res = await Axios.get(
-                    `${config.SERVER_URL}softwarelisence/${dataLisence?.software_id}`,
-                    axiosConfig
-                );
-                
-                setIsData(res.data.data);
-
-            }catch(error){
-
-            }
-        }
-        getDataLisence();
+      const getDataLisence = async () => {
+        try {
+          const res = await Axios.get(
+            `${config.SERVER_URL}softwarelisence/software/${dataLisence?.software_id}/${dataLisence?.id}`,
+            axiosConfig
+          );
+          setIsData(res.data);
+        } catch (error) {}
+      };
+      getDataLisence();
     }, []);
     return (
         <React.Fragment>
             <section className='content'>
             <div className="row clearfix">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <span>Software Lisence</span>
+              <span>Software License</span>
               <div className="card">
                 <div className="header">
                   <h2>View</h2>
@@ -55,7 +52,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                                 </div>
                               </div>
 
-                              <label>Lisence Id</label>
+                              <label>License Id</label>
                               <div className="form-group">
                                 <div className="form-line">
                                   <span>{isData?.lisence_id}</span>
@@ -79,14 +76,14 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                                   <span>{isData?.tanggal_expired}</span>
                                 </div>
                               </div>
-                              <label> Lisence</label>
+                              <label> License</label>
                               <div name="lisences">
                             
                                       <table className="table table-bordered ">
                                         <thead>
                                           <tr>
                                             <th>Nama Software</th>
-                                            <th>ID Lisence</th>
+                                            <th>ID License</th>
                                             <th>Tanggal Aktif</th>
                                             <th>Tanggal Expired</th>
                                             <th>Action</th>

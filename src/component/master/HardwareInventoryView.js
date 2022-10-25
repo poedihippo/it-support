@@ -261,7 +261,7 @@ function HardwareInventoryView({ state, dispatch }) {
                                   </>
                                 )
                               )}
-                              <label> Lisence</label>
+                              <label> License</label>
                               <FieldArray name="lisences">
                                 {({ form, push }) => {
                                   const { lisences } = form.values;
@@ -272,7 +272,7 @@ function HardwareInventoryView({ state, dispatch }) {
                                         <thead>
                                           <tr>
                                             <th>Nama Software</th>
-                                            <th>ID Lisence</th>
+                                            <th>ID License</th>
                                             <th>Tanggal Aktif</th>
                                             <th>Tanggal Expired</th>
                                             <th>Action</th>
@@ -295,7 +295,7 @@ function HardwareInventoryView({ state, dispatch }) {
                                                   onClick={() => {
                                                     if (
                                                       window.confirm(
-                                                        "Are you sure you wish to delete this lisence?"
+                                                        "Are you sure you wish to delete this license?"
                                                       )
                                                     )
                                                       removeLisence({
@@ -360,14 +360,14 @@ function HardwareInventoryView({ state, dispatch }) {
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                       <div className="card">
                         <div className="body">
-                          <h2 className="card-inside-title">Lisence List</h2>
+                          <h2 className="card-inside-title">License List</h2>
                         </div>
                         <div className="table-responsive">
                           <table className="table table-bordered table-striped table-hover js-mailing-list dataTable button-demo">
                             <thead>
                               <tr>
                                 <th>Software</th>
-                                <th>Lisence ID</th>
+                                <th>License ID</th>
                                 <th>Tanggal Aktif</th>
                                 <th>Tanggal Expired</th>
                                 <th>Action</th>

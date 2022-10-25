@@ -57,7 +57,7 @@ function SoftwareLisenceList({ state, dispatch }) {
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div className="card">
                 <div className="header">
-                  <h2>Software Lisence List</h2>
+                  <h2>Software License List</h2>
                 </div>
                 <div className="body">
                   <div className="table-responsive">
@@ -67,7 +67,7 @@ function SoftwareLisenceList({ state, dispatch }) {
                           <th>Nama Software</th>
                           <th>Form Permintaan</th>
                           <th>Harga</th>
-                          <th>Lisence Id</th>
+                          <th>License Id</th>
                           <th>Tanggal Aktif</th>
                           <th>Tanggal Expired</th>
                           <th>Tanggal Pembelian</th>
