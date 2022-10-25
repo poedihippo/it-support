@@ -9,6 +9,8 @@ import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
 
 function HardwareInventoryView({ state, dispatch }) {
+  const [isDelete, setIsDelete] = useState(false);
+  const [dataDelete, setDataDelete] = useState();
   const [viewState, setViewState] = useState("VIEW");
   const [lisenceData, setLisenceData] = useState([]);
   const [data, setData] = useState({
@@ -134,9 +136,61 @@ function HardwareInventoryView({ state, dispatch }) {
       console.log(e);
     }
   }, []);
+  const deleteData = (data) => {
+    setDataDelete(data)
+    setIsDelete(true);
+  };
+  const handleDelete = async (e) => {
+    if(e.currentTarget.textContent.toUpperCase() === "YES"){
+      try {
+        const res = await axios.post(
+          `${config.SERVER_URL}hardwareinventori/removelisence`,
+          dataDelete,
+          {
+            ...axiosConfig,
+          }
+        );
+        const payload = await res.data;
+
+        if (payload.error_code === 0) {
+          const spesifikasi = JSON.parse(payload.data.spesifikasi);
+          setIsDelete(false)
+          setData({ ...data, ...payload.data, spesifikasi });
+          const lisenceRes = await axios.get(
+            `${config.SERVER_URL}hardwareinventorilisence/available`,
+            {
+              ...axiosConfig,
+            }
+          );
+          if (lisenceRes.data.error_code === 0) {
+            setLisenceData(lisenceRes.data.payload);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }else {
+      setIsDelete(false)
+    }
+  }
   return (
     <React.Fragment>
-      <section className="content">
+      <section className="content position-relative">
+      <div role="dialog">
+          <div className={`${isDelete ? "" : "modal"} position-absolute`}style={{position:"fixed", zIndex: "11", top:"50%", transform: "translateY(-50%)", left:"30rem", right: "0", margin: "auto"}} tabindex="-1" role="dialog">
+            <div className="modal-dialog " role="document">
+              <div className="modal-content">
+                <div className="modal-body">
+                  <p>Are you sure you wish to delete this item?</p>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-primary" onClick={handleDelete}>Yes</button>
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={handleDelete}>No</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="container-fluid">
           <div className="block-header">
             <h2>Hardware</h2>
@@ -293,20 +347,29 @@ function HardwareInventoryView({ state, dispatch }) {
                                                   type="button"
                                                   className="btn btn-danger waves-effect"
                                                   onClick={() => {
-                                                    if (
-                                                      window.confirm(
-                                                        "Are you sure you wish to delete this license?"
-                                                      )
-                                                    )
-                                                      removeLisence({
-                                                        inventori_id: values.id,
-                                                        lisence_id:
-                                                          item.software_lisence_id,
-                                                      });
+                                                    deleteData({
+                                                      inventori_id: values.id,
+                                                      lisence_id:
+                                                        item.software_lisence_id,
+                                                    })
+                                                      // removeLisence({
+                                                      //   inventori_id: values.id,
+                                                      //   lisence_id:
+                                                      //     item.software_lisence_id,
+                                                      // });
                                                   }}
                                                 >
                                                   [-]
                                                 </button>
+                                                {/* <button
+                                className="btn btn-danger waves-effect "
+                                onClick={() => {
+                                 
+                                    deleteData(i);
+                                }}
+                              >
+                                Delete
+                              </button> */}
                                               </td>
                                             </tr>
                                           ))}
@@ -398,6 +461,16 @@ function HardwareInventoryView({ state, dispatch }) {
                               ))}
                             </tbody>
                           </table>
+                          <button
+                                          type="button"
+                                          style={{margin: "10px 0 10px 10px"}}
+                                          className="btn btn-primary waves-effect"
+                                          onClick={() => {
+                                            setViewState("VIEW");
+                                          }}
+                                        >
+                                          Back
+                                        </button>
                         </div>
                       </div>
                     </div>

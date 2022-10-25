@@ -129,11 +129,7 @@ function MailingListList({ state, dispatch }) {
                               <button
                                 className="btn btn-danger waves-effect "
                                 onClick={() => {
-                                  // if (
-                                  //   window.confirm(
-                                  //     "Are you sure you wish to delete this item?"
-                                  //   )
-                                  // )
+                                 
                                     deleteData(i);
                                 }}
                               >
