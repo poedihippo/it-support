@@ -46,8 +46,8 @@ function FormPermintaanEdit({state, dispatch}) {
     console.log(values, "check values")
     setIsLoad(true)
     try {
-      const result = await axios.post(
-        `${config.SERVER_URL}formpermintaan/${isData.id}`,
+      const result = await axios.put(
+        `${config.SERVER_URL}formpermintaan/${idSuplier}`,
         values,
         axiosConfig
       );

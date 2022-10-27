@@ -88,17 +88,8 @@ function MailingListMemberAdd({ state, dispatch }) {
                             value={data.email}
                           ></textarea>
                         </div>
-                      </div><label> Full Name</label>
-                      <div className='form-group'>
-                            <div className='form-line'>
-                              <textarea rows="4"
-                                className="form-control no-resize"
-                                onChange={(e) => setData({...data, fullname:e.target.value})
-                              }
-                              value={data.fullName}
-                              ></textarea>
-                            </div>
-                        </div></>)
+                      </div>
+                      </>)
                       :<IsLoading />}
                     </div>
                     <div className="col-sm-12">
