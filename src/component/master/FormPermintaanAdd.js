@@ -12,6 +12,8 @@ function FormPermintaanAdd({ state, dispatch }) {
   const [uomList, setUomList] = useState([]);
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const today = dateFormat(new Date(), "yyyy-mm-dd");
+  const [incr, setIncr] = useState(2)
+  let newArrValue = [];
   const defaultRow = {
     no_urut: 1,
     code: "",
@@ -24,10 +26,10 @@ function FormPermintaanAdd({ state, dispatch }) {
   const initialValues = {
     supplier_id: 0,
     tanggal_pengajuan: today,
+    tanggal_tersedia: today,
     alasan_pembelian: "",
     details: [defaultRow],
   };
-  console.log(initialValues.details, "check lagu olm")
   const onSubmit = async (values) => {
     setIsLoad(true)
     try {
@@ -81,7 +83,6 @@ function FormPermintaanAdd({ state, dispatch }) {
                   <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
-                    // validationSchema={validationSchema}
                   >
                     <Form>
                       <div className="row clearfix">
@@ -95,6 +96,18 @@ function FormPermintaanAdd({ state, dispatch }) {
                                 placeholder="Question"
                                 id="tanggal_pengajuan"
                                 name="tanggal_pengajuan"
+                              />
+                            </div>
+                          </div>
+                          <label> Tanggal Harap Diisi</label>
+                          <div className="form-group">
+                            <div className="form-line">
+                              <Field
+                                type="date"
+                                className="form-control"
+                                placeholder="Question"
+                                id="tanggal_tersedia"
+                                name="tanggal_tersedia"
                               />
                             </div>
                           </div>
@@ -140,7 +153,9 @@ function FormPermintaanAdd({ state, dispatch }) {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {details.map((item, index) => (
+                                  {details.map((item, index) => {
+                                  
+                                    return (
                                     <tr key={index}>
                                       <td>
                                         <Field
@@ -199,10 +214,13 @@ function FormPermintaanAdd({ state, dispatch }) {
                                         />
                                       </td>
                                       <td>
-                                        <button className="btn btn-primary waves-effect" onClick={()=> remove(defaultRow)}>X</button>
+                                        <button className="btn btn-primary waves-effect" onClick={()=> {
+                                          setIncr(incr >0 && incr-1);
+                                          remove(index)
+                                          return {}}}>X</button>
                                       </td>
                                     </tr>
-                                  ))}
+                                  )})}
                                 </tbody>
                               </table>)
                               :<IsLoading />}
@@ -213,8 +231,9 @@ function FormPermintaanAdd({ state, dispatch }) {
                                   className="btn btn-primary waves-effect"
                                   type="button"
                                   onClick={() => {
-                                    no_seq++;
-                                    push({ ...defaultRow, no_urut: no_seq });
+                                    setIncr(incr+1)
+                                    push({ ...defaultRow, no_urut: incr });
+                                     
                                   }}
                                 >
                                   [+]
@@ -245,7 +264,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                             Save
                           </button>
                           <button
-                            style={{marginLeft: "40px", marginTop:"10px"}}
+                            style={{marginLeft: "40px"}}
                             className="btn btn-primary waves-effect"
                             onClick={() => {
                               dispatch({
