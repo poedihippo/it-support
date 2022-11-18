@@ -19,7 +19,7 @@ function FormPermintaanList({ state, dispatch }) {
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const axiosConfigV1 = AuthenticationService.getAxiosConfigV1()
   const generatePDF = async (dataForm) => {
-   
+   console.log(dataForm, "check data Form")
     const generateData = {
       ids: [dataForm.id]
     }
@@ -37,7 +37,7 @@ function FormPermintaanList({ state, dispatch }) {
         const lengthDtl = isDataPdf.details.length;
            var source = `<style>
            body{
-            background: #e3e6e7 url(images/background.png) repeat;
+            background: #e3e6e7 ;
             color: #61686d;
             font: 14px "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
             font-weight: lighter;
@@ -57,7 +57,6 @@ function FormPermintaanList({ state, dispatch }) {
         }
         
         .page-shadow {
-            background-image: url(images/page-shadow.png);
             width: 992px;
             height: 60px;
             margin: 0 auto;
@@ -95,7 +94,7 @@ function FormPermintaanList({ state, dispatch }) {
             width: 202px;
             height: 81px;
             position: absolute;
-            right: 40px;
+            left: 40px;
             top: 40px;
         }
         
@@ -117,21 +116,8 @@ function FormPermintaanList({ state, dispatch }) {
             height: 128px;
         }
         
-        .draft {
-            background-image: url(images/status-draft.png);
-        }
         
-        .sent {
-            background-image: url(images/status-sent.png);
-        }
         
-        .paid {
-            background-image: url(images/status-paid.png);
-        }
-        
-        .overdue {
-            background-image: url(images/status-overdue.png);
-        }
         
         hr {
             clear: both;
@@ -150,7 +136,7 @@ function FormPermintaanList({ state, dispatch }) {
             display: block;
             width: 200px;
             height: 45px;
-            background:  url('images/pay-buttons.png') no-repeat;
+            
             text-indent: -5000px;
             background-position: 0 0;
             float: left;
@@ -169,7 +155,7 @@ function FormPermintaanList({ state, dispatch }) {
             float: left;
             width: 165px;
             height: 45px;
-            background:  url('images/pay-buttons.png') no-repeat;
+            
             text-indent: -5000px;
             background-position: -200px 0;
         }
@@ -227,7 +213,7 @@ function FormPermintaanList({ state, dispatch }) {
             margin: 0;
         }
         table.tablesorter thead tr .header {
-            background: #e7ebee url(images/arrows-both.png) no-repeat center right;
+          
             cursor: pointer;
             height: 60px;
             color: #63676b;
@@ -247,15 +233,17 @@ function FormPermintaanList({ state, dispatch }) {
             background: #f6f8f9;
         }
         table.tablesorter thead tr .headerSortUp {
-            background-image: url(images/arrow-up.png);
+          
         }
         table.tablesorter thead tr .headerSortDown {
-            background-image: url(images/arrow-down.png);
+          
         }
         table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
         }        
 
-
+        .bor-der{
+          border: 1px solid black;
+        }
         .font-xxss{
           font-size:8px;
       }
@@ -292,7 +280,7 @@ function FormPermintaanList({ state, dispatch }) {
     <div class="tll-pt" style="width:50%;margin:auto;text-align:center;">
         <h3 class="font-s">PT SUN EDUCATION</h3>
         <h3 class="font-s">FORM LOGISTIK & PROCUREMENT</h3>
-        <h3 class="font-s">PERMINTAAN PEMBELIANBARANG& JASA</h3>
+        <h3 class="font-s">PERMINTAAN PEMBELIANBARANG & JASA</h3>
     </div>
     <p class="recipient-address font-xss" style="padding-top:0;">
     <strong class="font-xss">BERLAKU EFEKTIF: </strong><strong style="font-weight:normal;"class="font-xss">29 Juli 2015</strong><br>
@@ -301,11 +289,11 @@ function FormPermintaanList({ state, dispatch }) {
     <strong class="font-xss">HALAMAN: </strong>1/1
     </p>
     
-    <h2 class="font-xs"style="margin-bottom:0">Invoice</h2>
     <h2 class="terms font-xss" >Tanggal: ${isDataPdf.submission_date}<br>
     Departemen: Operation<br>No. PR: ...../L&P/...../.....<br>Project: .....</h2>
     
-    <img src=${Logo} alt="yourlogo" class="company-logo">
+    
+    <img src=${Logo} alt="yourlogo" style="width:150px;" class="company-logo">
     
     <table id="table" class="tablesorter" cellspacing="0"> 
     <thead> 
@@ -315,7 +303,7 @@ function FormPermintaanList({ state, dispatch }) {
         <th class="header headerSortDown font-xss">Jumlah</th> 
         <th class="header headerSortDown font-xss">UoM</th> 
         <th class="header headerSortDown font-xss">Harga Total</th> 
-        <th class="header headerSortDown font-xss">Nama Supplier (Alamat/Telepone/Kartu Nama)</th> 
+        <th class="header headerSortDown font-xss">Nama Pemasok (Alamat/Telepone/Kartu Nama)</th> 
         <th class="header font-xss">Claimable</th> 
     </tr> 
     </thead> 
@@ -326,13 +314,13 @@ function FormPermintaanList({ state, dispatch }) {
      
      ${isDataPdf.details.map((dats,indx) => {
       return `<tr class=${indx % 2 === 0 ? "even" : "odd"}> 
-      <td class="font-xss">${dats.no_urut}</td> 
-      <td class="font-xss">${dats.id}</td> 
-      <td class="font-xss">${dats.qty}</td> 
-      <td class="font-xss">${dats.uom}</td> 
-      <td class="font-xss">${dats.harga_total}</td> 
-      <td class="font-xss">${isDataPdf.supplier_name}</td> 
-      <td style="padding:8px;">
+      <td class="font-xss bor-der">${dats.no_urut}</td> 
+      <td class="font-xss bor-der">${dats.id}</td> 
+      <td class="font-xss bor-der">${dats.qty}</td> 
+      <td class="font-xss bor-der">${dats.uom}</td> 
+      <td class="font-xss bor-der">${dats.harga_total}</td> 
+      <td class="font-xss bor-der">${isDataPdf.supplier_name}</td> 
+      <td class="bor-der"style="padding:8px;">
           <div style="float:left;"class="font-xss">
                Yes
               <div style="width: 15px; height: 15px; border: 1px solid #d6dde2; "> </div>
@@ -353,8 +341,8 @@ function FormPermintaanList({ state, dispatch }) {
             <div class="font-xss"><h4 class="font-xss"style="width:max-content;float:left;margin-top:0;margin-right:10px;">Diharapkan Tersedia Pada Tanggal:</h4>4 May 2022</div>
         </div>
         <div style="">
-            <h4 class="font-xss">Nilai Clain: ............</h4>
-            <h4 class="font-xss">Claim Ke: ............</h4>
+            <h4 class="font-xss">Nilai Klaim: ............</h4>
+            <h4 class="font-xss">Klaim Ke: ............</h4>
             <h4 class="font-xss">No. SOL: ............</h4>
         </div>
     </div>
@@ -372,15 +360,14 @@ function FormPermintaanList({ state, dispatch }) {
             <p class="font-xss"style="text-align:center;">(....................)<br>L&P Coordinator</p>
         </div>
     </div>
-    <h4 style="text-align:center;"class="font-xs">Untuk barang-barang sistem informasi harus direview terlebih dahulu oleh departmen IT, dan barang-barang kebutuhan kantor harus
-direiview oleh departemen GA</h4>
+    <h4 style="text-align:center;"class="font-xs">Untuk barang-barang sistem informasi perlu ditinjau terlebih dahulu oleh tim IT dan barang-barang kebutuhan kantor perlu ditinjau oleh tim GA</h4>
     <div style="margin:auto;">
         <div style="width:33%;display:inline-block;">
-            <h4 class="font-xss"style="text-align:center;margin-bottom:50px;">Direview oleh:</h4>
+            <h4 class="font-xss"style="text-align:center;margin-bottom:50px;">Ditinjau oleh:</h4>
             <p class="font-xss"style="text-align:center;">(....................)<br>Karyawan</p>
         </div>
        <div class="font-xs"style="width:max-content;display:inline-block;float:right;margin-top:50px; font-weight: bold;margin-right: 70px;">
-            Catatan: Transfer ke RekBCA: 345 2444 175 A/N: Muhamad Apid
+            Catatan: Transfer ke Rek BCA: 345 2444 175 A/N: Muhamad Apid
 
        </div>
     </div>
@@ -436,6 +423,7 @@ direiview oleh departemen GA</h4>
       axios.delete(`${config.SERVER_URL}formpermintaan/${isDataDelete.id}`, axiosConfigV1)
       .then(res => {
         setIsDelete(false)
+        window.location.reload()
       })
       .catch(error => console.log(error.response," check lah"))
     }else{
