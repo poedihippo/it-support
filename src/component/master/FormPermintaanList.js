@@ -19,7 +19,6 @@ function FormPermintaanList({ state, dispatch }) {
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const axiosConfigV1 = AuthenticationService.getAxiosConfigV1()
   const generatePDF = async (dataForm) => {
-   console.log(dataForm, "check data Form")
     const generateData = {
       ids: [dataForm.id]
     }
@@ -207,7 +206,7 @@ function FormPermintaanList({ state, dispatch }) {
             border: 1px solid #d6dde2;
             border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
             margin: 40px 0;
-            color: #a1a7ac;
+            color: black;
         }
         table.tablesorter thead tr th, table.tablesorter tfoot tr th {
             margin: 0;
@@ -280,7 +279,7 @@ function FormPermintaanList({ state, dispatch }) {
     <div class="tll-pt" style="width:50%;margin:auto;text-align:center;">
         <h3 class="font-s">PT SUN EDUCATION</h3>
         <h3 class="font-s">FORM LOGISTIK & PROCUREMENT</h3>
-        <h3 class="font-s">PERMINTAAN PEMBELIANBARANG & JASA</h3>
+        <h3 class="font-s">PERMINTAAN PEMBELIAN BARANG & JASA</h3>
     </div>
     <p class="recipient-address font-xss" style="padding-top:0;">
     <strong class="font-xss">BERLAKU EFEKTIF: </strong><strong style="font-weight:normal;"class="font-xss">29 Juli 2015</strong><br>
@@ -346,7 +345,7 @@ function FormPermintaanList({ state, dispatch }) {
             <h4 class="font-xss">No. SOL: ............</h4>
         </div>
     </div>
-    <div style="margin:auto;">
+    <div style="margin:50px auto;">
         <div style="width:33%;display:inline-block;">
             <h4 class="font-xss"style="text-align:center;margin-bottom:50px;">Dibuat oleh:</h4>
             <p class="font-xss"style="text-align:center;">(....................)<br>Karyawan</p>
@@ -360,7 +359,7 @@ function FormPermintaanList({ state, dispatch }) {
             <p class="font-xss"style="text-align:center;">(....................)<br>L&P Coordinator</p>
         </div>
     </div>
-    <h4 style="text-align:center;"class="font-xs">Untuk barang-barang sistem informasi perlu ditinjau terlebih dahulu oleh tim IT dan barang-barang kebutuhan kantor perlu ditinjau oleh tim GA</h4>
+    <h4 style="text-align:center;margin-bottom:50px;"class="font-xs">Untuk barang-barang sistem informasi perlu ditinjau terlebih dahulu oleh tim IT dan barang-barang kebutuhan kantor perlu ditinjau oleh tim GA</h4>
     <div style="margin:auto;">
         <div style="width:33%;display:inline-block;">
             <h4 class="font-xss"style="text-align:center;margin-bottom:50px;">Ditinjau oleh:</h4>
