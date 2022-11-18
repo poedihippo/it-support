@@ -36,6 +36,7 @@ function FormPermintaanEdit({state, dispatch}) {
   const initialValues = {
     supplier_id: isData?.supplier_id,
     tanggal_pengajuan: isData?.tanggal_pengajuan,
+    date_available:isData?.date_available,
     alasan_pembelian: "isData?.alasan_pembelian",
     details: isData?.details,
   };
@@ -48,7 +49,6 @@ function FormPermintaanEdit({state, dispatch}) {
         values,
         axiosConfig
       );
-      console.log(result, "check result apakah berhasil?")
       setIsLoad(false)
       dispatch({
         type: "LIST",
@@ -87,7 +87,6 @@ function FormPermintaanEdit({state, dispatch}) {
     const getDataFormpermintaan = async () => {
       try{
         const res = await axios.get(`${config.SERVER_URL}formpermintaan/${idSuplier}`, axiosConfig);
-        console.log(res, "check ereess");
         setIsData(res.data)
       }catch(error){
         console.log(error.response, "check error formpermintaan")
@@ -114,6 +113,7 @@ function FormPermintaanEdit({state, dispatch}) {
                     initialValues={{
                       supplier_id: isData?.supplier_id,
                       tanggal_pengajuan: isData?.tanggal_pengajuan,
+                      date_available:isData?.date_available,
                       alasan_pembelian: isData?.alasan_pembelian,
                       details: isData?.details,
                     }}
@@ -132,6 +132,18 @@ function FormPermintaanEdit({state, dispatch}) {
                                 placeholder="Question"
                                 id="tanggal_pengajuan"
                                 name="tanggal_pengajuan"
+                              />
+                            </div>
+                          </div>
+                          <label> Tanggal Diharapkan Tersedia</label>
+                          <div className="form-group">
+                            <div className="form-line">
+                              <Field
+                                type="date"
+                                className="form-control"
+                                placeholder="Question"
+                                id="date_available"
+                                name="date_available"
                               />
                             </div>
                           </div>
@@ -282,7 +294,7 @@ function FormPermintaanEdit({state, dispatch}) {
                             Save
                           </button>
                           <button
-                            style={{marginLeft: "40px", marginTop:"10px"}}
+                            style={{marginLeft: "40px"}}
                             className="btn btn-primary waves-effect"
                             onClick={() => {
                               dispatch({
