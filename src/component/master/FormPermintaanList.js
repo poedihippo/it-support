@@ -90,8 +90,7 @@ function FormPermintaanList({ state, dispatch }) {
         }
         
         .company-logo {
-            width: 202px;
-            height: 81px;
+            width: 230px;
             position: absolute;
             left: 40px;
             top: 40px;
@@ -292,7 +291,7 @@ function FormPermintaanList({ state, dispatch }) {
     Departemen: Operation<br>No. PR: ...../L&P/...../.....<br>Project: .....</h2>
     
     
-    <img src=${Logo} alt="yourlogo" style="width:150px;" class="company-logo">
+    <img src=${Logo} alt="yourlogo"  class="company-logo">
     
     <table id="table" class="tablesorter" cellspacing="0"> 
     <thead> 
@@ -378,7 +377,7 @@ function FormPermintaanList({ state, dispatch }) {
     
 </div>
 <div class="page-shadow"></div>
-`;
+`;      
         if(indx === 0){
           newArr.push("<div id='print-pdf'>")
         }
