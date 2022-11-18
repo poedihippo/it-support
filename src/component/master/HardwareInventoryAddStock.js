@@ -50,7 +50,6 @@ const consumableSubmit = async ({
     form_permintaan,
     qty,
   };
-  console.log(stockCardData, "check submit")
   try {
     const result = await axios.post(
       `${config.SERVER_URL}hardwarestockcard`,
@@ -58,8 +57,6 @@ const consumableSubmit = async ({
       axiosConfig
     );
     history.push("/hardware-spec");
-
-    //console.log(result);
   } catch (e) {
     console.log(e);
   }
@@ -76,7 +73,6 @@ function HardwareInventoryAddStock() {
   const [isConsumable, setIsConsumable] = useState(true);
   const [isError, setIsError] = useState(false);
   const [dataError, setdataError] = useState([])
-  console.log("cek hardwareSpec", spesifikasi);
   const onSubmit = async ({ inventoris }) => {
     let checkError = false
     let newArr = []
@@ -109,15 +105,12 @@ function HardwareInventoryAddStock() {
     }
   };
   useEffect(async () => {
-    //console.log(hardwareSpecId);
     try {
       const supplierVendorRes = await axios.get(
         `${config.SERVER_URL}suppliervendor`,
         axiosConfig
       );
-      //console.log(supplierVendorRes.data);
       setSupplierList(supplierVendorRes.data);
-      console.log("Supplier List", supplierVendorRes.data);
     } catch (e) {
       console.log(e);
     }
@@ -127,9 +120,7 @@ function HardwareInventoryAddStock() {
         axiosConfig
       );
       setHardwareSpec(hardwareSpecRes.data);
-      //console.log("Hardware Spec ", hardwareSpec);
       setIsConsumable(hardwareSpecRes.data.consumable);
-      //console.log("is consumable state", isConsumable);
       const specArr = JSON.parse(hardwareSpecRes.data.spesifikasi);
       const spec = {};
       specArr.map((i, index) => {
@@ -137,12 +128,10 @@ function HardwareInventoryAddStock() {
       });
       defaultRow.spesifikasi = spec;
       setSpesifikasi(spec);
-      console.log("default row", defaultRow);
     } catch (e) {
       console.log(e);
     }
   }, []);
-  console.log(dataError, isError, "check lah error")
   return (
     <React.Fragment>
       <section className="content">

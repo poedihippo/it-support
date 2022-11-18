@@ -44,12 +44,10 @@ function HardwareInventory() {
 
   const axiosConfig = AuthenticationService.getAxiosConfig();
   useEffect(() => {
-    console.log(state);
     axios
       .get(`${config.SERVER_URL}hardwarespec/${hardwareSpecId}`, axiosConfig)
       .then((res) => {
         if (res.status === 200) {
-          console.log("data", res.data);
           dispatch({ type: "SET_SPEC", row: res.data });
         }
       })

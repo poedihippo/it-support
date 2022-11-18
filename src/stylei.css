@@ -1,0 +1,128 @@
+#invoice {
+    box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+    /* padding: 2mm; */
+    margin: 0 auto;
+    width: 250mm;
+    background: #fff;
+}
+
+table, th{
+    border: 1px solid #000;
+    border-collapse: collapse;
+    height: 40px;
+    font-size: 16px;
+    font-weight: normal;
+    /* empty-cells: hide; */
+}
+
+#font-h4{
+    font-weight: normal;
+}
+
+#slot-2{
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+}
+
+#slot-2-bot{
+    text-align: center;
+    /* border-bottom: 2px solid #000; */
+    border-left: 2px solid #000;
+    font-weight: bold;
+}
+
+#slot-2-text{
+    font-weight: bold;
+    border: 2px solid #000;
+    /* width: 250px; */
+}
+
+#slot-2-border{
+    border: 2px solid #000;
+}
+
+#middle{
+    margin-bottom: 10px;
+}
+
+#logo-sun{
+    width: 200px !important;
+    margin: 0;
+    /* background: #000; */
+    margin-left: 25px;        
+}
+
+#row-section{
+    display: flex;
+}
+
+#row-section-extra {
+    display: flex !important;
+    justify-content: space-between !important;
+    /* border: 1px solid red; */
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    height: 40px !important;
+}
+
+#p-section{
+    font-size: 5mm !important;
+}
+
+#Qty-section{
+    text-align: center;
+    /* border: 1px solid red; */
+    margin-left: 50px;
+    font-weight: bold;
+}
+
+#qty-inside{
+    font-weight: bold;
+}
+
+#number-section{
+    border-bottom: 0mm;
+    font-weight: bold;
+}
+
+#code-section{
+    border-bottom: 0mm;
+    font-weight: bold;
+}
+
+#item-section{
+    border-bottom: 0mm;
+    font-weight: bold;
+}
+
+#total-price-section{
+    border-bottom: 0mm;
+    font-weight: bold;
+}
+
+#supplier-section{
+    /* border: 1px solid red; */
+    border-bottom: 0mm;
+    font-weight: bold;
+    width: 100px;
+    font-size: 18px;
+}
+
+#claim-section{
+    border-bottom: 0mm;
+    font-weight: bold;
+}
+
+#dummy-table{
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+}
+
+#box{
+    height: 50px;
+    width: 50px;
+    border: 1px solid #000;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

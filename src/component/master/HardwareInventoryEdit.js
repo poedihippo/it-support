@@ -15,20 +15,15 @@ function HardwareInventoryView({ state, dispatch }) {
   const validationSchema = Yup.object({});
   const history = useHistory();
   const onSubmit = async (values) => {
-    console.log(values);
     try {
       const res = await axios.put(
         `${config.SERVER_URL}hardwareinventori`,
         values,
         axiosConfig
       );
-      console.log(res);
       if (res.data.error_code === 0) {
-        //console.log(res.data.payload);
         window.location = `/hardware-inventori/${res.data.inventori.hardware_spesifikasi_id}`;
       }
-      //setSupplierData(res.data);
-      //alert(`${email} ${deskripsi} ${config.SERVER_URL}`);
     } catch (e) {
       console.log(e);
     }
@@ -42,7 +37,6 @@ function HardwareInventoryView({ state, dispatch }) {
       );
 
       setSupplierData(res.data);
-      //alert(`${email} ${deskripsi} ${config.SERVER_URL}`);
     } catch (e) {
       console.log(e);
     }

@@ -33,8 +33,6 @@ function FormPermintaanEdit({state, dispatch}) {
     harga_satuan: 0,
   };
 
-  // console.log(idSuplier, "check id");
-
   const initialValues = {
     supplier_id: isData?.supplier_id,
     tanggal_pengajuan: isData?.tanggal_pengajuan,
@@ -43,7 +41,6 @@ function FormPermintaanEdit({state, dispatch}) {
   };
   
   const onSubmit = async (values) => {
-    console.log(values, "check values")
     setIsLoad(true)
     try {
       const result = await axios.put(

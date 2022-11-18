@@ -25,12 +25,13 @@ function FormPermintaanAdd({ state, dispatch }) {
 
   const initialValues = {
     supplier_id: 0,
+    date_available: today,
     tanggal_pengajuan: today,
-    tanggal_tersedia: today,
     alasan_pembelian: "",
     details: [defaultRow],
   };
   const onSubmit = async (values) => {
+    console.log('masuk ke disini', values)
     setIsLoad(true)
     try {
       const result = await axios.post(
@@ -87,7 +88,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                     <Form>
                       <div className="row clearfix">
                         {!isLoad ? (<div className="col-sm-12">
-                          <label> Tanggal</label>
+                          <label> Tanggal Pengajuan</label>
                           <div className="form-group">
                             <div className="form-line">
                               <Field
@@ -99,15 +100,15 @@ function FormPermintaanAdd({ state, dispatch }) {
                               />
                             </div>
                           </div>
-                          <label> Tanggal Harap Diisi</label>
+                          <label> Tanggal Diharapkan Tersedia</label>
                           <div className="form-group">
                             <div className="form-line">
                               <Field
                                 type="date"
                                 className="form-control"
                                 placeholder="Question"
-                                id="tanggal_tersedia"
-                                name="tanggal_tersedia"
+                                id="date_available"
+                                name="date_available"
                               />
                             </div>
                           </div>
@@ -214,17 +215,17 @@ function FormPermintaanAdd({ state, dispatch }) {
                                         />
                                       </td>
                                       <td>
-                                        <button className="btn btn-primary waves-effect" onClick={()=> {
-                                          setIncr(incr >0 && incr-1);
+                                        <button type="button"className="btn btn-primary waves-effect" onClick={()=> {
+                                          
                                           remove(index)
-                                          return {}}}>X</button>
+                                          }}>X</button>
                                       </td>
                                     </tr>
                                   )})}
                                 </tbody>
                               </table>)
                               :<IsLoading />}
-                              <div>
+                              {!isLoad && (<div>
                                 <button
                                   type="button"
                                   style={{ margin: "10px" }}
@@ -238,13 +239,13 @@ function FormPermintaanAdd({ state, dispatch }) {
                                 >
                                   [+]
                                 </button>
-                              </div>
+                              </div>)}
                             </React.Fragment>
                           );
                         }}
                       </FieldArray>
                       <div className="row clearfix">
-                        <div className="col-sm-12">
+                        {!isLoad && (<div className="col-sm-12">
                           <label> Alasan</label>
                           <div className="form-group">
                             <div className="form-line">
@@ -258,7 +259,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                               />
                             </div>
                           </div>
-                        </div>
+                        </div>)}
                         <div className="col-sm-12">
                           <button className="btn btn-primary" type="submit">
                             Save

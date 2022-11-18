@@ -12,10 +12,8 @@ import HardwareInventoryList from "./HardwareInventoryList";
 function HardwareInventoryAdd({ state, dispatch }) {
   const [supplierData, setSupplierData] = useState([]);
   const axiosConfig = AuthenticationService.getAxiosConfig();
-  //console.log(state);
   const specArr = JSON.parse(state.hardwareSpecRow.spesifikasi);
   const spec = {};
-  //specArr.forEach((specName) => console.log(specName));
 
   specArr.map((i, index) => {
     spec[i] = "";
@@ -32,7 +30,6 @@ function HardwareInventoryAdd({ state, dispatch }) {
   };
   const onSubmit = async ({ inventoris }) => {
     const dataCount = inventoris.length;
-    //console.log(inventoris.length);
     let index = 0;
 
     for (let i = 0; i <= dataCount; i++) {
@@ -77,7 +74,6 @@ function HardwareInventoryAdd({ state, dispatch }) {
       .get(`${config.SERVER_URL}suppliervendor`, axiosConfig)
       .then((res) => {
         if (res.status === 200) {
-          //console.log(res.data);
           setSupplierData(res.data);
         }
       })
@@ -99,7 +95,6 @@ function HardwareInventoryAdd({ state, dispatch }) {
                       <FieldArray name="inventoris">
                         {({ form, push }) => {
                           const { inventoris } = form.values;
-                          //console.log(inventoris);
                           return (
                             <div>
                               <div className="table-responsive">
