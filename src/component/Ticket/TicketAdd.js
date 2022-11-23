@@ -7,10 +7,10 @@ import AuthenticationService from "./../../logic/AuthenticationService";
 import TicketAddPerbaikan from "./TicketAddPerbaikan";
 import TicketAddPermintaan from "./TicketAddPermintaan";
 import TicketAddPeminjaman from "./TicketAddPeminjaman";
-
+import IsLoading from "../loading";
 function TicketAdd() {
   const [pageState, setPageState] = useState("Perbaikan");
-
+  const [isLoad, setIsLoad] = useState(false)
   return (
     <React.Fragment>
       <section className="content">
@@ -25,7 +25,7 @@ function TicketAdd() {
                 <div className="body">
                   <div className="row clearfix">
                     <div className="col-sm-12">
-                      <label>Jenis Ticket</label>
+                      <label>Ticket Type</label>
                       <div className="form-group">
                         <div className="form-line">
                           <select

@@ -28,6 +28,7 @@ function FormPermintaanList({ state, dispatch }) {
       generateData,
       axiosConfig
     );
+    console.log(resultGenerate.data,"cehck hasil data")
     const dataGenerate = resultGenerate.data
     if(dataGenerate.length !== 0){
       let newArr = [];
@@ -35,349 +36,300 @@ function FormPermintaanList({ state, dispatch }) {
       dataGenerate.map((isDataPdf, indx) => {
         const lengthDtl = isDataPdf.details.length;
            var source = `<style>
-           body{
-            background: #e3e6e7 ;
-            color: #61686d;
-            font: 14px "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
-            font-weight: lighter;
-            padding-bottom: 60px;
-        }
-        
-        #page {
-            background: #ffffff;
-            width: 878px;
-            margin: 0 auto;
-            margin-top: 80px;
-            display: block;
-            border: 1px solid #c4c7c7;
-            padding: 40px 40px 50px 40px;
-            position: relative;
-            z-index: 0;
-        }
-        
-        .page-shadow {
-            width: 992px;
-            height: 60px;
-            margin: 0 auto;
-            margin-top: -1px;
-            z-index: 1;
-            position: relative;
-        }
-        
-        h1 {
-            color: #4d5357;
-            font-weight: lighter;
-            font-size: 56px;
-            margin: 40px 0 0 0;
-        }
-        
-        .terms {
-            float: left;
-            width: 400px;
-            margin: 0 0 40px 0;
-            font-size: 12px;
-            color: #a1a7ac;
-            line-height: 180%;
-        }
-        
-        .terms strong {
-            font-size: 16px;
-        }
-        
-        .recipient-address {
-            padding-top: 60px;
-            width: 200px;
-        }
-        
-        .company-logo {
-            width: 230px;
-            position: absolute;
-            left: 40px;
-            top: 40px;
-        }
-        
-        .company-address {
-            width: 200px;
-            color: #a1a7ac;
-            position: absolute;
-            right: 40px;
-            top: 130px;
-            text-align: right;
-        }
-        
-        .status {
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            text-indent: -5000px;
-            width: 128px;
-            height: 128px;
-        }
-        
-        
-        
-        
-        hr {
-            clear: both;
-            border: none;
-            background: none;
-            border-bottom: 1px solid #d6dde2;
-        }
-        
-        .pay-buttons {
-            text-align: center;
-            width: 400px;
-            margin: 0 auto;
-            margin-top: 20px;
-        }
-        .pay-paypal {
-            display: block;
-            width: 200px;
-            height: 45px;
-            
-            text-indent: -5000px;
-            background-position: 0 0;
-            float: left;
-        }
-        
-        .pay-paypal:hover {
-            background-position: 0 -45px;
-        }
-        
-        .pay-paypal:active {
-            background-position: 0 -90px;
-        }
-        
-        .pay-card {
-            display: block;
-            float: left;
-            width: 165px;
-            height: 45px;
-            
-            text-indent: -5000px;
-            background-position: -200px 0;
-        }
-        
-        .pay-card:hover {
-            background-position: -200px -45px;
-        }
-        
-        .pay-card:active {
-            background-position: -200px -90px;
-        }
-        
-        .total-due {
-            float: right;
-            width: 200px;
-            border: 1px solid #d6dde2;
-            margin: 0 0 40px 0;
-            padding: 0;
-            border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
-            text-align: right;
-        }
-        
-        .total-heading {
-            background: #e7ebee;
-            height: 24px;
-            color: #63676b;
-            text-shadow: 0 1px 1px #ffffff;
-            padding: 8px 20px 0 0;
-            -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-            -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-            box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.5), 0 2px 2px rgba(0, 0, 0, 0.08);
-            border-bottom: 1px solid #d6dde2;
-            font-weight: bold;
-        }
-        
-        .total-heading p, .total-amount p {
-            margin: 0; padding: 0;
-        }
-        
-        .total-amount {
-            padding: 15px 20px 15px 0;
-            color: #4d5357;
-            font-size: 32px;
-        }
-        
-        table.tablesorter {
-            width: 100%;
-            text-align: left;
-            border: 1px solid #d6dde2;
-            border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;
-            margin: 40px 0;
-            color: black;
-        }
-        table.tablesorter thead tr th, table.tablesorter tfoot tr th {
-            margin: 0;
-        }
-        table.tablesorter thead tr .header {
-          
-            cursor: pointer;
-            height: 60px;
-            color: #63676b;
-            text-shadow: 0 1px 1px #ffffff;
-            padding-left: 20px;
-            padding-right:20px;
-            -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-            -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-            box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.5), 0 2px 2px rgba(0, 0, 0, 0.08);
-            border-bottom: 1px solid #d6dde2;
-        }
-        table.tablesorter tbody td {
-            padding: 20px;
-            vertical-align: top;
-        }
-        table.tablesorter tbody tr.even td {
-            background: #f6f8f9;
-        }
-        table.tablesorter thead tr .headerSortUp {
-          
-        }
-        table.tablesorter thead tr .headerSortDown {
-          
-        }
-        table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
-        }        
-
-        .bor-der{
-          border: 1px solid black;
-        }
-        .font-xxss{
-          font-size:8px;
-      }
-      .font-xss{
-          font-size:10px;
-      }
-      .font-xs{
-          font-size:13px;
-      }
-      .font-s{
-          font-size:16px;
-      }
-      .font-m{
-          font-size:18px;
-      }
-      .font-l{
-          font-size:20px;
-      }
-      .font-xl{
-          font-size:22px;
-      }
-      .font-xxl{
-          font-size:23px;
-      }
-           </style>
-
-          
-           <div id="page">
-    
-    <!--To change the status of the invoice, update class name. for example "status paid" or "status overdue". Possible options are: draft, sent, paid, overdue-->
-    <div class="status sent">
-        <p>Paid</p>
-    </div>
-    <div class="tll-pt" style="width:50%;margin:auto;text-align:center;">
-        <h3 class="font-s">PT SUN EDUCATION</h3>
-        <h3 class="font-s">FORM LOGISTIK & PROCUREMENT</h3>
-        <h3 class="font-s">PERMINTAAN PEMBELIAN BARANG & JASA</h3>
-    </div>
-    <p class="recipient-address font-xss" style="padding-top:0;">
-    <strong class="font-xss">BERLAKU EFEKTIF: </strong><strong style="font-weight:normal;"class="font-xss">29 Juli 2015</strong><br>
-    <strong class="font-xss">NO. REVISI: </strong>01<br>
-    <strong class="font-xss">NO. DOKUMENT: </strong>SEFM.LG.009<br>
-    <strong class="font-xss">HALAMAN: </strong>1/1
-    </p>
-    
-    <h2 class="terms font-xss" >Tanggal: ${isDataPdf.submission_date}<br>
-    Departemen: Operation<br>No. PR: ...../L&P/...../.....<br>Project: .....</h2>
-    
-    
-    <img src=${Logo} alt="yourlogo"  class="company-logo">
-    
-    <table id="table" class="tablesorter" cellspacing="0"> 
-    <thead> 
-    <tr> 
-        <th class="header font-xss">No.</th> 
-        <th class="header headerSortDown font-xss">Code</th> 
-        <th class="header headerSortDown font-xss">Jumlah</th> 
-        <th class="header headerSortDown font-xss">UoM</th> 
-        <th class="header headerSortDown font-xss">Harga Total</th> 
-        <th class="header headerSortDown font-xss">Nama Pemasok (Alamat/Telepone/Kartu Nama)</th> 
-        <th class="header font-xss">Claimable</th> 
-    </tr> 
-    </thead> 
-    <tbody> 
-     
-     
-     
-     
-     ${isDataPdf.details.map((dats,indx) => {
-      return `<tr class=${indx % 2 === 0 ? "even" : "odd"}> 
-      <td class="font-xss bor-der">${dats.no_urut}</td> 
-      <td class="font-xss bor-der">${dats.id}</td> 
-      <td class="font-xss bor-der">${dats.qty}</td> 
-      <td class="font-xss bor-der">${dats.uom}</td> 
-      <td class="font-xss bor-der">${dats.harga_total}</td> 
-      <td class="font-xss bor-der">${isDataPdf.supplier_name}</td> 
-      <td class="bor-der"style="padding:8px;">
-          <div style="float:left;"class="font-xss">
-               Yes
-              <div style="width: 15px; height: 15px; border: 1px solid #d6dde2; "> </div>
-          </div>
-          <div style="float:right;" class="font-xss">
-                  No
-              <div style="width: 15px; height: 15px; border: 1px solid #d6dde2; "></div>
-          </div>
-      </td> 
-  </tr>`
-     })}
-   </tbody> 
-    </table> 
-    <div>
-        <div style="float:left;width:70%;height:7rem">
-            <h4 class="font-xss"style="margin-top:0;margin-bottom:0;width:max-content;float:left;margin-right: 10px;">Alasan Pembelian:</h4>
-            <p class="font-xss"style="padding-right:20px;">${isDataPdf.note}</p>
-            <div class="font-xss"><h4 class="font-xss"style="width:max-content;float:left;margin-top:0;margin-right:10px;">Diharapkan Tersedia Pada Tanggal:</h4>4 May 2022</div>
-        </div>
-        <div style="">
-            <h4 class="font-xss">Nilai Klaim: ............</h4>
-            <h4 class="font-xss">Klaim Ke: ............</h4>
-            <h4 class="font-xss">No. SOL: ............</h4>
-        </div>
-    </div>
-    <div style="margin:50px auto;">
-        <div style="width:33%;display:inline-block;">
-            <h4 class="font-xss"style="text-align:center;margin-bottom:50px;">Dibuat oleh:</h4>
-            <p class="font-xss"style="text-align:center;">(....................)<br>Karyawan</p>
-        </div>
-        <div style="width:33%;display:inline-block;">
-            <h4 class="font-xss"style="text-align:center;margin-bottom:50px;">Disetujui oleh:</h4>
-            <p class="font-xss"style="text-align:center;">(....................)<br>Atasan Langsung</p>
-        </div>
-        <div style="width:33%;display:inline-block;">
-            <h4 class="font-xss"style="text-align:center;margin-bottom:50px;">Diketahui oleh:</h4>
-            <p class="font-xss"style="text-align:center;">(....................)<br>L&P Coordinator</p>
-        </div>
-    </div>
-    <h4 style="text-align:center;margin-bottom:50px;"class="font-xs">Untuk barang-barang sistem informasi perlu ditinjau terlebih dahulu oleh tim IT dan barang-barang kebutuhan kantor perlu ditinjau oleh tim GA</h4>
-    <div style="margin:auto;">
-        <div style="width:33%;display:inline-block;">
-            <h4 class="font-xss"style="text-align:center;margin-bottom:50px;">Ditinjau oleh:</h4>
-            <p class="font-xss"style="text-align:center;">(....................)<br>Karyawan</p>
-        </div>
-       <div class="font-xs"style="width:max-content;display:inline-block;float:right;margin-top:50px; font-weight: bold;margin-right: 70px;">
-            Catatan: Transfer ke Rek BCA: 345 2444 175 A/N: Muhamad Apid
-
+           .text-xxs{
+             font-size: 9px;
+           }
+           .text-xs{
+             font-size: 11px;
+           }
+           .text-sm{
+             font-size: 13px;
+           }
+           .text-md{
+             font-size: 15px;
+           }
+           .text-lg{
+             font-size: 17px;
+           }
+           .text-xl{
+             font-size: 19px;
+           }
+           .text-xl{
+             font-size: 21px;
+           }
+          </style>
+          <div style="height:${dataGenerate.length - 1 === indx ? "":"120rem"}">
+   <div id="invc"style="box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5); margin: 0 auto; width: 220mm; background: #fff;">
+       <div id="top">
+           <table style="width: 100%; border: 2px solid  #000;">
+               
+               <tr>
+                   <td>
+       
+                   </td>
+                   <th style="font-weight: bold; border: 2px solid #000;text-align:center;">
+                       PT SUN EDUCATION
+                   </th>
+                   <th class="text-xs" style="border: 2px solid #000;font-size:12px; padding-left: 10px; padding-right: 10px;">
+                       BERLAKU &nbsp;&nbsp; EFEKTIF
+                   </th>
+                   <th class="text-xs" style="border: 2px solid #000;font-size:12px;padding-right: 10px;padding-left:10px;">
+                       NO. REVISI
+                   </th>
+               </tr>
+       
+               <tr>
+                   <td>
+                       <img src=${Logo} style="width: 200px !important; margin: 0; margin-left: 25px;">
+                   </td>
+                   <th style="font-weight: bold; border: 2px solid #000;text-align:center;">
+                       FORM LOGISTIK &nbsp;& PROCUREMENT
+                   </th>
+                   <th style="border: 2px solid #000; font-size:13px;text-align:center;">
+                       29 Juli 2015
+                   </th>
+                   <th style="border: 2px solid #000; font-size:13px;text-align:center;">
+                       01
+                   </th>
+               </tr>
+       
+               <tr>
+                   <td>
+       
+                   </td>
+                   <td style="text-align: center; border-left: 2px solid #000; border-right: 2px solid #000; font-weight:bold;">
+                       PERMINTAAN PEMBELIAN &nbsp; BARANG & JASA
+                   </td>
+                   <th style="border: 2px solid #000;font-size:12px;text-align:center;">
+                       NO. DOKUMEN
+                   </th>
+                   <th style="border: 2px solid #000;font-size:12px;text-align:center;">
+                       HALAMAN
+                   </th>
+               </tr>
+       
+               <tr>
+                   <td>
+       
+                   </td>
+                   <td style="border-left: 2px solid #000; border-right: 2px solid #000; border-bottom: 2px solid #000;">
+       
+                   </td>
+                   <th style="border: 2px solid #000;font-size:13px;text-align:center;">
+                       SE.FM.LGS.009
+                   </th>
+                   <th style="border: 2px solid #000;font-size:13px;text-align:center;">
+                       1/1
+                   </th>
+               </tr>
+           </table>
        </div>
-    </div>
-    <hr>
-    <div class="pay-buttons">
-        <a href="#" class="pay-paypal">Pay now with PayPal</a>
-        <a href="#" class="pay-card">Pay with Credit Card</a>
-    </div>
-    
-</div>
-<div class="page-shadow"></div>
-`;      
+
+       <div style="margin-bottom: 10px;">
+           <div style="display: flex !important; justify-content: space-between !important; margin-left: 10px !important; margin-right: 10px !important; height: 40px !important;">
+               <div style="display: flex;">
+                   <h4 style="font-size:12px;">
+                       No. PR:
+                   </h4>
+                   <p style="font-size: 13px !important;padding-top:8px;">
+                       ...../L&P/......./.....
+                   </p>
+               </div>
+
+               <div style="display: flex;">
+                   <h4 style="font-size: 12px;">
+                       Tanggal:
+                   </h4>
+                   <p style="font-size: 11px;padding-top:8px;">
+                       ${isDataPdf.submission_date}
+                   </p>
+               </div>
+           </div>
+
+           <div style="display: flex !important;
+   justify-content: space-between !important;    
+   margin-left: 10px !important;
+   margin-right: 10px !important;
+   height: 40px !important;">
+               <div style="display: flex;">
+                   <h4 style="font-size:12px;">
+                       Project:
+                   </h4>
+                   <p style="font-size: 12px !important;padding-top:8px;">
+                       &nbsp;...................
+                   </p>
+               </div>
+           
+               <div style="display: flex;">
+                   <h4 style="font-size:12px;">
+                       Departmen:
+                   </h4>
+                   <p style="font-size:12px;padding-top:8px;">
+                       &nbsp;Operation
+                   </p>
+               </div>
+           </div>
+       </div>
+
+       <div>
+           <table style="width: 100%; border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 16px; font-weight: normal;">
+               <tr>
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       No.
+                   </th>
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       Code
+                   </th>
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       Nama Barang & Jasa
+                   </th>
+                   <td id="Qty-section" style="font-size:13px;">
+                       Quantity
+                   </td>
+                   <td>
+                       &nbsp;
+                   </td>                
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       Harga Total
+                   </th>
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm; width: 100px;">
+                       Nama Pemasok(Alamat/Telepon/Kartu Nama)
+                   </th>
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       Claimable
+                   </th>
+
+                   <tr>
+                       <td style="border-left: 1px solid #000; border-right: 1px solid #000">
+                           
+                       </td>                    
+                       <td style="border-left: 1px solid #000; border-right: 1px solid #000">
+                           
+                       </td>
+                       <td style="border-left: 1px solid #000; border-right: 1px solid #000">
+                           
+                       </td>
+                       <th style="font-weight: bold;font-size:12px;">
+                           Jmlh
+                       </th>
+                       <th style="font-weight: bold;font-size:12px;">
+                           UoM
+                       </th>
+                       <td style="border-left: 1px solid #000; border-right: 1px solid #000">
+                       </td>
+                       <td style="border-left: 1px solid #000; border-right: 1px solid #000">                            
+                       </td>                    
+                   </tr>
+                  
+                   
+                   ${isDataPdf.details.map(isGntDetail => {
+                     return `<tr>
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                           ${isGntDetail.no_urut}
+                       </th>
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       ${isGntDetail.id}
+                       </th>
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       ${isGntDetail.nama_barang}
+                       </th>
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       ${isGntDetail.qty}
+                       </th>
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 13px; font-weight: bold; border-bottom: 0mm;">
+                       ${isGntDetail.uom}
+                       </th>
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       ${isGntDetail.harga_total}
+                       </th>
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       ${isDataPdf.supplier_name}
+                       </th>
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 10px; font-weight: bold; border-bottom: 0mm;">
+                           <div>
+                               Yes
+                               <div style="width: 10px; height: 10px; border: 1px solid #000; "/>
+                           </div>
+                           <div>
+                               No
+                               <div style="width: 10px; height: 10px; border: 1px solid #000; "/>
+                           </div>
+                       </th>
+                       </tr>`
+                     
+                   })}
+               </tr>
+           </table>
+
+           <div style="display: flex;">
+               <div style="border: 1px solid #000; width: 170mm !important;">
+                   <h4 style="font-size:13px;">Alasan Pembelian &nbsp;barang dan jasa:</h4>
+                   <h4 style="font-size:13px;">${isDataPdf.note}</h4>
+                   <div style="display: flex;">
+                       <h4 style="font-size:12px;">Diharapkan tersedia pada tanggal: </h4>
+                       <p style=" font-size: 11px; text-decoration: underline;font-size:12px;padding-top:8px;">&nbsp;4 May 2022</p>
+                   </div>
+               </div>
+
+               <div style="border: 1px solid #000; width: 80mm !important;">                    
+                   <div style="display: flex; height: 40px; margin-left: 10px;">
+                       <h5 style="font-size:12px;">Nilai klaim: </h5>
+                       <p style="font-size: 11px;padding-top:8px;">&nbsp;................</p>
+                   </div>
+                   <div style="display: flex; height: 40px; margin-left: 10px;">
+                       <h5 style="font-size:12px;">Klaim Ke: </h5>
+                       <p style="font-size:11px;padding-top:8px">&nbsp;................</p>
+                   </div>
+                   <div style="display: flex; height: 40px; margin-left: 10px;">
+                       <h5 style="font-size:12px;">No. SO: </h5>
+                       <p style="padding-top:8px;font-size:11px;">&nbsp;................</p>
+                   </div>
+               </div>
+           </div>
+
+           <div style="display: flex;">
+               <div style="border-left: 1px solid #000; border-bottom: 1px solid #000; width: 90mm !important;">
+                   <h4 style="text-align: center; font-weight: normal;font-size:13px;">Dibuat oleh:</h4>
+                   <h4 style="margin-top: 20mm; font-weight: normal;"></h4>
+                   <h4 style="text-align: center; font-weight: normal;font-size:12px;">(........................)</h4>                    
+                   <h4 style="text-align: center; font-weight: normal;font-size:13px;">Karyawan</h4>
+               </div>
+               <div style="border-bottom: 1px solid #000; width: 90mm !important;">
+                   <h4 style="text-align: center; font-weight: normal;font-size:13px;">Disetujui oleh:</h4>
+                   <h4 style="margin-top: 20mm; font-weight: normal;"></h4>
+                   <h4 style="text-align: center; font-weight: normal;">(........................)</h4>
+                   <h4 style="text-align: center; font-weight: normal;font-size:13px;">Atasan Langsung</h4>
+               </div>
+               <div style="border-bottom: 1px solid #000; border-right: 1px solid #000; width: 90mm !important;">
+                   <h4 style="text-align: center; font-weight: normal;font-size:13px;">Diketahui oleh:</h4>
+                   <h4 style="margin-top: 20mm; font-weight: normal;"></h4>
+                   <h4 style="text-align: center; font-weight: normal;">(........................)</h4>
+                   <h4 style="text-align: center; font-weight: normal;font-size:13px;">L&P Coordinator</h4>
+               </div>
+           </div>
+
+           <div style="border: 1px solid #000; background: #c4c4c4;">
+               <p style="text-align: center; width: 100% !important;">Untuk barang-barang sistem informasi perlu ditinjau  terlebih dahulu oleh tim IT dan kebutuhan
+               kantor perlu ditinjau oleh departemen GA</p>
+           </div>
+
+           <div style="display: flex;">
+           
+               <div style="border: 1px solid #000; width: 90mm !important;">
+                   <h4 style="text-align: center; font-weight: normal;font-size:12px;">Ditinjau oleh:</h4>
+                   <h4 style="margin-top: 20mm; font-weight: normal;"></h4>
+                   <h4 style="text-align: center; font-weight: normal;font-size:12px;">(........................)</h4>
+                   <h4 style="text-align: center; font-weight: normal;font-size:12px;">Karyawan</h4>
+               </div>
+               <div style="border: 1px solid #000; width: 160mm !important;">
+                   <h4 style="text-align: center;font-size:12px;">Catatan:</h4>
+                   <h4 style="margin-top: 10mm; font-weight: normal;"></h4>
+                   <h4 style="text-align: center; font-weight: normal;font-size:12px;">Transfer &nbsp;ke Rek &nbsp;BCA : 345 2444 175 A/N: Muhamad Apid</h4>                    
+               </div>                
+           </div>
+       </div>
+   </div>
+</div>`;
         if(indx === 0){
           newArr.push("<div id='print-pdf'>")
         }
@@ -464,6 +416,7 @@ function FormPermintaanList({ state, dispatch }) {
                         <tr>
                           <th>Supplier</th>
                           <th>Tanggal</th>
+                          <th></th>
                           <th>Action</th>
                         </tr>
                       </thead>

@@ -49,7 +49,7 @@ function HardwareSpecList({ state, dispatch }) {
                         {data.map((i) => (
                           <tr key={i.id}>
                             <td>{i.nama_hardware}</td>
-                            <td>{i.stock_qty}</td>
+                            <td>{i.software_count}</td>
                             <td>{i.kode_inventori}</td>
                             <td>{i.seq_inventori}</td>
                             <td>

@@ -14,6 +14,11 @@ function TicketAddPerbaikan({ state, dispatch }) {
     list: [],
     mapping: [],
   });
+  const [isImage, setIsImage] = useState({
+    image1: "",
+    image2: "",
+    image3: ""
+  })
   const [isLoad, setIsLoad] = useState(false)
   const today = dateFormat(new Date(), "yyyy-mm-dd");
   const history = useHistory();
@@ -23,20 +28,40 @@ function TicketAddPerbaikan({ state, dispatch }) {
     inventori_id: 0,
     keterangan: "",
   };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setIsImage(prev => {
+      return {
+        ...prev,
+        [e.target.name]:URL.createObjectURL(file) 
+      }
+    })
+		
+  }
   const initialValues = {
     subject: "",
     tanggal_pengajuan: today,
     jenis_perbaikan: "",
     alasan: "",
     inventoris: [],
+    gambar: isImage,
   };
   const validationSchema = Yup.object({});
   const onSubmit = async (values) => {
+    let newValues = {};
+    newValues['gambar1'] = isImage.image1
+    newValues['gambar2'] = isImage.image2
+    newValues['gambar3'] = isImage.image3
+    newValues['subject'] = values.subject
+    newValues['tanggal_pengajuan'] = values.tanggal_pengajuan
+    newValues['jenis_perbaikan'] = values.jenis_perbaikan;
+    newValues['alasan'] = values.alasan;
+    newValues['inventoris'] = values.inventoris
     setIsLoad(true)
     try {
       const res = await axios.post(
         `${config.SERVER_URL}ticketperbaikan`,
-        values,
+        newValues,
         axiosConfig
       );
       setIsLoad(false)
@@ -101,18 +126,8 @@ function TicketAddPerbaikan({ state, dispatch }) {
                   />
                 </div>
               </div>
-              <label> Tanggal</label>
-              <div className="form-group">
-                <div className="form-line">
-                  <Field
-                    type="date"
-                    className="form-control"
-                    id="tanggal_pengajuan"
-                    name="tanggal_pengajuan"
-                  />
-                </div>
-              </div>
-              <label> Jenis Perbaikan</label>
+              
+              <label> Repair Type</label>
               <div className="form-group">
                 <Field
                   as="select"
@@ -251,7 +266,51 @@ function TicketAddPerbaikan({ state, dispatch }) {
           </FieldArray>
           <div className="row clearfix">
             <div className="col-sm-12">
-              <label> Alasan</label>
+              <label> Trouble Detail</label>
+              <div className="form-group" style={{display:"flex",flexDirection:"space-around"}}>
+                <div className="form-line">
+                  <div className="preview-image">
+                    {isImage?.image1 === "" ? <div >Upload your image</div>:<img src={isImage?.image1} />}
+                  </div>
+                  <input
+                    type="file"
+                    className="form-control no-resize"
+                    id="image1"
+                    name="image1"
+                    onChange={handleImageChange}
+                    accept="image/*"
+                  />
+                  
+                </div>
+                <div className="form-line">
+                  <div className="preview-image">
+                  {isImage?.image2 === "" ? <div >Upload your image</div>:<img src={isImage?.image2} />}
+                  </div>
+                  <input
+                    type="file"
+                    className="form-control no-resize"
+                    id="image2"
+                    name="image2"
+                    onChange={handleImageChange}
+                    accept="image/*"
+                  />
+                  
+                </div>
+                <div className="form-line">
+                  <div className="preview-image">
+                  {isImage?.image3 === "" ? <div>Upload your image</div>:<img src={isImage?.image3} />}
+                  </div>
+                  <input
+                    type="file"
+                    className="form-control no-resize"
+                    id="image3"
+                    name="image3"
+                    onChange={handleImageChange}
+                    accept="image/*"
+                  />
+                  
+                </div>
+              </div>
               <div className="form-group">
                 <div className="form-line">
                   <Field
@@ -267,6 +326,9 @@ function TicketAddPerbaikan({ state, dispatch }) {
             <div className="col-sm-12">
               <button className="btn btn-primary" type="submit">
                 Save
+              </button>
+              <button style={{marginLeft: "50px"}} className="btn btn-primary" type="submit" onClick={() => window.location.assign('/')}>
+                Back
               </button>
             </div>
           </div>

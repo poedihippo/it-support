@@ -31,7 +31,6 @@ function FormPermintaanAdd({ state, dispatch }) {
     details: [defaultRow],
   };
   const onSubmit = async (values) => {
-    console.log('masuk ke disini', values)
     setIsLoad(true)
     try {
       const result = await axios.post(
@@ -155,7 +154,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                                 </thead>
                                 <tbody>
                                   {details.map((item, index) => {
-                                  
+                                  console.log(details.length, "check lenght")
                                     return (
                                     <tr key={index}>
                                       <td>

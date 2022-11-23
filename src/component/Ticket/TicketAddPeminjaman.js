@@ -212,6 +212,9 @@ function TicketAddPeminjaman({ state, dispatch }) {
               <button className="btn btn-primary" type="submit">
                 Save
               </button>
+              <button style={{marginLeft: "50px"}} className="btn btn-primary" type="submit" onClick={() => window.location.assign('/')}>
+                Back
+              </button>
             </div>
           </div>
         </Form>

@@ -13,7 +13,7 @@ function TopMenu() {
               data-target="#navbar-collapse"
               aria-expanded="false"
             ></a>
-            <a href="" className="bars"></a>
+            <div className="bars"></div>
             <a className="navbar-brand" href="/">
               IT Support
             </a>

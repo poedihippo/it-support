@@ -126,3 +126,62 @@ table, th{
     margin-top: 5px;
     margin-bottom: 5px;
 }
+.preview-image img{
+    width:250px;
+    height:250px;
+}
+.preview-image div{
+    border: 1px solid black; 
+    box-sizing: border-box; 
+    width: 250px; 
+    height: 250px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+@media (max-width: 1200px) { 
+    .img-banner{
+      max-width:28em;
+      height:10em;
+    }
+}
+@media (min-width: 900px) {
+    .preview-image div{
+        width:250px;
+        height:250px;
+    }
+    .preview-image img{
+        width:250px;
+        height:250px;
+    }
+}
+@media (min-width: 550px) and (max-width: 850px) {
+    .preview-image div{
+        width:125px;
+        height:125px;
+    }
+    .preview-image img{
+        width:125px;
+        height:125px;
+    }
+}
+@media only screen and (max-width: 300px) {
+    .preview-image div{
+        width:100px;
+        height:100px;
+    }
+    .preview-image img{
+        width:100px;
+        height:100px;
+    }
+}
+@media (max-width:550px) { 
+    .preview-image div{
+        width:100px;
+        height:100px;
+    }
+    .preview-image img{
+        width:100px;
+        height:100px;
+    }
+}

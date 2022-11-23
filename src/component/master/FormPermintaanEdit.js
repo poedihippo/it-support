@@ -22,10 +22,11 @@ function FormPermintaanEdit({state, dispatch}) {
   const [uomList, setUomList] = useState([]);
   const [isData, setIsData] = useState(null)
   const axiosConfig = AuthenticationService.getAxiosConfig();
+  const [incr, setIncr] = useState(isData?.details?.length + 1)
   const today = dateFormat(new Date(), "yyyy-mm-dd");
   const idSuplier = state.currentId
   const defaultRow = {
-    no_urut: 1,
+    no_urut: incr,
     code: "",
     nama_barang: "",
     qty: 0,
@@ -57,7 +58,9 @@ function FormPermintaanEdit({state, dispatch}) {
       console.log(error.response);
     }
   };
-
+useEffect(() => {
+  isData !== null && setIncr(isData?.details.length + 1)
+}, [isData])
   useEffect(async () => {
 
     
@@ -248,7 +251,7 @@ function FormPermintaanEdit({state, dispatch}) {
                                         /> */}
                                       </td>
                                       <td>
-                                        <button className="btn btn-primary waves-effect" onClick={()=> remove(defaultRow)}>X</button>
+                                        <button className="btn btn-primary waves-effect" onClick={()=> remove(index)}>X</button>
                                       </td>
                                     </tr>
                                   ))}
@@ -262,8 +265,8 @@ function FormPermintaanEdit({state, dispatch}) {
                                   className="btn btn-primary waves-effect"
                                   type="button"
                                   onClick={() => {
-                                    no_seq++;
-                                    push({ ...defaultRow, no_urut: no_seq });
+                                    setIncr(incr+1)
+                                    push({ ...defaultRow, no_urut: incr });
                                   }}
                                 >
                                   [+]
