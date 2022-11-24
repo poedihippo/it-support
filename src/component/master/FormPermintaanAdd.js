@@ -31,7 +31,7 @@ function FormPermintaanAdd({ state, dispatch }) {
 
   const initialValues = {
     supplier_id: 0,
-    // request_by: "",
+    request_by: "",
     date_available: today,
     tanggal_pengajuan: today,
     alasan_pembelian: "",
@@ -42,8 +42,9 @@ function FormPermintaanAdd({ state, dispatch }) {
     // setIsLoad(true)
     let checkError = false;
     let errObj = {};
+    
+    // values.request_by = handleStaff
     console.log(values, "check value")
-    values.request_by = handleStaff
     for(let keyObj in values){
       if(keyObj.toUpperCase() === "DETAILS"){
         errObj[keyObj] = {}
@@ -189,7 +190,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                               </div>
                             </div>
                           </div> */}
-                          {/* <label>Staff Yang Request</label>
+                          <label>Staff Yang Request</label>
                           <div className="form-group">
                             <div className="form-line">
                               <Field as="select" name={`request_by`}>
@@ -197,7 +198,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                                 {loginData.map(
                                   (staffItem, supplierIndex) => (
                                     <option
-                                      value={staffItem.user_id}
+                                      value={staffItem.fullname}
                                       key={`option-${supplierIndex}`}
                                     >
                                       {staffItem.fullname}
@@ -206,7 +207,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                                 )}
                               </Field>
                             </div>
-                          </div> */}
+                          </div>
                           <label> Tanggal Pengajuan</label>
                           <div className="form-group">
                             <div className="form-line">

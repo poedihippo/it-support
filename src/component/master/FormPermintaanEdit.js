@@ -24,8 +24,10 @@ function FormPermintaanEdit({state, dispatch}) {
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const [incr, setIncr] = useState(isData?.details?.length + 1);
   const [dataError, setDataError] = useState({details: []});
-  const [isError, setIsError] = useState(false)
+  const [isError, setIsError] = useState(false);
+  const [loginData,setLoginData] = useState([])
   const today = dateFormat(new Date(), "yyyy-mm-dd");
+
   const idSuplier = state.currentId
   const defaultRow = {
     no_urut: incr,
@@ -91,6 +93,17 @@ function FormPermintaanEdit({state, dispatch}) {
     }
   };
 useEffect(() => {
+  const getLoginData = async () => {
+      axios.get(`${config.SERVER_URL}logindata`, axiosConfig)
+    .then(res => {
+      if(res.status === 200){
+        setLoginData(res.data)
+      }
+      console.log("check res loginData", res)
+    })
+    .catch(error => console.log(error.response,"check aing"))
+    }
+    getLoginData()
   isData !== null && setIncr(isData?.details.length + 1)
 }, [isData])
   useEffect(async () => {
@@ -151,7 +164,7 @@ useEffect(() => {
                       tanggal_pengajuan: isData?.tanggal_pengajuan,
                       date_available:isData?.date_available,
                       alasan_pembelian: isData?.alasan_pembelian,
-                      // request_by: isData?.request_by,
+                      request_by: isData?.request_by,
                       note: isData?.note || "",
                       details: isData?.details,
                     }}
@@ -185,6 +198,24 @@ useEffect(() => {
                               </div>
                             </div>
                           </div> */}
+                          <label>Staff Yang Request</label>
+                          <div className="form-group">
+                            <div className="form-line">
+                              <Field as="select" name={`request_by`}>
+                                <option value={0}>Pilih Staff</option>
+                                {loginData.map(
+                                  (staffItem, supplierIndex) => (
+                                    <option
+                                      value={staffItem.fullname}
+                                      key={`option-${supplierIndex}`}
+                                    >
+                                      {staffItem.fullname}
+                                    </option>
+                                  )
+                                )}
+                              </Field>
+                            </div>
+                          </div>
                           <label> Tanggal</label>
                           <div className="form-group">
                             <div className="form-line">

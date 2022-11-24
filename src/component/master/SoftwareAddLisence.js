@@ -10,7 +10,8 @@ function SoftwareAddLisence({ state, dispatch }) {
   const [supplierList, setSupplierList] = useState([]);
   const [lisenceValue, setLisenceValue] = useState([]);
   const [isError, setIsError] = useState(false)
-  const [isLoad, setIsLoad] = useState(false)
+  const [isLoad, setIsLoad] = useState(false);
+  const [handleCheckbox, setHandleCheckbox] = useState("0")
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const today = dateFormat(new Date(), "yyyy-mm-dd");
   const softwareData = state.currentRow;
@@ -24,6 +25,7 @@ function SoftwareAddLisence({ state, dispatch }) {
     tanggal_pembelian: today,
     tanggal_aktif: "",
     tanggal_expired: "",
+    have_expired: "0"
   };
   const initialValues = {
     lisences: [defaultRow],
@@ -88,7 +90,7 @@ function SoftwareAddLisence({ state, dispatch }) {
       console.log(e);
     }
   }, []);
-  
+  console.log(handleCheckbox, "check box")
   return (
     <React.Fragment>
       <section className="content">
@@ -124,8 +126,8 @@ function SoftwareAddLisence({ state, dispatch }) {
                                       <th>Harga</th>
                                       <th>Tanggal Pembelian</th>
                                       <th>Tanggal Aktif</th>
+                                      <th>Have Expired</th>
                                       <th>Tanggal Expired</th>
-
                                       <th>Action</th>
                                     </tr>
                                   </thead>
@@ -188,20 +190,29 @@ function SoftwareAddLisence({ state, dispatch }) {
                                         </td>
                                         <td>
                                           <Field
-                                          
+                                            
                                             type="date"
                                             name={`lisences[${index}].tanggal_aktif`}
                                           />
+                                          
                                           {isError && lisenceValue[index]?.tanggal_aktif === "" && <label style={{color:"red", marginLeft: "20px"}}>Required</label>}
                                         </td>
                                         <td>
+                                        <Field as="select" name={`lisences[${index}].have_expired`}  >
+                                          <option value="0">Punya</option>
+                                          <option value="1">Tidak Punya</option>
+                                        
+                                        </Field>
+                                        </td>
+                                        <td>
                                           <Field
-                                         
+                                            style={{display:handleCheckbox === "1" ? "none" : "block"}}
                                             type="date"
                                             name={`lisences[${index}].tanggal_expired`}
                                           />
-                                          
+                                       
                                         </td>
+                                        
                                         <td>
                                           <button
                                           type="button"
