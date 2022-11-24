@@ -27,15 +27,16 @@ function TicketAdd() {
                     <div className="col-sm-12">
                       <label>Ticket Type</label>
                       <div className="form-group">
-                        <div className="form-line">
+                        <div className="form-line prapa">
                           <select
+                          style={{margin:"0 100px"}}
                             className="form-control show-tick"
                             data-live-search="true"
                             onChange={(e) => setPageState(e.target.value)}
                           >
-                            <option value="Perbaikan">Perbaikan</option>
-                            <option value="Permintaan">Permintaan</option>
-                            <option value="Peminjaman">Peminjaman</option>
+                            <option value="Perbaikan"  style={{marginLeft: "65px"}}>Perbaikan</option>
+                            <option value="Permintaan" style={{marginLeft: "65px"}}>Permintaan</option>
+                            <option value="Peminjaman" style={{marginLeft: "65px"}}>Peminjaman</option>
                           </select>
                         </div>
                       </div>

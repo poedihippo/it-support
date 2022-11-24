@@ -22,7 +22,9 @@ function FormPermintaanEdit({state, dispatch}) {
   const [uomList, setUomList] = useState([]);
   const [isData, setIsData] = useState(null)
   const axiosConfig = AuthenticationService.getAxiosConfig();
-  const [incr, setIncr] = useState(isData?.details?.length + 1)
+  const [incr, setIncr] = useState(isData?.details?.length + 1);
+  const [dataError, setDataError] = useState({details: []});
+  const [isError, setIsError] = useState(false)
   const today = dateFormat(new Date(), "yyyy-mm-dd");
   const idSuplier = state.currentId
   const defaultRow = {
@@ -38,22 +40,52 @@ function FormPermintaanEdit({state, dispatch}) {
     supplier_id: isData?.supplier_id,
     tanggal_pengajuan: isData?.tanggal_pengajuan,
     date_available:isData?.date_available,
-    alasan_pembelian: "isData?.alasan_pembelian",
+    alasan_pembelian: isData?.alasan_pembelian,
+    note: isData?.note || "",
     details: isData?.details,
   };
   
   const onSubmit = async (values) => {
-    setIsLoad(true)
+    // setIsLoad(true);
+    let checkError = false;
+    let errObj = {};
+    for(let keyObj in values){
+      if(keyObj.toUpperCase() === "DETAILS"){
+        errObj[keyObj] = {}
+        values[keyObj].map(isData => {
+          for(let chdKey in isData){
+            if(isData[chdKey] === "" || isData[chdKey] === 0){
+              checkError = true
+              // errObj[keyObj][chdKey] = isData[chdKey];
+            }
+          }
+        })
+        
+      } else {
+        if(values[keyObj] === "" || values[keyObj] === 0){
+          checkError = true
+          // errObj[keyObj] = values[keyObj]
+        }
+      }
+     
+    }
     try {
-      const result = await axios.put(
-        `${config.SERVER_URL}formpermintaan/${idSuplier}`,
-        values,
-        axiosConfig
-      );
-      setIsLoad(false)
-      dispatch({
-        type: "LIST",
-      });
+      if(!checkError){
+        
+    setIsLoad(true)
+        const result = await axios.put(
+          `${config.SERVER_URL}formpermintaan/${idSuplier}`,
+          values,
+          axiosConfig
+        );
+        setIsLoad(false)
+        dispatch({
+          type: "LIST",
+        });
+      }else{
+        setIsError(checkError);
+        setDataError(values)
+      }
     } catch (error) {
       console.log(error.response);
     }
@@ -98,6 +130,7 @@ useEffect(() => {
     getDataList()
     getDataFormpermintaan()
   }, []);
+  console.log(isData, "check i ")
   return (
     <React.Fragment>
      { isData !== null && (<section className="content">
@@ -118,6 +151,8 @@ useEffect(() => {
                       tanggal_pengajuan: isData?.tanggal_pengajuan,
                       date_available:isData?.date_available,
                       alasan_pembelian: isData?.alasan_pembelian,
+                      // request_by: isData?.request_by,
+                      note: isData?.note || "",
                       details: isData?.details,
                     }}
                     onSubmit={onSubmit}
@@ -126,6 +161,30 @@ useEffect(() => {
                     <Form>
                       <div className="row clearfix">
                         {!isLoad ? (<div className="col-sm-12">
+                          {/* <label> Staff Yang Request</label>
+                          <div className="form-group">
+                            <div className="form-line" style={{position:"relative"}}>
+                              <Field
+                                as="textarea"
+                                rows="2"
+                                className="form-control no-resize"
+                                placeholder="Cari Staff..."
+                                id="request_by"
+                                name="request_by"
+                              
+                              />
+                              {dataError?.request_by === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
+                              <div style={{position:"absolute", zIndex: "2", background: "white",overflow:"hidden", maxHeight:activeStaff ? "max-content" : "0"}}>
+                                {
+                                  dataSearch.length !== 0 && dataSearch.map(isDatas => {
+                                    return (
+                                      <div style={{padding:"10px"}} onClick={handleSelectStaff}>{isDatas.fullname}</div>
+                                    )
+                                  })
+                                }
+                              </div>
+                            </div>
+                          </div> */}
                           <label> Tanggal</label>
                           <div className="form-group">
                             <div className="form-line">
@@ -168,6 +227,7 @@ useEffect(() => {
                               </Field>
                             </div>
                           </div>
+                          {parseInt(dataError?.supplier_id) === 0 && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                         </div>)
                         :null}
                       </div>
@@ -205,6 +265,7 @@ useEffect(() => {
                                           type="text"
                                           name={`details[${index}].code`}
                                         />
+                                        {dataError?.details[index]?.code === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                       </td>
                                       <td>
                                         <Field
@@ -212,12 +273,14 @@ useEffect(() => {
                                           rows="4"
                                           name={`details[${index}].nama_barang`}
                                         />
+                                        {dataError?.details[index]?.nama_barang === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                       </td>
                                       <td>
                                         <Field
                                           type="number"
                                           name={`details[${index}].qty`}
                                         />
+                                        {dataError?.details[index]?.qty === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                       </td>
                                       <td>
                                         <Field
@@ -234,12 +297,14 @@ useEffect(() => {
                                             </option>
                                           ))}
                                         </Field>
+                                        {parseInt(dataError?.details[index]?.uom) === 0 && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                       </td>
                                       <td>
                                         <Field
                                           type="number"
                                           name={`details[${index}].harga_satuan`}
                                         />
+                                        {dataError?.details[index]?.harga_satuan === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                                       </td>
                                       <td>
                                         {/* <Field
@@ -289,6 +354,21 @@ useEffect(() => {
                                 id="alasan_pembelian"
                                 name="alasan_pembelian"
                               />
+                              {dataError?.alasan_pembelian === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
+                            </div>
+                          </div>
+                          <label> Catatan</label>
+                          <div className="form-group">
+                            <div className="form-line">
+                              <Field
+                                as="textarea"
+                                rows="7"
+                                className="form-control no-resize"
+                                placeholder="Please type what you want..."
+                                id="note"
+                                name="note"
+                              />
+                              {dataError?.note === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                             </div>
                           </div>
                         </div>)}

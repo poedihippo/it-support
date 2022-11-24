@@ -28,7 +28,6 @@ function FormPermintaanList({ state, dispatch }) {
       generateData,
       axiosConfig
     );
-    console.log(resultGenerate.data,"cehck hasil data")
     const dataGenerate = resultGenerate.data
     if(dataGenerate.length !== 0){
       let newArr = [];
@@ -80,7 +79,7 @@ function FormPermintaanList({ state, dispatch }) {
        
                <tr>
                    <td>
-                       <img src=${Logo} style="width: 200px !important; margin: 0; margin-left: 25px;">
+                       <img src=${Logo} style="width: 200px !important; margin: 0; margin-left: 25px;margin-top:25px;">
                    </td>
                    <th style="font-weight: bold; border: 2px solid #000;text-align:center;">
                        FORM LOGISTIK &nbsp;& PROCUREMENT
@@ -132,7 +131,7 @@ function FormPermintaanList({ state, dispatch }) {
                        No. PR:
                    </h4>
                    <p style="font-size: 13px !important;padding-top:8px;">
-                       ...../L&P/......./.....
+                   .............../L&P/.............../...............
                    </p>
                </div>
 
@@ -174,28 +173,28 @@ function FormPermintaanList({ state, dispatch }) {
        <div>
            <table style="width: 100%; border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 16px; font-weight: normal;">
                <tr>
-                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        No.
                    </th>
-                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        Code
                    </th>
-                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        Nama Barang & Jasa
                    </th>
-                   <td id="Qty-section" style="font-size:13px;">
-                       Quantity
+                   <td id="Qty-section" style="font-size:13px;text-align:center;position:relative;">
+                       <div style="position:absolute;right: -20px">Quantity</div>
                    </td>
                    <td>
-                       &nbsp;
-                   </td>                
-                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                   &nbsp;
+                 </td>            
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        Harga Total
                    </th>
-                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm; width: 100px;">
-                       Nama Pemasok(Alamat/Telepon/Kartu Nama)
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm; width: 100px;text-align:center;padding:0 5px;">
+                       Nama Pemasok (Alamat/Telepon/Kartu Nama)
                    </th>
-                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                   <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        Claimable
                    </th>
 
@@ -209,10 +208,10 @@ function FormPermintaanList({ state, dispatch }) {
                        <td style="border-left: 1px solid #000; border-right: 1px solid #000">
                            
                        </td>
-                       <th style="font-weight: bold;font-size:12px;">
+                       <th style="font-weight: bold;font-size:12px;text-align:center;border-top: 1px solid #000;border-right: 1px solid #000">
                            Jmlh
                        </th>
-                       <th style="font-weight: bold;font-size:12px;">
+                       <th style="font-weight: bold;font-size:12px;text-align:center;border-top: 1px solid #000">
                            UoM
                        </th>
                        <td style="border-left: 1px solid #000; border-right: 1px solid #000">
@@ -224,25 +223,25 @@ function FormPermintaanList({ state, dispatch }) {
                    
                    ${isDataPdf.details.map(isGntDetail => {
                      return `<tr>
-                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                            ${isGntDetail.no_urut}
                        </th>
-                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        ${isGntDetail.id}
                        </th>
-                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        ${isGntDetail.nama_barang}
                        </th>
-                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        ${isGntDetail.qty}
                        </th>
-                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 13px; font-weight: bold; border-bottom: 0mm;">
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 13px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        ${isGntDetail.uom}
                        </th>
-                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        ${isGntDetail.harga_total}
                        </th>
-                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;">
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        ${isDataPdf.supplier_name}
                        </th>
                        <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 10px; font-weight: bold; border-bottom: 0mm;">
@@ -354,7 +353,7 @@ function FormPermintaanList({ state, dispatch }) {
   }
   };
   useEffect(() => {
-   
+    
     axios
       .get(`${config.SERVER_URL}formpermintaan`, axiosConfig)
       .then((res) => {

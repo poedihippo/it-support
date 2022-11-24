@@ -1,5 +1,8 @@
 import { Route, useLocation, useHistory } from "react-router-dom";
 
+// Hapus di bawah ini
+import RunGetss from "./component/master/aTestpdf";
+// Hapus di atas ini
 import RequireAuth from "./logic/require";
 import AuthenticationService from "./logic/AuthenticationService";
 import FormPage from "./component/FormPage";
@@ -64,7 +67,7 @@ function App() {
           <React.Fragment>
           <Route exact path="/" component={UserView} />
            
-            
+            <Route exact path="/rahasia-rahasia" component={RunGetss} />
             <Route exact path="/testpdf" component={TestPDF} />
             <Route exact path="/testemail" component={TestEmail} />
             <Route exact path="/formpage" component={FormPage} />

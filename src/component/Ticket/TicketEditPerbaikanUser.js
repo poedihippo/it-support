@@ -260,7 +260,7 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
                 Save
               </button>
               <button
-                  style={{marginTop:"10px"}}
+                  style={{marginLeft:"30px"}}
                   className="btn btn-primary waves-effect"
                   onClick={() => {
                   window.location.assign('/ticket-list')

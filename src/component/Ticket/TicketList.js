@@ -8,19 +8,15 @@ import AuthenticationService from "./../../logic/AuthenticationService";
 function TicketList({ state, dispatch }) {
   const [data, setData] = useState([]);
   const axiosConfig = AuthenticationService.getAxiosConfig();
-  console.log("ticket list state", state);
   useEffect(async () => {
-    // Update the document title using the browser API
-    //console.log(state);
+    
     if (state.userState === "ADMIN") {
       try {
         const res = await axios.get(
           `${config.SERVER_URL}ticket/admin`,
           axiosConfig
         );
-        //console.log(res.data);
         if (res.status === 200) {
-          console.log(res.data);
           setData(res.data);
 
           $(".js-mailing-list").DataTable({
@@ -37,9 +33,7 @@ function TicketList({ state, dispatch }) {
           `${config.SERVER_URL}ticket/myticket`,
           axiosConfig
         );
-        //console.log(res.data);
         if (res.status === 200) {
-          console.log(res.data);
           setData(res.data);
 
           $(".js-mailing-list").DataTable({
@@ -56,9 +50,7 @@ function TicketList({ state, dispatch }) {
           `${config.SERVER_URL}ticket/mystaffticket`,
           axiosConfig
         );
-        //console.log(res.data);
         if (res.status === 200) {
-          console.log(res.data);
           setData(res.data);
 
           $(".js-mailing-list").DataTable({
@@ -70,8 +62,6 @@ function TicketList({ state, dispatch }) {
       }
     }
   }, []);
-  //console.log(data);
-
   return (
     <React.Fragment>
       <section className="content">

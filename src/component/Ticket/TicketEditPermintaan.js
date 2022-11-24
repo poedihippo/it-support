@@ -318,7 +318,7 @@ function TicketEditPermintaan({ state, dispatch, ticketData, setTitle }) {
                   </button>
                   <button
                     className="btn btn-primary"
-                    style={{ margin: "5px" }}
+                    style={{ marginLeft: "30px" }}
                     type="button"
                     onClick={() => {
                       dispatch({ type: "LIST" });
