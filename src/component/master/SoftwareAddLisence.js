@@ -11,7 +11,7 @@ function SoftwareAddLisence({ state, dispatch }) {
   const [lisenceValue, setLisenceValue] = useState([]);
   const [isError, setIsError] = useState(false)
   const [isLoad, setIsLoad] = useState(false);
-  const [handleCheckbox, setHandleCheckbox] = useState("0")
+  const [handleCheckbox, setHandleCheckbox] = useState({})
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const today = dateFormat(new Date(), "yyyy-mm-dd");
   const softwareData = state.currentRow;
@@ -25,7 +25,7 @@ function SoftwareAddLisence({ state, dispatch }) {
     tanggal_pembelian: today,
     tanggal_aktif: "",
     tanggal_expired: "",
-    have_expired: "0"
+    have_expired: "1"
   };
   const initialValues = {
     lisences: [defaultRow],
@@ -41,14 +41,15 @@ function SoftwareAddLisence({ state, dispatch }) {
     tanggal_expired: Yup.string(),
   });
   const onSubmit = async ({ lisences }) => {
-    console.log(lisences, "check expired")
+    console.log(handleCheckbox, "chec have exp")
     let newArr = []
     lisences.map(async (isData, index) => {
       let newObj = {}
       // Jika tanggal expired tidak diisi maka secara default yang akan dikirim ke Back-end "Expired"
       if(isData.tanggal_expired === ""){
-        lisences[index].tanggal_expired = "Expired"
+        lisences[index].tanggal_expired = ""
       }
+      lisences[index].have_expired = handleCheckbox[`exp${index}`]
       // Error Required jika salah satu field tidak diisi
       if(isData.supplier_id === "" || isData.form_permintaan === "" || isData.harga === "" || isData.lisence_id === ""|| isData.tanggal_aktif === "" || isData.tanggal_pembelian === "" ){
         for(let keyObj in defaultRow){
@@ -90,7 +91,17 @@ function SoftwareAddLisence({ state, dispatch }) {
       console.log(e);
     }
   }, []);
-  console.log(handleCheckbox, "check box")
+  const handleChangeEvent = (e, indx) => {
+    const toStringer = indx.toString() 
+    // setHandleCheckbox(e.target.value)
+    setHandleCheckbox(prev => {
+      return {
+        ...prev,
+        [`exp${indx}`]: e.target.value
+      }
+    })
+  }
+  console.log(handleCheckbox, "set chek")
   return (
     <React.Fragment>
       <section className="content">
@@ -198,15 +209,15 @@ function SoftwareAddLisence({ state, dispatch }) {
                                           {isError && lisenceValue[index]?.tanggal_aktif === "" && <label style={{color:"red", marginLeft: "20px"}}>Required</label>}
                                         </td>
                                         <td>
-                                        <Field as="select" name={`lisences[${index}].have_expired`}  >
-                                          <option value="0">Punya</option>
-                                          <option value="1">Tidak Punya</option>
-                                        
-                                        </Field>
+                                        <select id={`select[${index}].have_expired`} name={`lisences[${index}].have_expired`}  onChange={(e) => handleChangeEvent(e, index)}>
+                                          <option value="3">Pilih</option>
+                                          <option value="1">Punya</option>
+                                          <option value="0">Tidak Punya</option>
+                                        </select>
                                         </td>
                                         <td>
                                           <Field
-                                            style={{display:handleCheckbox === "1" ? "none" : "block"}}
+                                            style={{display:handleCheckbox[`exp${index}`] === "0" ? "none" : "block"}}
                                             type="date"
                                             name={`lisences[${index}].tanggal_expired`}
                                           />

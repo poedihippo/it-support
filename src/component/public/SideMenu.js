@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import AuthenticationService from "./../../logic/AuthenticationService";
 import ActiveMenu from "./SideMenu.data";
 import { redirectLogout } from '../../config/redirect';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+import RightIcon from '../../image/right-arrow.png'
 function SideMenu({ user }) {
   const location = useLocation();
   const pathname = location.pathname.replace('/', '').toUpperCase();
@@ -123,17 +124,17 @@ function SideMenu({ user }) {
               <ul className="ml-menu">
                 <li>
                   <a href="/mailinglist">
-                    <span style={{fontWeight: pathname === "MAILINGLIST" && "bold"}}>Mailing List</span>
+                    <span style={{fontWeight: pathname === "MAILINGLIST" && "bold"}}>{pathname === "MAILINGLIST" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Mailing List</span>
                   </a>
                 </li>
                 <li>
                   <a href="/publicemail">
-                    <span style={{fontWeight: pathname === "PUBLICEMAIL" && "bold"}}>Public Email</span>
+                    <span style={{fontWeight: pathname === "PUBLICEMAIL" && "bold"}}>{pathname === "PUBLICEMAIL" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Public Email</span>
                   </a>
                 </li>
                 <li>
                   <a href="/userlist">
-                    <span style={{fontWeight: pathname === "USERLIST" && "bold"}}>User List</span>
+                    <span style={{fontWeight: pathname === "USERLIST" && "bold"}}>{pathname === "USERLIST" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} User List</span>
                   </a>
                 </li>
               </ul>
@@ -153,17 +154,17 @@ function SideMenu({ user }) {
                   <ul className="ml-menu">
                     <li>
                       <a href="/faq">
-                        <span style={{fontWeight: pathname === "FAQ" && "bold"}}>FAQ</span>
+                        <span style={{fontWeight: pathname === "FAQ" && "bold"}}>{pathname === "FAQ" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} FAQ</span>
                       </a>
                     </li>
                     <li>
                       <a href="/tipsandtrick">
-                        <span style={{fontWeight: pathname === "TIPSANDTRICK" && "bold"}}>Tips and Trick</span>
+                        <span style={{fontWeight: pathname === "TIPSANDTRICK" && "bold"}}>{pathname === "TIPSANDTRICK" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Tips and Trick</span>
                       </a>
                     </li>
                     <li>
                       <a href="/mediaanddownload">
-                        <span style={{fontWeight: pathname === "MEDIAANDDOWNLOAD" && "bold"}}>Media and Download</span>
+                        <span style={{fontWeight: pathname === "MEDIAANDDOWNLOAD" && "bold"}}>{pathname === "MEDIAANDDOWNLOAD" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Media and Download</span>
                       </a>
                     </li>
                   </ul>
@@ -171,7 +172,7 @@ function SideMenu({ user }) {
 
                 <li>
                   <a href="/suppliervendor">
-                    <span style={{fontWeight: pathname === "SUPPLIERVENDOR" && "bold"}}>Supplier/Vendor</span>
+                    <span style={{fontWeight: pathname === "SUPPLIERVENDOR" && "bold"}}>{pathname === "SUPPLIERVENDOR" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Supplier/Vendor</span>
                   </a>
                 </li>
                 <li>
@@ -185,12 +186,12 @@ function SideMenu({ user }) {
                   <ul className="ml-menu">
                     <li>
                       <a href="/hardware-spec">
-                        <span style={{fontWeight: activeMenu["HARDSPEC"] !== undefined && "bold"}}>Hardware Specification</span>
+                        <span style={{fontWeight: activeMenu["HARDSPEC"] !== undefined && "bold"}}>{activeMenu["HARDSPEC"] !== undefined &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Hardware Specification</span>
                       </a>
                     </li>
                     <li>
                       <a href="/perbaikan-hardware">
-                        <span style={{fontWeight: activeMenu["HARDPER"] !== undefined && "bold"}}>Perbaikan Hardware</span>
+                        <span style={{fontWeight: activeMenu["HARDPER"] !== undefined && "bold"}}>{activeMenu["HARDPER"] !== undefined &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Perbaikan Hardware</span>
                       </a>
                     </li>
                   </ul>
@@ -198,12 +199,12 @@ function SideMenu({ user }) {
 
                 <li>
                   <a href="/software">
-                    <span style={{fontWeight: pathname === "SOFTWARE" && "bold"}}>Software</span>
+                    <span style={{fontWeight: pathname === "SOFTWARE" && "bold"}}>{pathname === "SOFTWARE" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)}Software</span>
                   </a>
                 </li>
                 <li>
                   <a href="/form-permintaan">
-                    <span style={{fontWeight: pathname === "FORM-PERMINTAAN" && "bold"}}>Form Permintaan</span>
+                    <span style={{fontWeight: pathname === "FORM-PERMINTAAN" && "bold"}}>{pathname === "FORM-PERMINTAAN" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Form Permintaan</span>
                   </a>
                 </li>
               </ul>
@@ -217,22 +218,22 @@ function SideMenu({ user }) {
               <ul className="ml-menu">
                 <li>
                   <a href="/ticket-list">
-                    <span style={{fontWeight: pathname === "TICKET-LIST" && "bold"}}>Ticket List (Admin)</span>
+                    <span style={{fontWeight: pathname === "TICKET-LIST" && "bold"}}>{pathname === "TICKET-LIST" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Ticket List (Admin)</span>
                   </a>
                 </li>
                 <li>
                   <a href="/my-ticket-list">
-                    <span style={{fontWeight: pathname === "MY-TICKET-LIST" && "bold"}}>My Ticket List </span>
+                    <span style={{fontWeight: pathname === "MY-TICKET-LIST" && "bold"}}>{pathname === "MY-TICKET-LIST" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} My Ticket List </span>
                   </a>
                 </li>
                 <li>
                   <a href="/my-staff-ticket-list">
-                    <span style={{fontWeight: pathname === "MY-STAFF-TICKET-LIST" && "bold"}}>My Staff Ticket List</span>
+                    <span style={{fontWeight: pathname === "MY-STAFF-TICKET-LIST" && "bold"}}>{pathname === "MY-STAFF-TICKET-LIST" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} My Staff Ticket List</span>
                   </a>
                 </li>
                 <li>
                   <a href="/ticket-open">
-                    <span style={{fontWeight: pathname === "TICKET-OPEN" && "bold"}}>Open Ticket</span>
+                    <span style={{fontWeight: pathname === "TICKET-OPEN" && "bold"}}>{pathname === "TICKET-OPEN" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Open Ticket</span>
                   </a>
                 </li>
               </ul>
