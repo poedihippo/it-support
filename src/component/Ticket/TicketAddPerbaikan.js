@@ -7,7 +7,7 @@ import AuthenticationService from "./../../logic/AuthenticationService";
 import { useHistory } from "react-router-dom";
 import IsLoading from "../loading";
 import dateFormat from "dateformat";
-
+import '../../stylei.css'
 function TicketAddPerbaikan({ state, dispatch }) {
   const [jenisPerbaikan, setJenisPerbaikan] = useState([]);
   const [hardwareInventoriData, setHardwareInventoriData] = useState({
@@ -71,7 +71,7 @@ function TicketAddPerbaikan({ state, dispatch }) {
       console.log(e);
     }
   };
-
+  
   useEffect(async () => {
     try {
       const res = await axios.get(
@@ -104,7 +104,14 @@ function TicketAddPerbaikan({ state, dispatch }) {
       console.log(e);
     }
   }, []);
-
+  const handleRemoveImage = (e, names) => {
+    setIsImage(prev => {
+      return {
+        ...prev,
+        [names]: ""
+      }
+    })
+  }
   return (
     <React.Fragment>
       <Formik
@@ -267,12 +274,15 @@ function TicketAddPerbaikan({ state, dispatch }) {
           <div className="row clearfix">
             <div className="col-sm-12">
               <label> Trouble Detail</label>
-              <div className="form-group" style={{display:"flex",flexDirection:"space-around"}}>
-                <div className="form-line">
+              <div className="form-group" style={{display:"flex",justifyContent:"space-around"}}>
+                <div className="form-line img-upld">
                   <div className="preview-image">
+                    <div className={`remove-image ${isImage?.image1 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image1")}>X</div>
                     {isImage?.image1 === "" ? <div >Upload your image</div>:<img src={isImage?.image1} />}
                   </div>
+                  <label htmlFor="image1">Pilih File</label>
                   <input
+                  style={{display:"none"}}
                     type="file"
                     className="form-control no-resize"
                     id="image1"
@@ -282,11 +292,14 @@ function TicketAddPerbaikan({ state, dispatch }) {
                   />
                   
                 </div>
-                <div className="form-line">
+                <div className="form-line img-upld">
                   <div className="preview-image">
+                  <div className={`remove-image ${isImage?.image2 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image2")}>X</div>
                   {isImage?.image2 === "" ? <div >Upload your image</div>:<img src={isImage?.image2} />}
                   </div>
+                  <label htmlFor="image2">Pilih File</label>
                   <input
+                  style={{display:"none"}}
                     type="file"
                     className="form-control no-resize"
                     id="image2"
@@ -296,11 +309,14 @@ function TicketAddPerbaikan({ state, dispatch }) {
                   />
                   
                 </div>
-                <div className="form-line">
-                  <div className="preview-image">
+                <div className="form-line img-upld">
+                  <div className="preview-image" style={{position:"relative"}}>
+                    <div className={`remove-image ${isImage?.image3 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image3")}>X</div>
                   {isImage?.image3 === "" ? <div>Upload your image</div>:<img src={isImage?.image3} />}
                   </div>
+                  <label htmlFor="image3">Pilih File</label>
                   <input
+                    style={{display:"none"}}
                     type="file"
                     className="form-control no-resize"
                     id="image3"

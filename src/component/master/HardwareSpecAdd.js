@@ -294,7 +294,7 @@ function HardwareSpecAdd({ state, dispatch }) {
                                                 <button
                                                   type="button"
                                                   className="btn btn-primary"
-                                                  onClick={() => remove(item)}
+                                                  onClick={() => remove(index)}
                                                 >
                                                   -
                                                 </button>

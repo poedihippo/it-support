@@ -126,6 +126,30 @@ table, th{
     margin-top: 5px;
     margin-bottom: 5px;
 }
+.remove-image .hiden{
+    display:none;
+}
+.showd{
+    display:block;
+}
+.preview-image .remove-image{
+    width:max-content; 
+    height:max-content;
+    position:absolute;
+    right:0;
+    font-size:20px;
+    border:0;
+    color:red;
+    font-weight:bold;
+    cursor:pointer;
+}
+.preview-image{
+    position:relative;
+}
+.preview-image, .img-upld{
+    width:max-content;
+    margin:0;
+}
 .preview-image img{
     width:250px;
     height:250px;
