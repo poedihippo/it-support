@@ -18,6 +18,11 @@ function TicketAddPerbaikan({ state, dispatch }) {
     image1: "",
     image2: "",
     image3: ""
+  });
+  const [uploadImage, setUploadImage] = useState({
+    image1:"",
+    image2:"",
+    image3:"",
   })
   const [isLoad, setIsLoad] = useState(false)
   const today = dateFormat(new Date(), "yyyy-mm-dd");
@@ -36,6 +41,12 @@ function TicketAddPerbaikan({ state, dispatch }) {
         [e.target.name]:URL.createObjectURL(file) 
       }
     })
+    setUploadImage(prev => {
+      return {
+        ...prev,
+        [e.target.name]: file
+      }
+    })
 		
   }
   const initialValues = {
@@ -48,61 +59,70 @@ function TicketAddPerbaikan({ state, dispatch }) {
   };
   const validationSchema = Yup.object({});
   const onSubmit = async (values) => {
-    let newValues = {};
-    newValues['gambar1'] = isImage.image1
-    newValues['gambar2'] = isImage.image2
-    newValues['gambar3'] = isImage.image3
-    newValues['subject'] = values.subject
-    newValues['tanggal_pengajuan'] = values.tanggal_pengajuan
-    newValues['jenis_perbaikan'] = values.jenis_perbaikan;
-    newValues['alasan'] = values.alasan;
-    newValues['inventoris'] = values.inventoris
+    let data = new FormData();
+    // setIsLoad(true)
+    data.append("image1path", uploadImage.image1);
+    data.append("image2path", uploadImage.image2);
+    data.append("image3path", uploadImage.image3);
+    data.append("subject", values.subject);
+    data.append("tanggal_pengajuan", values.tanggal_pengajuan);
+    data.append("jenis_perbaikan", values.jenis_perbaikan);
+    data.append("alasan", values.alasan);
+    data.append("inventoris", values.inventoris);
     setIsLoad(true)
     try {
       const res = await axios.post(
-        `${config.SERVER_URL}ticketperbaikan`,
-        newValues,
-        axiosConfig
+        `${config.SERVER_URL}ticketperbaikan`,data,
+          {
+            headers:{
+              "Content-Type": "multipart/form-data",
+              Authorization: "Bearer " + localStorage.getItem("token")
+            },
+            
+          }
       );
       setIsLoad(false)
       history.push("/ticket-list");
-      //dispatch({ type: "LIST" });
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error.response);
     }
   };
   
-  useEffect(async () => {
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}dropdowndata/jenisperbaikan`,
-        axiosConfig
-      );
-      if (res.data[0] !== undefined) {
-        initialValues.jenis_perbaikan = res.data[0].jenis_perbaikan_value;
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}dropdowndata/jenisperbaikan`,
+          axiosConfig
+        );
+        if (res.data[0] !== undefined) {
+          initialValues.jenis_perbaikan = res.data[0].jenis_perbaikan_value;
+        }
+        setJenisPerbaikan(res.data);
+      } catch (e) {
+        console.log(e);
       }
-      setJenisPerbaikan(res.data);
-    } catch (e) {
-      console.log(e);
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}user/mypermintaaninventori`,
+          axiosConfig
+        );
+        const hardwareInventoriMapping = [];
+        if(res?.data?.error_code !== 1){
+          res?.data?.forEach((inventoriItem) => {
+            hardwareInventoriMapping[inventoriItem.id] = inventoriItem;
+          });
+        }
+  
+        setHardwareInventoriData({
+          list: res.data,
+          mapping: hardwareInventoriMapping,
+        });
+      } catch (e) {
+        console.log(e);
+      }
     }
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}user/mypermintaaninventori`,
-        axiosConfig
-      );
-
-      const hardwareInventoriMapping = [];
-      res.data.forEach((inventoriItem) => {
-        hardwareInventoriMapping[inventoriItem.id] = inventoriItem;
-      });
-
-      setHardwareInventoriData({
-        list: res.data,
-        mapping: hardwareInventoriMapping,
-      });
-    } catch (e) {
-      console.log(e);
-    }
+    getData()
   }, []);
   const handleRemoveImage = (e, names) => {
     setIsImage(prev => {
@@ -135,25 +155,25 @@ function TicketAddPerbaikan({ state, dispatch }) {
               </div>
               
               <label> Repair Type</label>
-              <div className="form-group">
+              {jenisPerbaikan.length !== 0 && (<div className="form-group">
                 <Field
                   as="select"
                   className="form-control"
                   name="jenis_perbaikan"
                   id="jenis_perbaikan"
                 >
-                  {jenisPerbaikan[0] !== undefined
-                    ? jenisPerbaikan.map((item, index) => (
+                  {jenisPerbaikan.length !== 0
+                    && jenisPerbaikan.map((item, index) => {
+                      return (
                         <option
                           value={item.jenis_perbaikan_value}
                           key={`jenis-perbaikan${index}`}
                         >
                           {item.jenis_perbaikan_value}
                         </option>
-                      ))
-                    : null}
+                      )})}
                 </Field>
-              </div>
+              </div>)}
             </div>
           </div>
           <label> Detail</label>
@@ -280,7 +300,7 @@ function TicketAddPerbaikan({ state, dispatch }) {
                     <div className={`remove-image ${isImage?.image1 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image1")}>X</div>
                     {isImage?.image1 === "" ? <div >Upload your image</div>:<img src={isImage?.image1} />}
                   </div>
-                  <label htmlFor="image1">Pilih File</label>
+                  <label htmlFor="image1" style={{cursor: "pointer"}}>Pilih File</label>
                   <input
                   style={{display:"none"}}
                     type="file"
@@ -297,7 +317,7 @@ function TicketAddPerbaikan({ state, dispatch }) {
                   <div className={`remove-image ${isImage?.image2 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image2")}>X</div>
                   {isImage?.image2 === "" ? <div >Upload your image</div>:<img src={isImage?.image2} />}
                   </div>
-                  <label htmlFor="image2">Pilih File</label>
+                  <label htmlFor="image2" style={{cursor: "pointer"}}>Pilih File</label>
                   <input
                   style={{display:"none"}}
                     type="file"
@@ -314,7 +334,7 @@ function TicketAddPerbaikan({ state, dispatch }) {
                     <div className={`remove-image ${isImage?.image3 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image3")}>X</div>
                   {isImage?.image3 === "" ? <div>Upload your image</div>:<img src={isImage?.image3} />}
                   </div>
-                  <label htmlFor="image3">Pilih File</label>
+                  <label htmlFor="image3" style={{cursor: "pointer"}}>Pilih File</label>
                   <input
                     style={{display:"none"}}
                     type="file"

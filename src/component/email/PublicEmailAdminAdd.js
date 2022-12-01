@@ -22,15 +22,18 @@ function PublicEmailAdminAdd({ state, dispatch }) {
   });
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const onSubmit = async (data) => {
+    const multEmail = {
+      publicemail_id: datas.publicemail_id,
+      email: datas.email.replace('\n', ',')
+    }
     setIsLoad(true)
 
     try {
       const res = await axios.post(
         `${config.SERVER_URL}publicemailadmin`,
-        datas,
+        multEmail,
         axiosConfig
       );
-      console.log("res.data", res);
       if (res.data.error_code !== 0) {
         setIsLoad(false)
         setErrorMessage(res.data.message);
@@ -55,7 +58,6 @@ function PublicEmailAdminAdd({ state, dispatch }) {
             validationSchema={ValidationSchema}
           >
             {({ errors, touched, isValidating }) => {
-              console.log("errors", errors);
               return (
                 <Form>
                   <div className="row clearfix">

@@ -42,7 +42,7 @@ function FormPermintaanAdd({ state, dispatch }) {
     // setIsLoad(true)
     let checkError = false;
     let errObj = {};
-    
+    let newObjCc = {};
     // values.request_by = handleStaff
     console.log(values, "check value")
     for(let keyObj in values){
@@ -67,6 +67,13 @@ function FormPermintaanAdd({ state, dispatch }) {
     }
     try {
       if(!checkError){
+        newObjCc["alasan_pembelian"] = values.alasan_pembelian
+        newObjCc["date_available"] = values.date_available
+        newObjCc["details"] = values.details
+        newObjCc["note"] = values.note;
+        newObjCc["request_by"] = values.request_by;
+        newObjCc["supplier_id"] = values.supplier_id;
+        newObjCc["tanggal_pengajuan"] = values.tanggal_pengajuan
         setIsLoad(true)
         const result = await axios.post(
           `${config.SERVER_URL}formpermintaan`,
@@ -93,7 +100,6 @@ function FormPermintaanAdd({ state, dispatch }) {
       if(res.status === 200){
         setLoginData(res.data)
       }
-      console.log("check res loginData", res)
     })
     .catch(error => console.log(error.response,"check aing"))
     }

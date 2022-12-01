@@ -351,7 +351,6 @@ function HardwareInventoryAddStock() {
                                               className="btn btn-primary waves-effect"
                                               type="button"
                                               onClick={() => {
-                                                console.log(defaultRow, "check defaultRow", item)
                                                 remove({merek: "wdwd"})
                                               }}
                                             >

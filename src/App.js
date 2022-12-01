@@ -46,11 +46,9 @@ function App() {
  
   useEffect(async () => {
     if (pathname === "/authentication") {
-      console.log('masuk kaga si?')
       const params = new URLSearchParams(search);
       const login_token = params.get("login_token");
       const userData = await AuthenticationService.authentication(login_token);
-      console.log(userData);
       history.push("/");
     }
     

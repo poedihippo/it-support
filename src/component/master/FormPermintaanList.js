@@ -187,7 +187,10 @@ function FormPermintaanList({ state, dispatch }) {
                    </td>
                    <td>
                    &nbsp;
-                 </td>            
+                 </td>         
+                  <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
+                      Harga Satuan
+                  </th>   
                    <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        Harga Total
                    </th>
@@ -239,6 +242,9 @@ function FormPermintaanList({ state, dispatch }) {
                        ${isGntDetail.uom}
                        </th>
                        <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
+                       ${isGntDetail.harga_satuan}
+                       </th>
+                       <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
                        ${isGntDetail.harga_total}
                        </th>
                        <th style="border: 1px solid #000; border-collapse: collapse; height: 40px; font-size: 12px; font-weight: bold; border-bottom: 0mm;text-align:center;">
@@ -263,7 +269,7 @@ function FormPermintaanList({ state, dispatch }) {
            <div style="display: flex;">
                <div style="border: 1px solid #000; width: 170mm !important;">
                    <h4 style="font-size:13px;">Alasan Pembelian &nbsp;barang dan jasa:</h4>
-                   <h4 style="font-size:13px;">${isDataPdf.note}</h4>
+                   <h4 style="font-size:13px;">${isDataPdf.alasan_pembelian}</h4>
                    <div style="display: flex;">
                        <h4 style="font-size:12px;">Diharapkan tersedia pada tanggal: </h4>
                        <p style=" font-size: 11px; text-decoration: underline;font-size:12px;padding-top:8px;">&nbsp;4 May 2022</p>
@@ -323,7 +329,7 @@ function FormPermintaanList({ state, dispatch }) {
                <div style="border: 1px solid #000; width: 160mm !important;">
                    <h4 style="text-align: center;font-size:12px;">Catatan:</h4>
                    <h4 style="margin-top: 10mm; font-weight: normal;"></h4>
-                   <h4 style="text-align: center; font-weight: normal;font-size:12px;">Transfer &nbsp;ke Rek &nbsp;BCA : 345 2444 175 A/N: Muhamad Apid</h4>                    
+                   <h4 style="text-align: center; font-weight: normal;font-size:12px;">${isDataPdf.note}</h4>                    
                </div>                
            </div>
        </div>

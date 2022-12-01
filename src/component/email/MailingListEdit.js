@@ -110,7 +110,7 @@ function MailingListEdit({ state, dispatch }) {
                               style={{marginLeft: "40px"}}
                                 className="btn btn-primary waves-effect"
                                 onClick={() => {
-                                  window.location.assign('/mailinglist')
+                                  dispatch({type: "LIST"})
                                 }}
                               >
                                 Back

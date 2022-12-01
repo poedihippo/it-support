@@ -28,7 +28,6 @@ function MailingListAdd({ state, dispatch }) {
         data,
         axiosConfigV1
       );
-      console.log("res", res);
 
       if (res.data.error_code === 0) {
         setIsLoad(false)
@@ -36,7 +35,6 @@ function MailingListAdd({ state, dispatch }) {
       } else {
         setErrorMessage(res.data.message);
       }
-      //alert(`${email} ${deskripsi} ${config.SERVER_URL}`);
     } catch (e) {
       console.log(e);
     }
@@ -54,7 +52,6 @@ function MailingListAdd({ state, dispatch }) {
             validationSchema={ValidationSchema}
           >
             {({ errors, touched, isValidating }) => {
-              console.log("errors", errors);
               return (
                 <Form>
                   <div className="row clearfix">
@@ -112,7 +109,7 @@ function MailingListAdd({ state, dispatch }) {
                               style={{marginLeft: "40px"}}
                                 className="btn btn-primary waves-effect"
                                 onClick={() => {
-                                  window.location.assign('/mailinglist')
+                                  dispatch({type: "LIST"})
                                 }}
                               >
                                 Back

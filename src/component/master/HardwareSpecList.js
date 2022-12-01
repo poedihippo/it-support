@@ -4,6 +4,7 @@ import "datatables.net";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
+import { Link } from 'react-router-dom';
 
 function HardwareSpecList({ state, dispatch }) {
   const [data, setData] = useState([]);
@@ -22,7 +23,10 @@ function HardwareSpecList({ state, dispatch }) {
       })
       .catch((err) => console.log(err));
   }, []);
-  console.log(data, "check lagi ahs ")
+  // const resDd = data[2]?.spesifikasi;
+  // const isReplaced = resDd.replace(/'/g, '"');
+  // const toArr = JSON.parse(isReplaced);
+
   return (
     <React.Fragment>
       <section className="content">
@@ -67,19 +71,19 @@ function HardwareSpecList({ state, dispatch }) {
                               </button>
 
                               {!i.consumable ? (
-                                <a
-                                  href={`/hardware-inventori/${i.id}`}
+                                <Link
+                                  to={`/hardware-inventori/${i.id}`}
                                   className="btn btn-primary waves-effect "
                                 >
                                   Inventori
-                                </a>
+                                </Link>
                               ) : null}
-                              <a
-                                href={`/hardware-inventori-add-stock/${i.id}`}
+                              <Link
+                                to={`/hardware-inventori-add-stock/${i.id}`}
                                 className="btn btn-primary waves-effect "
                               >
                                 Add Stock
-                              </a>
+                              </Link>
                             </td>
                           </tr>
                         ))}

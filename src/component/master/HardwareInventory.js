@@ -6,6 +6,7 @@ import HardwareInventoryAdd from "./HardwareInventoryAdd";
 import HardwareInventoryEdit from "./HardwareInventoryEdit";
 import HardwareInventoryList from "./HardwareInventoryList";
 import HardwareInventoryView from "./HardwareInventoryView";
+import HardwareInventoryAssign from './HardwareInventoryAssign'
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
@@ -31,7 +32,17 @@ const reducer = (state, action) => {
         currentRow: action.row,
       };
     case "VIEW":
-      return{pageState: "VIEW", currentId:action.id, currentRow:action.row};
+      return {
+        pageState: "VIEW", 
+        currentId:action.id, 
+        currentRow:action.row
+      };
+    case "ASSIGN":
+      return{
+        pageState: "ASSIGN",
+        currentId: action.id,
+        currentRow: action.row
+      }
     default:
       return initialState;
   }
@@ -68,6 +79,11 @@ function HardwareInventory() {
       )}
       {state.pageState === "VIEW" ? (
         <HardwareInventoryView state={state} dispatch={dispatch} />
+      ) : (
+        0
+      )}
+      {state.pageState === "ASSIGN" ? (
+        <HardwareInventoryAssign state={state} dispatch={dispatch} />
       ) : (
         0
       )}

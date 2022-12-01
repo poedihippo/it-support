@@ -43,7 +43,10 @@ function HardwareInventoryList({ state, dispatch }) {
       })
       .catch((err) => console.log(err));
   }, []);
+  const assignTo = async () => {
 
+  }
+  console.log(data, "check data ")
   return (
     <React.Fragment>
       <section className="content">
@@ -115,6 +118,17 @@ function HardwareInventoryList({ state, dispatch }) {
                                   }}
                                 >
                                   Assign For Repair
+                                </button>
+                              ) : null}
+                              {!i.assign_to ? (
+                                <button
+                                  type="button"
+                                  className="btn btn-primary waves-effect "
+                                  onClick={() => {
+                                    dispatch({type:"ASSIGN", row:i})
+                                  }}
+                                >
+                                  Assign To
                                 </button>
                               ) : null}
                               {/* <button className="btn btn-primary waves-effect ">

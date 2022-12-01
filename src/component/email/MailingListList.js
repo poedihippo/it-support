@@ -59,7 +59,6 @@ function MailingListList({ state, dispatch }) {
       axios
       .delete(`${config.SERVER_URL}mailinglist/${dataDelete.id}`, axiosConfig)
       .then((res) => {
-        console.log(res.data);
         if (res.status === 200){
           setIsDelete(false)
           setMailingListData(res.data);
