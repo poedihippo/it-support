@@ -421,7 +421,6 @@ function FormPermintaanList({ state, dispatch }) {
                         <tr>
                           <th>Supplier</th>
                           <th>Tanggal</th>
-                          <th></th>
                           <th>Action</th>
                         </tr>
                       </thead>
