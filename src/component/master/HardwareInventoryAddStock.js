@@ -351,7 +351,7 @@ function HardwareInventoryAddStock() {
                                               className="btn btn-primary waves-effect"
                                               type="button"
                                               onClick={() => {
-                                                remove({merek: "wdwd"})
+                                                remove(index)
                                               }}
                                             >
                                               X

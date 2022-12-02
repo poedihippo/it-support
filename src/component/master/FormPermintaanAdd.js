@@ -18,7 +18,8 @@ function FormPermintaanAdd({ state, dispatch }) {
   const [isError, setIsError] = useState(false);
   const [handleStaff, setHandleStaff] = useState("");
   const [dataSearch, setDataSearch] = useState([]);
-  const [activeStaff, setActiveStaff] = useState(false)
+  const [activeStaff, setActiveStaff] = useState(false);
+  console.log(loginData, 'check login data')
   let newArrValue = [];
   const defaultRow = {
     no_urut: 1,

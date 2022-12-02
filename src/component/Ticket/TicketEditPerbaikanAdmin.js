@@ -5,7 +5,7 @@ import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
 import { useHistory } from "react-router-dom";
-
+import UpldFile from "../atom/uploadFile";
 import dateFormat from "dateformat";
 import TicketPerbaikanInventoriAssign from "./TicketPerbaikanInventoriAssign";
 import IsLoading from "../loading";
@@ -18,7 +18,16 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
   });
   const [editState, setEditState] = useState("EDIT");
   const [inventoriPush, setInventoriPush] = useState(null);
-
+  const [isImage, setIsImage] = useState({
+    image1: "",
+    image2: "",
+    image3: ""
+  });
+  const [upldImage, setUpldImage] = useState({
+    image1: "",
+    image2: "",
+    image3: ""
+  })
   const today = dateFormat(new Date(), "yyyy-mm-dd");
   const history = useHistory();
 
@@ -28,6 +37,7 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
     keterangan: "",
   };
   const initialValues = ticketData;
+  console.log(initialValues, "check value edit")
   const validationSchema = Yup.object({});
   const setAssign = (push) => {
     setInventoriPush(() => push);
@@ -50,8 +60,29 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
     //.log("assign Inventori values", values);
   };
   const onSubmit = async (values) => {
+    const isData = new FormData();
+    
+    for(let keyObj in values){
+      console.log(values[keyObj])
+      isData.append(keyObj.toString(), values[keyObj])  
+    }
+    isData.append('image1path', upldImage.image1);
+    isData.append('image2path', upldImage.image2);
+    isData.append('image3path', upldImage.image3);
+    // console.log(isData.entries(), "chcek lagi", state.userState)
     setIsLoad(true)
     try {
+      // const res = await axios.put(`${config.SERVER_URL}ticketperbaikan`,
+      // {ticket:isData, user:state.userState},
+      // {
+      //   headers:{
+      //     "Content-Type": "multipart/form-data",
+      //     Authorization: "Bearer " + localStorage.getItem("token")
+      //   },
+        
+      // })
+
+
       const res = await axios.put(
         `${config.SERVER_URL}ticketperbaikan`,
         { ticket: values, user: state.userState },
@@ -97,7 +128,35 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
       console.log(e);
     }
   }, []);
-
+  const handleEventChange = (e) => {
+    const file = e.target.files[0]
+    setIsImage(prev => {
+      return {
+        ...prev,
+        [e.target.name]: URL.createObjectURL(file)
+      }
+    });
+    setUpldImage(prev => {
+      return {
+        ...prev,
+        [e.target.name]: file
+      }
+    })
+  }
+  const handleRemoveImage = (isName) => {
+    setIsImage(prev => {
+      return{
+        ...prev,
+        [isName]: ""
+      }
+    })
+    setUpldImage(prev => {
+      return {
+        ...prev,
+        [isName]: ""
+      }
+    })
+  }
   return (
     <React.Fragment>
       <Formik
@@ -276,6 +335,11 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
                 <div className="row clearfix">
                   <div className="col-sm-12">
                     <label> Alasan</label>
+                    <div style={{display:"flex", justifyContent: "space-around"}}>
+                      <UpldFile isId="image1" isHtmlFor="image1" isName="image1" handleChangeImage={handleEventChange} preImage={isImage?.image1 === "" ? initialValues.image1path === "" ? "" : `http://localhost:3000${initialValues.image1path}` : isImage?.image1} handleRemoveImage={() => handleRemoveImage('image1')}/>
+                      <UpldFile isId="image2" isHtmlFor="image2" isName="image2" handleChangeImage={handleEventChange} preImage={isImage?.image2 === "" ? initialValues.image2path ==="" ? "" : `http://localhost:3000${initialValues.image2path}` : isImage?.image2} handleRemoveImage={() => handleRemoveImage('image2')}/>
+                      <UpldFile isId="image3" isHtmlFor="image3" isName="image3" handleChangeImage={handleEventChange} preImage={isImage?.image3 === "" ? initialValues.image3path === "" ?"" : `http://localhost:3000${initialValues.image3path}` : isImage?.image3}handleRemoveImage={() => handleRemoveImage('image3')}/>
+                    </div>
                     <div className="form-group">
                       <div className="form-line">
                         <Field

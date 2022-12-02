@@ -5,7 +5,7 @@ import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
 import { useHistory } from "react-router-dom";
-
+import ImageTicket from "../atom/imageTicket";
 import dateFormat from "dateformat";
 
 function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
@@ -18,6 +18,7 @@ function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
     keterangan: "",
   };
   const initialValues = ticketData;
+  console.log(initialValues, "check init values")
   const validationSchema = Yup.object({});
   const processInventori = async ({ values, inventori, setFieldValue }) => {
     console.log("pr", values);
@@ -245,6 +246,11 @@ function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
             <div className="row clearfix">
               <div className="col-sm-12">
                 <label> Alasan</label>
+                <div className="img-ticket" style={{display:"flex", justifyContent: "space-around"}}>
+                  <ImageTicket srcImg={initialValues?.image1path === "" ?"":`http://localhost:3000${initialValues?.image1path}`}/>
+                  <ImageTicket srcImg={initialValues?.image2path === "" ?"":`http://localhost:3000${initialValues?.image2path}`}/>
+                  <ImageTicket srcImg={initialValues?.image3path === "" ?"":`http://localhost:3000${initialValues?.image3path}`}/>
+                </div>
                 <div className="form-group">
                   <div className="form-line">
                     <Field

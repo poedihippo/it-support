@@ -229,7 +229,7 @@ function SoftwareAddLisence({ state, dispatch }) {
                                           type="button"
                                           className="btn btn-primary waves-effect"
                                           type="button"
-                                          onClick={() => remove(defaultRow)}
+                                          onClick={() => remove(index)}
                                           >X</button>
                                           
                                         </td>

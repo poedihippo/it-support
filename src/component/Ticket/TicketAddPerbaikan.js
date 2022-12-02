@@ -355,6 +355,7 @@ function TicketAddPerbaikan({ state, dispatch }) {
                     className="form-control no-resize"
                     id="alasan"
                     name="alasan"
+                    placeholder="Ketik Trouble Anda Di Sini"
                   />
                 </div>
               </div>
