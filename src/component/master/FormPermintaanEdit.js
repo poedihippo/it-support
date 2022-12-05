@@ -25,7 +25,11 @@ function FormPermintaanEdit({state, dispatch}) {
   const [incr, setIncr] = useState(isData?.details?.length + 1);
   const [dataError, setDataError] = useState({details: []});
   const [isError, setIsError] = useState(false);
-  const [loginData,setLoginData] = useState([])
+  const [loginData,setLoginData] = useState([]);
+  const [handleStaff, setHandleStaff] = useState("");
+  const [dataSearch, setDataSearch] = useState(null);
+  const [activeStaff, setActiveStaff] = useState(false)
+
   const today = dateFormat(new Date(), "yyyy-mm-dd");
 
   const idSuplier = state.currentId
@@ -49,6 +53,7 @@ function FormPermintaanEdit({state, dispatch}) {
   
   const onSubmit = async (values) => {
     // setIsLoad(true);
+    let newObjCc = {}
     let checkError = false;
     let errObj = {};
     for(let keyObj in values){
@@ -72,12 +77,20 @@ function FormPermintaanEdit({state, dispatch}) {
      
     }
     try {
-      if(!checkError){
+      if(!checkError && dataSearch.length === 1){
         
-    setIsLoad(true)
+        newObjCc["alasan_pembelian"] = values.alasan_pembelian
+        newObjCc["date_available"] = values.date_available
+        newObjCc["details"] = values.details
+        newObjCc["note"] = values.note;
+        newObjCc["request_by"] = handleStaff.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase(0) + word.substring((1))).join(' ');
+        newObjCc["supplier_id"] = values.supplier_id;
+        newObjCc["tanggal_pengajuan"] = values.tanggal_pengajuan
+
+        setIsLoad(true)
         const result = await axios.put(
           `${config.SERVER_URL}formpermintaan/${idSuplier}`,
-          values,
+          newObjCc,
           axiosConfig
         );
         setIsLoad(false)
@@ -95,14 +108,13 @@ function FormPermintaanEdit({state, dispatch}) {
 useEffect(() => {
   const getLoginData = async () => {
       axios.get(`${config.SERVER_URL}logindata`, axiosConfig)
-    .then(res => {
-      if(res.status === 200){
-        setLoginData(res.data)
+      .then(res => {
+        if(res.status === 200){
+          setLoginData(res.data)
+        }
+      })
+      .catch(error => console.log(error.response,"check aing"))
       }
-      console.log("check res loginData", res)
-    })
-    .catch(error => console.log(error.response,"check aing"))
-    }
     getLoginData()
   isData !== null && setIncr(isData?.details.length + 1)
 }, [isData])
@@ -135,7 +147,8 @@ useEffect(() => {
     const getDataFormpermintaan = async () => {
       try{
         const res = await axios.get(`${config.SERVER_URL}formpermintaan/${idSuplier}`, axiosConfig);
-        setIsData(res.data)
+        setIsData(res?.data);
+        setHandleStaff(res?.data?.request_by)
       }catch(error){
         console.log(error.response, "check error formpermintaan")
       }
@@ -143,7 +156,31 @@ useEffect(() => {
     getDataList()
     getDataFormpermintaan()
   }, []);
-  console.log(isData, "check i ")
+
+  useEffect(() => {
+    const searchStaff = () => {
+      let newRes = loginData.filter((isData,i) => {
+        if(isData?.fullname?.toUpperCase()?.indexOf(handleStaff?.toUpperCase()) >= 0){
+            return isData
+        }
+      })
+      setDataSearch(newRes)
+    }
+    loginData.length !== 0 && searchStaff()
+      
+  }, [handleStaff, loginData]);
+const handleEventChange = (e) => {
+  setHandleStaff(e.target.value)
+}
+const handleInputFocus = () => {
+  setActiveStaff(true)
+}
+const handleInputBlur = () => {
+  setActiveStaff(false)
+}
+const handleSelectStaff = (e) => {
+  setHandleStaff(e.currentTarget.textContent)
+}
   return (
     <React.Fragment>
      { isData !== null && (<section className="content">
@@ -164,7 +201,6 @@ useEffect(() => {
                       tanggal_pengajuan: isData?.tanggal_pengajuan,
                       date_available:isData?.date_available,
                       alasan_pembelian: isData?.alasan_pembelian,
-                      request_by: isData?.request_by,
                       note: isData?.note || "",
                       details: isData?.details,
                     }}
@@ -174,7 +210,7 @@ useEffect(() => {
                     <Form>
                       <div className="row clearfix">
                         {!isLoad ? (<div className="col-sm-12">
-                          {/* <label> Staff Yang Request</label>
+                        <label> Staff Yang Request</label>
                           <div className="form-group">
                             <div className="form-line" style={{position:"relative"}}>
                               <Field
@@ -184,38 +220,27 @@ useEffect(() => {
                                 placeholder="Cari Staff..."
                                 id="request_by"
                                 name="request_by"
-                              
+                                value={handleStaff}
+                                onChange={handleEventChange}
+                                onFocus={handleInputFocus}
+                                onBlur={handleInputBlur}
                               />
                               {dataError?.request_by === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
                               <div style={{position:"absolute", zIndex: "2", background: "white",overflow:"hidden", maxHeight:activeStaff ? "max-content" : "0"}}>
                                 {
-                                  dataSearch.length !== 0 && dataSearch.map(isDatas => {
+                                  dataSearch !== null && dataSearch?.length !== 0 && dataSearch?.map(isDatas => {
                                     return (
                                       <div style={{padding:"10px"}} onClick={handleSelectStaff}>{isDatas.fullname}</div>
                                     )
                                   })
                                 }
+                                {
+                                  dataSearch !== null && dataSearch?.length === 0 && <div style={{color: "red"}}>Staff Tidak Ditemukan</div>
+                                }
                               </div>
                             </div>
-                          </div> */}
-                          <label>Staff Yang Request</label>
-                          <div className="form-group">
-                            <div className="form-line">
-                              <Field as="select" name={`request_by`}>
-                                <option value={0}>Pilih Staff</option>
-                                {loginData.map(
-                                  (staffItem, supplierIndex) => (
-                                    <option
-                                      value={staffItem.fullname}
-                                      key={`option-${supplierIndex}`}
-                                    >
-                                      {staffItem.fullname}
-                                    </option>
-                                  )
-                                )}
-                              </Field>
-                            </div>
                           </div>
+                          
                           <label> Tanggal</label>
                           <div className="form-group">
                             <div className="form-line">
@@ -428,105 +453,6 @@ useEffect(() => {
       </section>)}
     </React.Fragment>
   );
-
-
-
-
-
-
-
-  // di bawah adalah Edit form permintaan yang lama 
-
-
-  // console.log(state, "check dispatch")
-  // const location = useLocation();
-  // const [isLoad, setIsLoad] = useState(false)
-  // const axiosConfig = AuthenticationService.getAxiosConfig();
-  // const [values, setValues] = useState({
-  //   supplier: location.state !== undefined ? location.state.data.nama_pt : ""
-  // });
-  // const ValidationSchema = Yup.object().shape({
-  //   supplier: Yup.string(),
-  // });
-  
-  // const handleChange = (e) => {
-  //   setValues(prev => {
-  //     return{
-  //       ...prev,
-  //       [e.target.name]: e.target.value
-  //     }
-  //   })
-  // }
-  // const onSubmit = () => {
-  //   setIsLoad(true)
-  //   let newObj = {}
-  //   const stateObj = location.state.data
-  //   for(let newStateObj in stateObj ){
-  //     newObj[newStateObj] = stateObj[newStateObj]
-  //   }
-  //   newObj["nama_pt"] = values.supplier
-    
-  //   axios
-  //     .put(`${config.SERVER_URL}formpermintaan/${location.state.data.id}`, newObj,axiosConfig)
-  //     .then((res) => {
-  //       setIsLoad(false)
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-  // return (
-  //   <>
-  //     <section className="content">
-  //       <div className="container-fluid">
-  //         <div className="block-header">
-  //           <h2>MailingList</h2>
-  //         </div>
-  //               <form>
-  //                 <div className="row clearfix">
-  //                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  //                     <div className="card">
-  //                       <div className="body">
-  //                         <h2 className="card-inside-title">Edit</h2>
-  //                         <div className="row clearfix">
-  //                           <div className="col-sm-12">
-  //                             <div className="form-group">
-  //                               <div>
-  //                                 Nama Supplier:
-  //                                 <input
-  //                                   onChange={handleChange}
-  //                                   type="text"
-  //                                   className={`form-control `}
-  //                                   placeholder="Supplier"
-  //                                   id="supplier"
-  //                                   name="supplier"
-  //                                   value={values.supplier}
-  //                                 />
-  //                               </div>
-  //                             </div>
-  //                           </div>
-  //                           <div className="col-sm-12">
-  //                             <button onClick={onSubmit}className="btn btn-primary" type="button">
-  //                               Save
-  //                             </button>
-  //                             <button
-  //                             style={{marginLeft: "40px"}}
-  //                               className="btn btn-primary waves-effect"
-  //                               onClick={() => {
-  //                                 dispatch("LIST")
-  //                               }}
-  //                             >
-  //                               Back
-  //                             </button>
-  //                           </div>
-  //                         </div>
-  //                       </div>
-  //                     </div>
-  //                   </div>
-  //                 </div>
-  //               </form>
-  //       </div>
-  //     </section>
-  //   </>
-  // );
 }
 
 export default FormPermintaanEdit;

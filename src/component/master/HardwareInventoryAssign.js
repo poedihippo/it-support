@@ -6,7 +6,9 @@ import { useParams } from "react-router-dom";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
+import IsLoading from "../loading"; 
 function HardwareInventoryAssign({ state, dispatch }) {
+  const [isLoad, setIsLoad] = useState(false)
   const [data, setData] = useState([]);
   const [dataStaff, setDataStaff] = useState([]);
   const isStateData = state.currentRow
@@ -25,12 +27,18 @@ function HardwareInventoryAssign({ state, dispatch }) {
     },[])
  
     const assignTo = async (dataAssign) => {
+      setIsLoad(true)
         let isDataAssign = state.currentRow;
         isDataAssign.assign_to = dataAssign.fullname;
         let dataIsAssign = {
             user_id: dataAssign.user_id
         }
         const resAssign = await axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, dataIsAssign, axiosConfig)
+        .then(res => {
+          setIsLoad(false);
+          dispatch({type:"LIST"})
+        })
+        .catch(error => console.log(error.response))
     }
   return (
     <React.Fragment>
@@ -42,7 +50,7 @@ function HardwareInventoryAssign({ state, dispatch }) {
                 <div className="header">
                   <h2>List Staff For Assign</h2>
                 </div>
-                <div className="body">
+                {!isLoad ? (<div className="body">
                   <div className="table-responsive">
                     <table className="table table-bordered table-striped table-hover js-mailing-list dataTable button-demo">
                       <thead>
@@ -84,7 +92,7 @@ function HardwareInventoryAssign({ state, dispatch }) {
                       }}
                     >Back</button>
                   </div>
-                </div>
+                </div>) : <IsLoading />}
               </div>
             </div>
           </div>

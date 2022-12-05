@@ -389,7 +389,6 @@ function FormPermintaanList({ state, dispatch }) {
     setIsDelete(true);
     setIsDataDelete(d)
   }
-  console.log(data, "check data")
   return (
     <React.Fragment>
       <section className="content">

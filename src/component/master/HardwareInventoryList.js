@@ -22,6 +22,9 @@ function HardwareInventoryList({ state, dispatch }) {
       inventori,
       axiosConfig
     );
+    if(result.status === 200){
+      window.location.reload()
+    }
     setData(result.data);
   };
   useEffect(() => {
