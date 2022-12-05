@@ -420,8 +420,8 @@ function FormPermintaanList({ state, dispatch }) {
                       <thead>
                         <tr>
                           <th>Supplier</th>
-                          <th>Tanggal</th>
                           <th>Staff yang request</th>
+                          <th>Tanggal</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -429,8 +429,8 @@ function FormPermintaanList({ state, dispatch }) {
                         {data.map((i) => (
                           <tr key={i.id}>
                             <td>{i.nama_pt}</td>
-                            <td>{i.tanggal_pengajuan}</td>
                             <td>{i.request_by !== null ? i.request_by : "Tidak Ada"}</td>
+                            <td>{i.tanggal_pengajuan}</td>
                             <td>
                               
                               <button
