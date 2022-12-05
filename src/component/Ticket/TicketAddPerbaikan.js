@@ -104,7 +104,7 @@ function TicketAddPerbaikan({ state, dispatch }) {
       }
       try {
         const res = await axios.get(
-          `${config.SERVER_URL}user/mypermintaaninventori`,
+          `${config.SERVER_URL}user/:id/mypermintaaninventori`,
           axiosConfig
         );
         const hardwareInventoriMapping = [];
