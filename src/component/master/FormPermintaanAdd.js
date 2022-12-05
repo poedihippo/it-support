@@ -33,6 +33,7 @@ function FormPermintaanAdd({ state, dispatch }) {
     supplier_id: 0,
     date_available: today,
     tanggal_pengajuan: today,
+    request_by:"",
     alasan_pembelian: "",
     note: "",
     details: [defaultRow],
@@ -63,18 +64,18 @@ function FormPermintaanAdd({ state, dispatch }) {
      
     }
     try {
-      if(!checkError && dataSearch?.length === 1){
-        newObjCc["alasan_pembelian"] = values.alasan_pembelian
-        newObjCc["date_available"] = values.date_available
-        newObjCc["details"] = values.details
-        newObjCc["note"] = values.note;
-        newObjCc["request_by"] = handleStaff.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase(0) + word.substring((1))).join(' ');
-        newObjCc["supplier_id"] = values.supplier_id;
-        newObjCc["tanggal_pengajuan"] = values.tanggal_pengajuan
+      if(!checkError ){
+        // newObjCc["alasan_pembelian"] = values.alasan_pembelian
+        // newObjCc["date_available"] = values.date_available
+        // newObjCc["details"] = values.details
+        // newObjCc["note"] = values.note;
+        // newObjCc["request_by"] = handleStaff.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase(0) + word.substring((1))).join(' ');
+        // newObjCc["supplier_id"] = values.supplier_id;
+        // newObjCc["tanggal_pengajuan"] = values.tanggal_pengajuan
         setIsLoad(true);
         const result = await axios.post(
           `${config.SERVER_URL}formpermintaan`,
-          newObjCc,
+          values,
           axiosConfig
         );
         setIsLoad(false)
@@ -139,10 +140,12 @@ function FormPermintaanAdd({ state, dispatch }) {
     setActiveStaff(true)
   }
   const handleInputBlur = () => {
-    setActiveStaff(false)
+    // setActiveStaff(false)
   }
   const handleSelectStaff = (e) => {
+    console.log("check name")
     setHandleStaff(e.currentTarget.textContent)
+    setActiveStaff(false)
   }
   return (
     <React.Fragment>
@@ -165,7 +168,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                     <Form>
                       <div className="row clearfix">
                         {!isLoad ? (<div className="col-sm-12">
-                          <label> Staff Yang Request</label>
+                          {/* <label> Staff Yang Request</label>
                           <div className="form-group">
                             <div className="form-line" style={{position:"relative"}}>
                               <Field
@@ -185,7 +188,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                                 {
                                   dataSearch !== null && dataSearch?.length !== 0 && dataSearch?.map(isDatas => {
                                     return (
-                                      <div style={{padding:"10px"}} onClick={handleSelectStaff}>{isDatas.fullname}</div>
+                                      <div style={{padding:"10px", cursor: "pointer"}} onClick={(e) => handleSelectStaff(e)}>{isDatas.fullname}</div>
                                     )
                                   })
                                 }
@@ -194,8 +197,9 @@ function FormPermintaanAdd({ state, dispatch }) {
                                 }
                               </div>
                             </div>
-                          </div>
-                          {/* <label>Staff Yang Request</label>
+                          </div> */}
+
+                          <label>Staff Yang Request</label>
                           <div className="form-group">
                             <div className="form-line">
                               <Field as="select" name={`request_by`}>
@@ -212,7 +216,7 @@ function FormPermintaanAdd({ state, dispatch }) {
                                 )}
                               </Field>
                             </div>
-                          </div> */}
+                          </div>
                           <label> Tanggal Pengajuan</label>
                           <div className="form-group">
                             <div className="form-line">

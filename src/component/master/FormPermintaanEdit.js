@@ -77,20 +77,20 @@ function FormPermintaanEdit({state, dispatch}) {
      
     }
     try {
-      if(!checkError && dataSearch.length === 1){
+      if(!checkError){
         
-        newObjCc["alasan_pembelian"] = values.alasan_pembelian
-        newObjCc["date_available"] = values.date_available
-        newObjCc["details"] = values.details
-        newObjCc["note"] = values.note;
-        newObjCc["request_by"] = handleStaff.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase(0) + word.substring((1))).join(' ');
-        newObjCc["supplier_id"] = values.supplier_id;
-        newObjCc["tanggal_pengajuan"] = values.tanggal_pengajuan
+        // newObjCc["alasan_pembelian"] = values.alasan_pembelian
+        // newObjCc["date_available"] = values.date_available
+        // newObjCc["details"] = values.details
+        // newObjCc["note"] = values.note;
+        // newObjCc["request_by"] = handleStaff.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase(0) + word.substring((1))).join(' ');
+        // newObjCc["supplier_id"] = values.supplier_id;
+        // newObjCc["tanggal_pengajuan"] = values.tanggal_pengajuan
 
         setIsLoad(true)
         const result = await axios.put(
           `${config.SERVER_URL}formpermintaan/${idSuplier}`,
-          newObjCc,
+          values,
           axiosConfig
         );
         setIsLoad(false)
@@ -176,10 +176,11 @@ const handleInputFocus = () => {
   setActiveStaff(true)
 }
 const handleInputBlur = () => {
-  setActiveStaff(false)
 }
 const handleSelectStaff = (e) => {
   setHandleStaff(e.currentTarget.textContent)
+  
+  setActiveStaff(false)
 }
   return (
     <React.Fragment>
@@ -201,6 +202,7 @@ const handleSelectStaff = (e) => {
                       tanggal_pengajuan: isData?.tanggal_pengajuan,
                       date_available:isData?.date_available,
                       alasan_pembelian: isData?.alasan_pembelian,
+                      request_by:isData?.request_by,
                       note: isData?.note || "",
                       details: isData?.details,
                     }}
@@ -210,7 +212,7 @@ const handleSelectStaff = (e) => {
                     <Form>
                       <div className="row clearfix">
                         {!isLoad ? (<div className="col-sm-12">
-                        <label> Staff Yang Request</label>
+                        {/* <label> Staff Yang Request</label>
                           <div className="form-group">
                             <div className="form-line" style={{position:"relative"}}>
                               <Field
@@ -239,8 +241,25 @@ const handleSelectStaff = (e) => {
                                 }
                               </div>
                             </div>
+                          </div> */}
+                          <label>Staff Yang Request</label>
+                          <div className="form-group">
+                            <div className="form-line">
+                              <Field as="select" name={`request_by`}>
+                                <option value={0}>Pilih Staff</option>
+                                {loginData.map(
+                                  (staffItem, supplierIndex) => (
+                                    <option
+                                      value={staffItem.fullname}
+                                      key={`option-${supplierIndex}`}
+                                    >
+                                      {staffItem.fullname}
+                                    </option>
+                                  )
+                                )}
+                              </Field>
+                            </div>
                           </div>
-                          
                           <label> Tanggal</label>
                           <div className="form-group">
                             <div className="form-line">
