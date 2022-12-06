@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuthenticationService from "./../../logic/AuthenticationService";
 import ActiveMenu from "./SideMenu.data";
 import { redirectLogout } from '../../config/redirect';
 import { useLocation } from 'react-router-dom';
 import RightIcon from '../../image/right-arrow.png'
+import axios from "axios";
+import config from '../../config.json';
 function SideMenu({ user }) {
   const location = useLocation();
   const pathname = location.pathname.replace('/', '').toUpperCase();
-  const [isLogout, setIsLogout] = useState(false)
+  const [isLogout, setIsLogout] = useState(false);
+  const [dataMenuUser, setDataMenuUser] = useState([]);
   const userData = AuthenticationService.getLocalCredential();
+  const axiosConfig = AuthenticationService.getAxiosConfig()
   const activeMenu = ActiveMenu();
   const keyLocalStorage = ['token', 'email', 'id', 'profile_image', 'userName']
   const handleLogout = () => {
@@ -18,6 +22,167 @@ function SideMenu({ user }) {
     });
     resRemove && setIsLogout(true)
   }
+
+  const menuSideBar = [
+    {
+      name:"Email",
+      code:"email",
+      id:291874,
+      isPath:"",
+      child: [
+        {
+          name: "Mailing List", 
+          code:"mailing-list", 
+          isPath:"/mailinglist",
+          id:291856
+        },
+        {
+          name:"Public Email", 
+          code: "public-email", 
+          isPath: "/publicemail",
+          id:291843
+        },
+        {
+          name: "User List", 
+          code: "user-list", 
+          isPath:"userlist",
+          id:291556
+        }
+      ]
+    },
+    {
+      name:"Master",
+      code:"master",
+      id:497281,
+      isPath: "",
+      child: [
+        {
+          name: "Public Page", 
+          code:"public-page", 
+          id:497251, 
+          isPath:"",
+          inChild:[
+            {
+              name:"FAQ", 
+              code:"faq", 
+              id:497001,
+              isPath: "/faq"
+            },
+            {
+              name:"Tips and Trick",
+              code:"tips-and-trick",
+              id:498001,
+              isPath: "/tipsandtrick"
+            },
+            {
+              name:"Media and Download",
+              code: "media-and-download",
+              id:499001,
+              isPath: "/mediaanddownload"
+            }
+          ]
+        },
+        {
+          name:"Supplier/Vendor",
+          code:"supplier/vendor",
+          id:492819,
+          isPath: "/suppliervendor"
+        },
+        {
+          name:"Hardware",
+          code: "hardware",
+          id: 4921102,
+          isPath:"",
+          inChild:[
+            {
+              name:"Hardware Specification",
+              code:"hardware-specification",
+              id:49002912,
+              isPath:"/hardware-spec"
+            },
+            {
+              name:"Perbaikan Hardware",
+              code: "perbaikan-hardware",
+              id:49220192,
+              isPath: "/perbaikan-hardware"
+            }
+          ]
+        },
+        {
+          name:"Software",
+          code:"software",
+          id: 902817,
+          isPath:"/software"
+        },
+        {
+          name:"Form Permintaan",
+          code: "form-permintaan",
+          id: 2819201,
+          isPath: "/form-permintaan"
+        }
+      ]
+    },
+    {
+      name: "Ticket",
+      code: "ticket",
+      id: 99281720,
+      isPath: "",
+      child: [
+        {
+          name:"Ticket List (Admin)",
+          code: "ticket-list-admin",
+          id: 99201928,
+          isPath: "/ticket-list"
+        },
+        {
+          name: "My Ticket List",
+          code: "my-ticket-list",
+          id:992819203,
+          isPath: "/my-ticket-list"
+        },
+        {
+          name: "My Staff Ticket List",
+          code: "my-staff-ticket-list",
+          id: 99201954,
+          isPath: "/my-staff-ticket-list"
+        },
+        {
+          name: "Open Ticket",
+          code: "open-ticket",
+          id: 99200192,
+          isPath: "/ticket-open"
+        }
+      ]
+    },
+    {
+      name: "FAQ",
+      code:"faq-preview",
+      id: 66758201,
+      isPath: "/faq-preview",
+    },
+    {
+      name: "Tips and Trick",
+      code: "tips-and-trick",
+      id: 68827182,
+      isPath: "/tips-and-trick-preview"
+    },
+    {
+      name: "Media And Download",
+      code: "media-and-download",
+      id: 55627182,
+      isPath: "media-and-download-preview"
+    }
+  ];
+  // useEffect(() => {
+  //   getMenuUser = async () => {
+  //     try{
+  //       const res = axios.get()
+  //     }catch(error){
+  //       console.log(error.response)
+  //     }
+  //   }
+  //   getMenuUser()
+  // }, [])
   return (
     <section>
       <aside id="leftsidebar" className="sidebar">
@@ -98,25 +263,8 @@ function SideMenu({ user }) {
         <div className="menu">
           <ul className="list">
             <li className="header">MAIN NAVIGATION</li>
-            {/* <li>
-              <a href="../../index.html">
-                <i className="material-icons">home</i>
-                <span>Home</span>
-              </a>
-            </li>
-            <li>
-              <a href="../../pages/typography.html">
-                <i className="material-icons">text_fields</i>
-                <span>Typography</span>
-              </a>
-            </li>
-            <li>
-              <a href="../../pages/helper-classNamees.html">
-                <i className="material-icons">layers</i>
-                <span>Helper classNamees</span>
-              </a>
-            </li> */}
-            <li>
+           
+            <li >
               <a href="#" className={`menu-toggle ${activeMenu["EMAIL"]}`}>
                 <i className="material-icons"></i>
                 <span style={{color: activeMenu["EMAIL"] !== undefined ? "red" : "black" }}>Email </span>

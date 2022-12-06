@@ -65,6 +65,7 @@ function FormPermintaanAdd({ state, dispatch }) {
     }
     try {
       if(!checkError ){
+        console.log(values, "cjec values")
         // newObjCc["alasan_pembelian"] = values.alasan_pembelian
         // newObjCc["date_available"] = values.date_available
         // newObjCc["details"] = values.details

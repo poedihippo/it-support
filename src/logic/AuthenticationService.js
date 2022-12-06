@@ -59,7 +59,6 @@ export default class AuthService {
         login_token: login_token,
       });
       const data = await response.data;
-      console.log(data);
       if (data.error_code === 0) {
         AuthService.setLocalCredential(
           data.payload.userData.user_id,
