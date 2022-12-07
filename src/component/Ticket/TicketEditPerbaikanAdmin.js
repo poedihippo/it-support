@@ -67,6 +67,7 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
         isData.append(keyObj.toString(), values[keyObj])
       }  
     }
+    isData.append('user', state.userState);
     isData.append('image1path', upldImage.image1);
     isData.append('image2path', upldImage.image2);
     isData.append('image3path', upldImage.image3);
