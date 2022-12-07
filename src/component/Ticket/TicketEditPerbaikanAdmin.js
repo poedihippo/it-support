@@ -62,32 +62,38 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
   const onSubmit = async (values) => {
     const isData = new FormData();
     
-    for(let keyObj in values){
-      console.log(values[keyObj])
-      isData.append(keyObj.toString(), values[keyObj])  
-    }
+    // for(let keyObj in values){
+    //   isData.append(keyObj.toString(), values[keyObj])  
+    // }
     isData.append('image1path', upldImage.image1);
     isData.append('image2path', upldImage.image2);
     isData.append('image3path', upldImage.image3);
-    // console.log(isData.entries(), "chcek lagi", state.userState)
+    isData.append('alasan', values?.alasan);
+    isData.append('inventoris', values?.inventoris);
+    isData.append('jenis_perbaikan', values?.jenis_perbaikan);
+    isData.append('subject', values?.subject);
+    isData.append('id', values?.id)
+    console.log("chcek lagi", values)
     setIsLoad(true)
     try {
-      // const res = await axios.put(`${config.SERVER_URL}ticketperbaikan`,
-      // {ticket:isData, user:state.userState},
-      // {
-      //   headers:{
-      //     "Content-Type": "multipart/form-data",
-      //     Authorization: "Bearer " + localStorage.getItem("token")
-      //   },
+      const res = await axios.put(`${config.SERVER_URL}ticketperbaikan`,
+      {ticket:values, user:state.userState, fileImage:isData},
+      {
+        headers:{
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
         
-      // })
+      })
+
+      
+      // const res = await axios.put(
+      //   `${config.SERVER_URL}ticketperbaikan`,
+      //   { ticket: values, user: state.userState },
+      //   axiosConfig
+      // );
 
 
-      const res = await axios.put(
-        `${config.SERVER_URL}ticketperbaikan`,
-        { ticket: values, user: state.userState },
-        axiosConfig
-      );
       setIsLoad(false)
       dispatch({ type: "VIEW", id: res.data.id, row: res.data });
     } catch (e) {
@@ -336,9 +342,9 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
                   <div className="col-sm-12">
                     <label> Alasan</label>
                     <div style={{display:"flex", justifyContent: "space-around"}}>
-                      <UpldFile isId="image1" isHtmlFor="image1" isName="image1" handleChangeImage={handleEventChange} preImage={isImage?.image1 === "" ? initialValues.image1path === "" ? "" : `http://localhost:3000${initialValues.image1path}` : isImage?.image1} handleRemoveImage={() => handleRemoveImage('image1')}/>
-                      <UpldFile isId="image2" isHtmlFor="image2" isName="image2" handleChangeImage={handleEventChange} preImage={isImage?.image2 === "" ? initialValues.image2path ==="" ? "" : `http://localhost:3000${initialValues.image2path}` : isImage?.image2} handleRemoveImage={() => handleRemoveImage('image2')}/>
-                      <UpldFile isId="image3" isHtmlFor="image3" isName="image3" handleChangeImage={handleEventChange} preImage={isImage?.image3 === "" ? initialValues.image3path === "" ?"" : `http://localhost:3000${initialValues.image3path}` : isImage?.image3}handleRemoveImage={() => handleRemoveImage('image3')}/>
+                      <UpldFile isId="image1" isHtmlFor="image1" isName="image1" handleChangeImage={handleEventChange} preImage={isImage?.image1 === "" ? initialValues.image1path === "" ? "" : `${config.SERVER_BASE_URL}${initialValues.image1path}` : isImage?.image1} handleRemoveImage={() => handleRemoveImage('image1')}/>
+                      <UpldFile isId="image2" isHtmlFor="image2" isName="image2" handleChangeImage={handleEventChange} preImage={isImage?.image2 === "" ? initialValues.image2path ==="" ? "" : `${config.SERVER_BASE_URL}${initialValues.image2path}` : isImage?.image2} handleRemoveImage={() => handleRemoveImage('image2')}/>
+                      <UpldFile isId="image3" isHtmlFor="image3" isName="image3" handleChangeImage={handleEventChange} preImage={isImage?.image3 === "" ? initialValues.image3path === "" ?"" : `${config.SERVER_BASE_URL}${initialValues.image3path}` : isImage?.image3}handleRemoveImage={() => handleRemoveImage('image3')}/>
                     </div>
                     <div className="form-group">
                       <div className="form-line">
@@ -360,8 +366,8 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
                   style={{marginLeft:"40px"}}
                   className="btn btn-primary waves-effect"
                   onClick={() => {
-                  window.location.assign('/ticket-list')
-                }}
+                    dispatch({type:"LIST"})
+                  }}
                 >Back</button>
                   </div>
                 </div>
