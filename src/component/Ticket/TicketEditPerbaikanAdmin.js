@@ -62,25 +62,27 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
   const onSubmit = async (values) => {
     const isData = new FormData();
     
-    // for(let keyObj in values){
-    //   isData.append(keyObj.toString(), values[keyObj])  
-    // }
+    for(let keyObj in values){
+      if(keyObj !== 'image1path' && keyObj !== 'image2path' && keyObj !== 'image3path'){
+        isData.append(keyObj.toString(), values[keyObj])
+      }  
+    }
     isData.append('image1path', upldImage.image1);
     isData.append('image2path', upldImage.image2);
     isData.append('image3path', upldImage.image3);
-    isData.append('alasan', values?.alasan);
-    isData.append('inventoris', values?.inventoris);
-    isData.append('jenis_perbaikan', values?.jenis_perbaikan);
-    isData.append('subject', values?.subject);
-    isData.append('id', values?.id)
-    console.log("chcek lagi", values)
+    // isData.append('alasan', values?.alasan);
+    // isData.append('inventoris', values?.inventoris);
+    // isData.append('jenis_perbaikan', values?.jenis_perbaikan);
+    // isData.append('subject', values?.subject);
+    // isData.append('id', values?.id)
+    // console.log("chcek lagi", values)
     setIsLoad(true)
     try {
       const res = await axios.put(`${config.SERVER_URL}ticketperbaikan`,
-      {ticket:values, user:state.userState, fileImage:isData},
+      isData,
       {
         headers:{
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: "Bearer " + localStorage.getItem("token")
         },
         
