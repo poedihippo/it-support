@@ -261,7 +261,7 @@ function HardwareInventoryAddStock() {
   }
 
   const handleSpekFocus = (event, indx, spekIndx) => {
-    setCheckType({type: indx+1,name: objectForSpek[`spek${spekIndx}`][`type${indx+1}`], spek:`spek${spekIndx}`})
+    setCheckType({type: indx+1,name: "", spek:`spek${spekIndx}`})
     setIsFocus(true);
 
   }
