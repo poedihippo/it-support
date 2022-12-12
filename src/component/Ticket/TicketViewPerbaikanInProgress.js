@@ -588,9 +588,9 @@ function TicketViewPerbaikanInProgress({
                 <div className="col-sm-12">
                   <label> Alasan</label>
                   <div className="img-ticket" style={{display:"flex", justifyContent: "space-around"}}>
-                    <ImageTicket srcImg={initialValues?.image1path === "" ?"":`http://localhost:3000${initialValues?.image1path}`}/>
-                    <ImageTicket srcImg={initialValues?.image2path === "" ?"":`http://localhost:3000${initialValues?.image2path}`}/>
-                    <ImageTicket srcImg={initialValues?.image3path === "" ?"":`http://localhost:3000${initialValues?.image3path}`}/>
+                    <ImageTicket srcImg={initialValues?.image1path === "" ?"":`${config.SERVER_BASE_URL}${initialValues?.image1path}`}/>
+                    <ImageTicket srcImg={initialValues?.image2path === "" ?"":`${config.SERVER_BASE_URL}${initialValues?.image2path}`}/>
+                    <ImageTicket srcImg={initialValues?.image3path === "" ?"":`${config.SERVER_BASE_URL}${initialValues?.image3path}`}/>
                   </div>
                   <div className="form-group">
                     <div className="form-line">

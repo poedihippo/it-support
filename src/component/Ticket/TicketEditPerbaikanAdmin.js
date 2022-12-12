@@ -63,11 +63,18 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
     const isData = new FormData();
     
     for(let keyObj in values){
-      if(keyObj !== 'image1path' && keyObj !== 'image2path' && keyObj !== 'image3path'){
+      if(keyObj !== 'image1path' && keyObj !== 'image2path' && keyObj !== 'image3path' && keyObj !== 'inventoris' && keyObj !== 'messages'){
         isData.append(keyObj.toString(), values[keyObj])
       }  
     }
     isData.append('user', state.userState);
+    for (const valuee of values.inventoris) {
+      isData.append("inventoris[]", valuee);
+    }
+   
+    // isData.append('inventoris', );
+    // isData.append('messages', values.messages);
+    isData.append('jenis_ticket', "PERBAIKAN")
     isData.append('image1path', upldImage.image1);
     isData.append('image2path', upldImage.image2);
     isData.append('image3path', upldImage.image3);
@@ -77,9 +84,10 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
     // isData.append('subject', values?.subject);
     // isData.append('id', values?.id)
     // console.log("chcek lagi", values)
+
     setIsLoad(true)
     try {
-      const res = await axios.put(`${config.SERVER_URL}ticketperbaikan`,
+      const res = await axios.put(`${config.SERVER_URL}ticketperbaikan/${values.id}`,
       isData,
       {
         headers:{
@@ -89,7 +97,7 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
         
       })
 
-      
+      console.log(res, "check res")
       // const res = await axios.put(
       //   `${config.SERVER_URL}ticketperbaikan`,
       //   { ticket: values, user: state.userState },

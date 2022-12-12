@@ -43,7 +43,7 @@ function TicketAdd() {
                     </div>
                   </div>
 
-                  {pageState === "Perbaikan" ? <TicketAddPerbaikan /> : null}
+                  {pageState === "Perbaikan" ? <TicketAddPerbaikan jenisTicket="PERBAIKAN"/> : null}
                   {pageState === "Permintaan" ? <TicketAddPermintaan /> : null}
                   {pageState === "Peminjaman" ? <TicketAddPeminjaman /> : null}
                 </div>

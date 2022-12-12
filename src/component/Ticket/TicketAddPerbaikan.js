@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import IsLoading from "../loading";
 import dateFormat from "dateformat";
 import '../../stylei.css'
-function TicketAddPerbaikan({ state, dispatch }) {
+function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
   const [jenisPerbaikan, setJenisPerbaikan] = useState([]);
   const [hardwareInventoriData, setHardwareInventoriData] = useState({
     list: [],
@@ -60,6 +60,8 @@ function TicketAddPerbaikan({ state, dispatch }) {
   const validationSchema = Yup.object({});
   const onSubmit = async (values) => {
     let data = new FormData();
+    const checkUndef = undefined;
+    console.log(!checkUndef == undefined)
     // setIsLoad(true)
     data.append("image1path", uploadImage.image1);
     data.append("image2path", uploadImage.image2);
@@ -67,10 +69,25 @@ function TicketAddPerbaikan({ state, dispatch }) {
     data.append("subject", values.subject);
     data.append("tanggal_pengajuan", values.tanggal_pengajuan);
     data.append("jenis_perbaikan", values.jenis_perbaikan);
+    data.append("jenis_ticket", jenisTicket);
     data.append("alasan", values.alasan);
-    data.append("inventoris", values.inventoris);
-    setIsLoad(true)
+    for(let invVal of values.inventoris){
+      data.append('inventoris', invVal)
+    }
+    for (var pair of data.entries()) {
+      console.log(pair[0]+ ', ' + pair[1]); 
+    }
+    console.log(values, "check values", jenisTicket)
+    // data.append("inventoris", values.inventoris);
+    // setIsLoad(true)
     try {
+      console.log('inv gan', data)
+      console.log('values gan', values)
+
+      values.image1path = uploadImage.image1
+      values.image2path = uploadImage.image2
+      values.image3path = uploadImage.image3
+      console.log('values new', values)
       const res = await axios.post(
         `${config.SERVER_URL}ticketperbaikan`,data,
           {
@@ -82,13 +99,16 @@ function TicketAddPerbaikan({ state, dispatch }) {
           }
       );
       setIsLoad(false)
-      history.push("/ticket-list");
+      console.log(res, "check res ticket perbaikan add")
+      // history.push("/ticket-list");
     } catch (error) {
       console.log(error.response);
     }
   };
   
   useEffect(() => {
+    const yallArr = '["invinit", "laki laki]'
+    console.log(yallArr.split(''), "check yall ")
     const getData = async () => {
       try {
         const res = await axios.get(
