@@ -69,7 +69,7 @@ const assignForRepairs = async () => {
         let isDataAssign = state.currentRow;
         isDataAssign.assign_to = dataAssign.fullname;
         let dataIsAssign = {
-            user_ids: dataAssign.user_id
+            user_ids: [dataAssign.user_id]
         }
         const resAssign = await axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, dataIsAssign, axiosConfig)
         .then(res => {
