@@ -33,12 +33,15 @@ const assignForRepairs = async () => {
     let postObj = {
       user_ids: postArr
     }
-    console.log(postObj, "check obj")
-    axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, postObj, axiosConfig)
+    if(postArr.length !== 0){
+      axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, postObj, axiosConfig)
         .then(res => {
-          console.log(res, "check result assign")
+          if(res.status === 200){
+            window.location.assign(`/hardware-inventori/${isStateData?.hardware_spesifikasi_id}`)
+          }
         })
         .catch(error => console.log(error.response))
+    }
 
 
     // const result = await axios.post(
@@ -60,7 +63,6 @@ const assignForRepairs = async () => {
                 responsive: true,
               });
         }
-        console.log(parseInt(idCh), "check id ch")
         listStaff()
 
         const getChannels = () => {
@@ -78,14 +80,15 @@ const assignForRepairs = async () => {
       setIsLoad(true)
         // let isDataAssign = state?.currentRow;
         let isDataAssign = history?.location?.state
-        isDataAssign.assign_to = dataAssign.fullname;
+        isDataAssign.assign_to = dataAssign?.fullname;
         let dataIsAssign = {
-            user_id: dataAssign.user_id
+            user_ids: dataAssign
         }
         const resAssign = await axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, dataIsAssign, axiosConfig)
         .then(res => {
           setIsLoad(false);
-          dispatch({type:"LIST"})
+          // dispatch({type:"LIST"})
+          window.location.assign(`/hardware-inventori/${isStateData?.hardware_spesifikasi_id}`)
         })
         .catch(error => console.log(error.response))
     }
@@ -127,7 +130,6 @@ const assignForRepairs = async () => {
       for(let arrEl of toArr){
         count = count + 1
         const filterId = dataStaff.filter(d => d?.fullname?.toUpperCase() === arrEl?.dataset?.hardware?.toUpperCase())
-        console.log(filterId, "check id")
         newObjCheck[`check${count}`] = {isCheck:true, id:filterId[0]?.user_id}
       }
     }else{
@@ -161,7 +163,7 @@ const assignForRepairs = async () => {
                 </div>
                 {!isLoad ? (<div className="body">
                 <div style={{display:"flex", gap:"20px", marginBottom:"5px"}} className="remove-bootstrap">
-                    <select id="removes" onChange={handleSortByCh}>
+                    <select id="removes" onChange={handleSortByCh} style={{width: "50%"}}>
                         <option value={0}>pilih channel</option>
                         <option value={0}>Default</option>
                         {dataCh.length !== 0 && dataCh.map(dc => {
@@ -221,7 +223,8 @@ const assignForRepairs = async () => {
                         
                         className="btn btn-primary waves-effect"
                         onClick={() => {
-                            dispatch({type: "LIST"})
+                            // dispatch({type: "LIST"})
+                            window.location.assign(`/hardware-inventori/${isStateData?.hardware_spesifikasi_id}`)
                       }}
                     >Back</button>
                   </div>

@@ -71,6 +71,7 @@ const assignForRepairs = async () => {
         let dataIsAssign = {
             user_ids: [dataAssign.user_id]
         }
+        console.log(dataIsAssign, "check data assign")
         const resAssign = await axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, dataIsAssign, axiosConfig)
         .then(res => {
           setIsLoad(false);
