@@ -12,7 +12,6 @@ function HardwareInventoryAssign({ state, dispatch }) {
   const [data, setData] = useState([]);
   const [dataStaff, setDataStaff] = useState([]);
   const isStateData = state.currentRow
-  console.log(isStateData, "cehcek data state")
   const axiosConfig = AuthenticationService.getAxiosConfig();
 //   const { hardwareSpecId } = state;
   const [handleCheck, setHandleCheck] = useState({});
@@ -29,15 +28,19 @@ const assignForRepairs = async () => {
         postArr.push(handleCheck[keyObj]?.id)
       }
     }
-    console.log(postArr, "check assign array")
-    // const result = await axios.post(
-    //   `${config.SERVER_URL}hardwareinventori/assignforrepair`,
-    //   postArr,
-    //   axiosConfig
-    // );
-    // if(result.status === 200){
-    //   window.location.reload()
-    // }
+    let dataIsAssign = {
+      user_ids: postArr
+    }
+    if(postArr.length !== 0){
+      const result = await axios.post(
+        `${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`,
+        dataIsAssign,
+        axiosConfig
+      );
+      if(result.status === 200){
+        window.location.reload()
+      }
+    }
     // setData(result.data);
   }
     useEffect(() => {
@@ -48,7 +51,6 @@ const assignForRepairs = async () => {
                 responsive: true,
               });
         }
-        console.log(parseInt(idCh), "check id ch")
         listStaff()
 
         const getChannels = () => {
@@ -67,7 +69,7 @@ const assignForRepairs = async () => {
         let isDataAssign = state.currentRow;
         isDataAssign.assign_to = dataAssign.fullname;
         let dataIsAssign = {
-            user_id: dataAssign.user_id
+            user_ids: dataAssign.user_id
         }
         const resAssign = await axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, dataIsAssign, axiosConfig)
         .then(res => {
@@ -114,7 +116,6 @@ const assignForRepairs = async () => {
       for(let arrEl of toArr){
         count = count + 1
         const filterId = dataStaff.filter(d => d?.fullname?.toUpperCase() === arrEl?.dataset?.hardware?.toUpperCase())
-        console.log(filterId, "check id")
         newObjCheck[`check${count}`] = {isCheck:true, id:filterId[0]?.user_id}
       }
     }else{
@@ -136,7 +137,6 @@ const assignForRepairs = async () => {
       // }
       // console.log(parseInt(e.target.value), "sama check value", res)
   }
-  console.log("check data user", parseInt(idCh) !== 0 ? idCh : "berarti nol");
   const tableData = (isData) => {
     const els = isData.map((i, indx) => {
       return (
