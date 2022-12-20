@@ -2,6 +2,7 @@ import { Route, useLocation, useHistory } from "react-router-dom";
 
 // Hapus di bawah ini
 import RunGetss from "./component/master/aTestpdf";
+import HardwareInventoryAssign from "./component/master/HardwareInventoryAssignOld";
 // Hapus di atas ini
 import RequireAuth from "./logic/require";
 import AuthenticationService from "./logic/AuthenticationService";
@@ -111,6 +112,7 @@ function App() {
               path="/hardware-inventori/:id"
               component={HardwareInventory}
             />
+            <Route exact path="/hardware-inventori-assign-to" component={HardwareInventoryAssign}/>
             <Route
               exact
               path="/hardware-inventori-view/:id"

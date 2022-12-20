@@ -51,6 +51,8 @@ const reducer = (state, action) => {
 
 function Ticket({ user }) {
   initialState.userState = user;
+  localStorage.setItem('isUser', user);
+  console.log('masuk ke dala sini ini')
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (

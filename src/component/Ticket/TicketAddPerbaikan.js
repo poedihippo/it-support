@@ -33,8 +33,21 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
     inventori_id: 0,
     keterangan: "",
   };
-  const handleImageChange = (e) => {
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+          resolve(reader.result)
+      };
+      reader.onerror = function (error) {
+          reject(error)
+        };
+      })
+  }
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
+
     setIsImage(prev => {
       return {
         ...prev,
@@ -55,60 +68,52 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
     jenis_perbaikan: "",
     alasan: "",
     inventoris: [],
-    gambar: isImage,
   };
   const validationSchema = Yup.object({});
   const onSubmit = async (values) => {
+    
+    let newDatt = {}
     let data = new FormData();
     const checkUndef = undefined;
-    console.log(!checkUndef == undefined)
-    // setIsLoad(true)
-    data.append("image1path", uploadImage.image1);
-    data.append("image2path", uploadImage.image2);
-    data.append("image3path", uploadImage.image3);
-    data.append("subject", values.subject);
-    data.append("tanggal_pengajuan", values.tanggal_pengajuan);
-    data.append("jenis_perbaikan", values.jenis_perbaikan);
-    data.append("jenis_ticket", jenisTicket);
-    data.append("alasan", values.alasan);
-    for(let invVal of values.inventoris){
-      data.append('inventoris', invVal)
-    }
-    for (var pair of data.entries()) {
-      console.log(pair[0]+ ', ' + pair[1]); 
-    }
-    console.log(values, "check values", jenisTicket)
-    // data.append("inventoris", values.inventoris);
-    // setIsLoad(true)
+    data.append('subject', values.subject);
+    data.append('tanggal_pengajuan', values.tanggal_pengajuan)
+    data.append('jenis_perbaikan', values.jenis_perbaikan)
+    data.append('alasan', values.alasan)
+    values.inventoris.forEach((isd, idx) => {
+      data.append('inventoris[]', JSON.stringify(values.inventoris[idx]))
+    })
+    data.append('jenis_ticket', jenisTicket)
+    data.append('image1path', uploadImage.image1)
+    data.append('image2path', uploadImage.image2)
+    data.append('image3path', uploadImage.image3)
+    data.append('coba', JSON.stringify(values.inventoris))
+    
+    
     try {
-      console.log('inv gan', data)
-      console.log('values gan', values)
-
-      values.image1path = uploadImage.image1
-      values.image2path = uploadImage.image2
-      values.image3path = uploadImage.image3
-      console.log('values new', values)
       const res = await axios.post(
-        `${config.SERVER_URL}ticketperbaikan`,data,
-          {
-            headers:{
-              "Content-Type": "multipart/form-data",
-              Authorization: "Bearer " + localStorage.getItem("token")
-            },
-            
-          }
+        `${config.SERVER_URL}ticketperbaikan`,data,{
+          headers:{
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + localStorage.getItem("token")
+          },
+        }
       );
-      setIsLoad(false)
-      console.log(res, "check res ticket perbaikan add")
-      // history.push("/ticket-list");
+      console.log(res, "check res")
+      if(res.status === 200){
+        setIsLoad(false)
+        // history.push("/ticket-list");
+      }
     } catch (error) {
       console.log(error.response);
     }
   };
-  
   useEffect(() => {
+    const arraStr = '["ss", "ll", "pp"]';
+    const resArrStr = JSON.parse(arraStr);
+    console.log(typeof resArrStr === 'ARRAY', "ceck hasil parse json", arraStr, resArrStr);
+
+
     const yallArr = '["invinit", "laki laki]'
-    console.log(yallArr.split(''), "check yall ")
     const getData = async () => {
       try {
         const res = await axios.get(

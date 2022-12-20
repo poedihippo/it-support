@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import $ from "jquery";
 import "datatables.net";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
@@ -11,8 +11,9 @@ function HardwareInventoryAssign({ state, dispatch }) {
   const [isLoad, setIsLoad] = useState(false)
   const [data, setData] = useState([]);
   const [dataStaff, setDataStaff] = useState([]);
-  const isStateData = state.currentRow
-  console.log(isStateData, "cehcek data state")
+  const history = useHistory()
+  // const isStateData = state?.currentRow
+  const isStateData = history?.location?.state
   const axiosConfig = AuthenticationService.getAxiosConfig();
 //   const { hardwareSpecId } = state;
   const [handleCheck, setHandleCheck] = useState({});
@@ -20,7 +21,7 @@ function HardwareInventoryAssign({ state, dispatch }) {
   const [dataCh, setDataCh] = useState([]);
   const [idCh, setIdCh] = useState(0)
   const [checkBoxAll, setCheckBoxAll] = useState(false)
-  const [dataSort, setDataSort] = useState([])
+  
   const refCheck = useRef()
 const assignForRepairs = async () => {
     let postArr = []
@@ -29,7 +30,17 @@ const assignForRepairs = async () => {
         postArr.push(handleCheck[keyObj]?.id)
       }
     }
-    console.log(postArr, "check assign array")
+    let postObj = {
+      user_ids: postArr
+    }
+    console.log(postObj, "check obj")
+    axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, postObj, axiosConfig)
+        .then(res => {
+          console.log(res, "check result assign")
+        })
+        .catch(error => console.log(error.response))
+
+
     // const result = await axios.post(
     //   `${config.SERVER_URL}hardwareinventori/assignforrepair`,
     //   postArr,
@@ -42,7 +53,8 @@ const assignForRepairs = async () => {
   }
     useEffect(() => {
         const listStaff = async () => {
-            const res = await axios.get(`${config.SERVER_URL}logindata?cabang_id=${parseInt(idCh) !== 0 ? parseInt(idCh) :"" }`, axiosConfig);
+            const channelId = localStorage.getItem('channel_id');
+            const res = await axios.get(`${config.SERVER_URL}logindata?cabang_id=${parseInt(channelId) !== 0 && channelId !== undefined && channelId !== null ? parseInt(channelId) : "" }`, axiosConfig);
             setDataStaff(res.data)
             $(".js-mailing-list").DataTable({
                 responsive: true,
@@ -64,7 +76,8 @@ const assignForRepairs = async () => {
  
     const assignTo = async (dataAssign) => {
       setIsLoad(true)
-        let isDataAssign = state.currentRow;
+        // let isDataAssign = state?.currentRow;
+        let isDataAssign = history?.location?.state
         isDataAssign.assign_to = dataAssign.fullname;
         let dataIsAssign = {
             user_id: dataAssign.user_id
@@ -129,40 +142,15 @@ const assignForRepairs = async () => {
     setHandleCheck(newObjCheck)
   }
   const handleSortByCh = async (e) => {
-      setIdCh(e.target.value)
+      localStorage.setItem('channel_id', e.target.value);
+      window.location.reload();
+      // setIdCh(e.target.value)
       // const res = await axios.get(`${config.SERVER_URL}logindata?cabang_id=1`, axiosConfig);
-      // if(res.status === 200){
-      //   setDataSort(res.data)
-      // }
       // console.log(parseInt(e.target.value), "sama check value", res)
   }
-  console.log("check data user", parseInt(idCh) !== 0 ? idCh : "berarti nol");
-  const tableData = (isData) => {
-    const els = isData.map((i, indx) => {
-      return (
-        <tr key={indx} data-hardware={i.fullname}>
-                            <td><input type="checkbox" name={`check${indx+1}`} style={{position:"static", opacity:"1"}} checked={handleCheck[`check${indx+1}`]?.isCheck ? true : false} class="cls"onChange={(e) => handleCheckEvent(e, i.user_id)}/></td>
-                            <td>{i.fullname}</td>
-                            <td>{i.username}</td>
-                            <td>{i.email}</td>
-                            <td>
-                                <button
-                                  type="button"
-                                  className="btn btn-primary waves-effect "
-                                  onClick={() => {
-                                    assignTo(i);
-                                  }}
-                                >
-                                  Assign To
-                                </button>
-                            </td>
-                          </tr>
-      )
-    })
-    return els
-  }
+  // console.log("check data user", parseInt(idCh) !== 0 ? idCh : "berarti nol")
   return (
-    <div>
+    <>
       <section className="content">
         <div className="container-fluid">
           <div className="row clearfix">
@@ -175,6 +163,7 @@ const assignForRepairs = async () => {
                 <div style={{display:"flex", gap:"20px", marginBottom:"5px"}} className="remove-bootstrap">
                     <select id="removes" onChange={handleSortByCh}>
                         <option value={0}>pilih channel</option>
+                        <option value={0}>Default</option>
                         {dataCh.length !== 0 && dataCh.map(dc => {
                           return(
                             <option key={dc.id} value={dc.id}>{dc.code}</option>
@@ -188,7 +177,6 @@ const assignForRepairs = async () => {
                         // onClick={() => setIsChecked(!isChecked)}
                       >
                           Assign To Selected Rows
-                          
                       </button>
                       
                   </div>
@@ -205,8 +193,26 @@ const assignForRepairs = async () => {
                         </tr>
                       </thead>
                       <tbody ref={refCheck}>
-                        {dataStaff.length !== 0 && tableData(dataStaff)}
-                      
+                      {dataStaff.length !== 0 & dataStaff !== null && dataStaff !== undefined && dataStaff.map((i, indx) => {
+                        return (
+                          <tr key={indx} data-hardware={i.fullname}>
+                            <td><input type="checkbox" name={`check${indx+1}`} style={{position:"static", opacity:"1"}} checked={handleCheck[`check${indx+1}`]?.isCheck ? true : false} class="cls"onChange={(e) => handleCheckEvent(e, i.user_id)}/></td>
+                            <td>{i.fullname}</td>
+                            <td>{i.username}</td>
+                            <td>{i.email}</td>
+                            <td>
+                                <button
+                                  type="button"
+                                  className="btn btn-primary waves-effect "
+                                  onClick={() => {
+                                    assignTo([i.user_id]);
+                                  }}
+                                >
+                                  Assign To
+                                </button>
+                            </td>
+                          </tr>
+                        )})}
                       </tbody>
                     </table>
                   </div>
@@ -225,7 +231,7 @@ const assignForRepairs = async () => {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
 

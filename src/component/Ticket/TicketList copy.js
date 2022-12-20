@@ -111,7 +111,8 @@ function TicketList({ state, dispatch }) {
                                 state.userState === "SUPERVISOR") ||
                               ((i.status === 2 || i.status === 3) &&
                                 state.userState === "ADMIN") ||
-                              (i.jenis_ticket === "PERBAIKAN") ? (
+                              (i.jenis_ticket === "PERBAIKAN" &&
+                                state.userState === "ADMIN") ? (
                                 <button
                                   type="button"
                                   className="btn btn-primary waves-effect "

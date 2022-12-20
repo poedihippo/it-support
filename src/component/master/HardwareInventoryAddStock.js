@@ -73,11 +73,20 @@ function HardwareInventoryAddStock() {
   const [isConsumable, setIsConsumable] = useState(true);
   const [isError, setIsError] = useState(false);
   const [dataError, setdataError] = useState([]);
-  const [objectForSpek, setObjectForSpek] = useState({})
+  const [objectForSpek, setObjectForSpek] = useState({
+    spek0: {
+      type1: "",
+      type2:"",
+      type3:"",
+      type4:"",
+      type5:"",
+      type6:""
+    }
+  })
   const [dataSpek, setDataSpek] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
   const [checkType, setCheckType] = useState({})
-  const [searchForm, setSearchForm] = useState({});
+  const [searchForm, setSearchForm] = useState({form0: ""});
   const [dataSearchForm, setDataSearchForm] = useState([]);
   const [dataForm, setDataForm] = useState([]);
   const [focusForm, setFocusForm] = useState("");
@@ -116,7 +125,7 @@ function HardwareInventoryAddStock() {
     inventoris.forEach((isData, myIndx) => {
       let newObj = {}
       let postObj = {}
-      isData['form_permintaan'] = searchForm[`inventoris[${myIndx}].form_permintaan`] || ""
+      isData['form_permintaan'] = searchForm[`form${myIndx}`] || ""
       for(let keyObj in isData){
         if(isData[keyObj] === "" || isData[keyObj] === 0){
           newObj[keyObj] = isData[keyObj]
@@ -142,7 +151,7 @@ function HardwareInventoryAddStock() {
       }
       postArr.push(postObj)
       newArr.push(newObj)
-    })
+    });
     // Yang Lama Punya
 
     // inventoris.forEach(isData => {
@@ -173,14 +182,14 @@ function HardwareInventoryAddStock() {
     //   newArr.push(newObj)
     // })
     if(checkError !== true){
-      // setIsLoad(true)
+      setIsLoad(true)
       try {
         const result = await axios.post(
           `${config.SERVER_URL}hardwareinventori`,
           postArr,
           axiosConfig
         );
-        // setIsLoad(false)
+        setIsLoad(false)
         history.push("/hardware-spec");
       } catch (e) {
         console.log(e);
@@ -274,8 +283,11 @@ function HardwareInventoryAddStock() {
           [`type${indx+1}`]: event.target.textContent
         }
       }
-    }, () => handleSpekBlur())
+    })
   }
+  // useEffect(() => {
+  //   handleSpekBlur()
+  // }, [objectForSpek])
   return (
     <React.Fragment>
       <section className="content">
@@ -401,7 +413,7 @@ function HardwareInventoryAddStock() {
                                         {Object.keys(spesifikasi).map(
                                           (specName, indxx) => (
                                             <th key={`header-${specName}`}>
-                                              Spesifikasi {indxx}
+                                              Spesifikasi {indxx + 1}
                                             </th>
                                           )
                                         )}
@@ -474,34 +486,34 @@ function HardwareInventoryAddStock() {
                                           <td style={{position:"relative"}}>
                                             <Field
                                               type="text"
-                                              value={searchForm[`inventoris[${index}].form_permintaan`]}
+                                              value={searchForm[`form${index}`]}
                                               onChange={(e) => {
-                                                setNameform(e.target.name)
+                                                setNameform(`form${index}`)
                                                 setSearchForm(prev => {
                                                   return {
                                                     ...prev,
-                                                    [e.target.name]: e.target.value
+                                                    [`form${index}`]: e.target.value
                                                   }
                                                 })
                                               }}
                                               onFocus={(e) => {
                                                 setDataSearchForm([])
-                                                setFocusForm(e.target.name)
+                                                setFocusForm(`form${index}`)
                                               }}
                                               name={`inventoris[${index}].form_permintaan`}
                                             />
                                             {dataError[index]?.form_permintaan === "" && isError && (<label className="error" style={{color:"red"}}>Required</label>)}
-                                            {focusForm === `inventoris[${index}].form_permintaan` && (
-                                              <div style={{position:"absolute", display: "flex", flexDirection: "column", gap:"20px", zIndex:"10", background: "white"}}>{dataSearchForm.length !== 0 && dataSearchForm.map(dts => {
+                                            {focusForm === `form${index}` && (
+                                              <div style={{position:"absolute", display: "flex", flexDirection: "column", gap:"20px", zIndex:"10", background: "white", cursor:"pointer"}}>{dataSearchForm.length !== 0 && dataSearchForm.map((dts, indx) => {
                                                 return (<div onClick={(e) => {
                                                   setDataSearchForm([])
                                                   setSearchForm(prev => {
                                                     return {
                                                       ...prev,
-                                                      [`inventoris[${index}].form_permintaan`]: e.target.textContent
+                                                      [`form${index}`]: e.target.textContent
                                                     }
                                                   })
-                                                }}>{dts.request_by}</div>)
+                                                }} key={indx}>{dts.request_by}</div>)
                                               }) }</div>
                                             )}
                                           </td>
@@ -519,9 +531,9 @@ function HardwareInventoryAddStock() {
                                                   onFocus={(e) => handleSpekFocus(e, specIndex, index)}
                                                   value={objectForSpek[`spek${index}`] !== undefined ? objectForSpek[`spek${index}`][`type${specIndex+1}`] : ""}
                                                 />
-                                                {isFocus && checkType?.type === specIndex + 1 && checkType?.spek === `spek${index}` && (<div style={{position:"absolute", display: "flex", flexDirection: "column", gap:"20px", zIndex:"10", background: "white"}}>{dataSpek.length !== 0 ? dataSpek.map(resData => {
+                                                {isFocus && checkType?.type === specIndex + 1 && checkType?.spek === `spek${index}` && (<div style={{position:"absolute", display: "flex", flexDirection: "column", gap:"20px", zIndex:"10", background: "white"}}>{dataSpek.length !== 0 ? dataSpek.map((resData, keyInd) => {
                                                   return (
-                                                    <div onClick={(e) => handleClickTarget(e, specIndex, index)} style={{cursor:"pointer"}}>{resData.name}</div>
+                                                    <div key={keyInd} onClick={(e) => handleClickTarget(e, specIndex, index)} style={{cursor:"pointer"}}>{resData.name}</div>
                                                   )
                                                 }): <span>Spesifikasi Tidak Ditemukan.</span>}</div>)}
                                               </td>

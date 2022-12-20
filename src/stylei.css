@@ -163,6 +163,16 @@ table, th{
     align-items: center; 
     justify-content: center;
 }
+
+.remove-bootstrap .dropdown-toggle {
+    display: none;
+}
+.remove-bootstrap #removes{
+    display:block!important;
+    position:static!important;
+    opacity:1!important;
+    width:100%!important;
+}
 @media (max-width: 1200px) { 
     .img-banner{
       max-width:28em;

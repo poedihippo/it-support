@@ -38,28 +38,48 @@ function HardwareSpecAdd({ state, dispatch }) {
     seq_inventori: Yup.string().required("harus diisi"),
   });
   const onSubmit = (values) => {
-    for(let ind = 0; ind <= categoryData.length; ind++){
-      if(values.kode_inventori.toString() === categoryData[ind].kode_inventori.toString()){
-        setIsError('Kode Inventori Sudah Terdaftar')
-        break;
-      }
-      if(ind === categoryData.length - 1){
-        setIsLoad(true)
-        if (isConsumable === "1") {
-          values.kode_inventori = "-";
-          values.consumable = true;
-        } else {
-          values.consumable = false;
+    console.log(values, "check values", categoryData)
+    if(categoryData.length !== 0){
+      for(let ind = 0; ind <= categoryData.length; ind++){
+        if(values?.kode_inventori?.toString() === categoryData[ind]?.kode_inventori?.toString()){
+          setIsError('Kode Inventori Sudah Terdaftar')
+          break;
         }
-
-        axios
-        .post(`${config.SERVER_URL}hardwarespec`, values, axiosConfig)
-        .then((res) => {
-          setIsLoad(false)
-          dispatch({ type: "LIST" });
-        })
-        .catch((err) => console.log(err));
+        if(ind === categoryData.length - 1){
+          setIsLoad(true)
+          if (isConsumable === "1") {
+            values.kode_inventori = "-";
+            values.consumable = true;
+          } else {
+            values.consumable = false;
+          }
+  
+          axios
+          .post(`${config.SERVER_URL}hardwarespec`, values, axiosConfig)
+          .then((res) => {
+            setIsLoad(false)
+            dispatch({ type: "LIST" });
+          })
+          .catch((err) => console.log(err));
+        }
       }
+    }
+    if(categoryData.length === 0){
+      setIsLoad(true)
+          if (isConsumable === "1") {
+            values.kode_inventori = "-";
+            values.consumable = true;
+          } else {
+            values.consumable = false;
+          }
+  
+          axios
+          .post(`${config.SERVER_URL}hardwarespec`, values, axiosConfig)
+          .then((res) => {
+            setIsLoad(false)
+            dispatch({ type: "LIST" });
+          })
+          .catch((err) => console.log(err));
     }
     // categoryData.map(datas => {
     //   if(datas.kode_inventori === values.kode_inventori){
@@ -87,6 +107,9 @@ function HardwareSpecAdd({ state, dispatch }) {
 
     
   };
+  const onSubmitCons = () => {
+
+  }
   const handleErrorModal = () => {
 
   }
@@ -133,7 +156,7 @@ function HardwareSpecAdd({ state, dispatch }) {
                     </div>
                   </div>
                   {isConsumable === "1" ? (
-                    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+                    <Formik initialValues={initialValues} onSubmit={onSubmitCons}>
                       <Form>
                         <div className="row clearfix">
                           <div className="col-sm-12">

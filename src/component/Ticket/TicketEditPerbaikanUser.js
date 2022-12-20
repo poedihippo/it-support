@@ -5,7 +5,7 @@ import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
 import { useHistory } from "react-router-dom";
-
+import UpldFile from "../atom/uploadFile";
 import dateFormat from "dateformat";
 
 function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
@@ -14,6 +14,16 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
     list: [],
     mapping: [],
   });
+  const [isImage, setIsImage] = useState({
+    image1: "",
+    image2: "",
+    image3: ""
+  });
+  const [upldImage, setUpldImage] = useState({
+    image1: "",
+    image2: "",
+    image3: ""
+  })
   const today = dateFormat(new Date(), "yyyy-mm-dd");
   const history = useHistory();
 
@@ -26,10 +36,20 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
   const validationSchema = Yup.object({});
   const onSubmit = async (values) => {
     console.log("values", values);
+    if(upldImage.image1 !== ""){
+      getBase64(upldImage.image1).then(res => values.image1path = res)
+    }
+    if(upldImage.image2 !== ""){
+      getBase64(upldImage.image2).then(res => values.image2path = res)
+    }
+    if(upldImage.image3 !== ""){
+      getBase64(upldImage.image3).then(res => values.image3path = res)
+    }
+    console.log(values, "check values untuk check values yah ")
     try {
       const res = await axios.put(
-        `${config.SERVER_URL}ticketperbaikan`,
-        { ticket: values, user: state.userState },
+        `${config.SERVER_URL}ticketperbaikan/${values.id}`,
+        values,
         axiosConfig
       );
       dispatch({ type: "VIEW", id: res.data.id, row: res.data });
@@ -37,7 +57,47 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
       console.log(e);
     }
   };
-
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+          resolve(reader.result)
+      };
+      reader.onerror = function (error) {
+          reject(error)
+        };
+      })
+  }
+  const handleEventChange = (e) => {
+    const file = e.target.files[0]
+    setIsImage(prev => {
+      return {
+        ...prev,
+        [e.target.name]: URL.createObjectURL(file)
+      }
+    });
+    setUpldImage(prev => {
+      return {
+        ...prev,
+        [e.target.name]: file
+      }
+    })
+  }
+  const handleRemoveImage = (isName) => {
+    setIsImage(prev => {
+      return{
+        ...prev,
+        [isName]: ""
+      }
+    })
+    setUpldImage(prev => {
+      return {
+        ...prev,
+        [isName]: ""
+      }
+    })
+  }
   useEffect(async () => {
     try {
       const res = await axios.get(
@@ -243,6 +303,11 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
           <div className="row clearfix">
             <div className="col-sm-12">
               <label> Alasan</label>
+              <div style={{display:"flex", justifyContent: "space-around"}}>
+                      <UpldFile isId="image1" isHtmlFor="image1" isName="image1" handleChangeImage={handleEventChange} preImage={isImage?.image1 === "" ? initialValues.image1path === "" ? "" : `${config.SERVER_BASE_URL}${initialValues.image1path}` : isImage?.image1} handleRemoveImage={() => handleRemoveImage('image1')}/>
+                      <UpldFile isId="image2" isHtmlFor="image2" isName="image2" handleChangeImage={handleEventChange} preImage={isImage?.image2 === "" ? initialValues.image2path ==="" ? "" : `${config.SERVER_BASE_URL}${initialValues.image2path}` : isImage?.image2} handleRemoveImage={() => handleRemoveImage('image2')}/>
+                      <UpldFile isId="image3" isHtmlFor="image3" isName="image3" handleChangeImage={handleEventChange} preImage={isImage?.image3 === "" ? initialValues.image3path === "" ?"" : `${config.SERVER_BASE_URL}${initialValues.image3path}` : isImage?.image3}handleRemoveImage={() => handleRemoveImage('image3')}/>
+                    </div>
               <div className="form-group">
                 <div className="form-line">
                   <Field

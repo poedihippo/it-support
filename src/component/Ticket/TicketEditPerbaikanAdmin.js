@@ -37,7 +37,6 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
     keterangan: "",
   };
   const initialValues = ticketData;
-  console.log(initialValues, "check value edit")
   const validationSchema = Yup.object({});
   const setAssign = (push) => {
     setInventoriPush(() => push);
@@ -61,31 +60,19 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
   };
   const onSubmit = async (values) => {
     const isData = new FormData();
-    
+    console.log(values, "check values")
     for(let keyObj in values){
-      if(keyObj !== 'image1path' && keyObj !== 'image2path' && keyObj !== 'image3path' && keyObj !== 'inventoris' && keyObj !== 'messages'){
-        isData.append(keyObj.toString(), values[keyObj])
-      }  
+      if(keyObj !== 'image1path' && keyObj !== 'image2path' && keyObj !== 'image3path' && keyObj !== 'inventoris'){
+        isData.append(keyObj, values[keyObj])
+      }
     }
-    isData.append('user', state.userState);
-    for (const valuee of values.inventoris) {
-      isData.append("inventoris[]", valuee);
-    }
-   
-    // isData.append('inventoris', );
-    // isData.append('messages', values.messages);
-    isData.append('jenis_ticket', "PERBAIKAN")
+    values.inventoris.forEach((isd, idx) => {
+      isData.append('inventoris[]', JSON.stringify(values.inventoris[idx]))
+    })
     isData.append('image1path', upldImage.image1);
     isData.append('image2path', upldImage.image2);
     isData.append('image3path', upldImage.image3);
-    // isData.append('alasan', values?.alasan);
-    // isData.append('inventoris', values?.inventoris);
-    // isData.append('jenis_perbaikan', values?.jenis_perbaikan);
-    // isData.append('subject', values?.subject);
-    // isData.append('id', values?.id)
-    // console.log("chcek lagi", values)
-
-    setIsLoad(true)
+    // setIsLoad(true)
     try {
       const res = await axios.put(`${config.SERVER_URL}ticketperbaikan/${values.id}`,
       isData,
@@ -97,7 +84,7 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
         
       })
 
-      console.log(res, "check res")
+      // console.log(res, "check res")
       // const res = await axios.put(
       //   `${config.SERVER_URL}ticketperbaikan`,
       //   { ticket: values, user: state.userState },
@@ -107,6 +94,7 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
 
       setIsLoad(false)
       dispatch({ type: "VIEW", id: res.data.id, row: res.data });
+      window.location.assign("/ticket-list")
     } catch (e) {
       console.log(e);
     }
@@ -130,7 +118,7 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
         `${config.SERVER_URL}hardwareinventori/assigned`,
         axiosConfig
       );
-
+      console.log(res," checking res data inventoris")
       const hardwareInventoriMapping = [];
       res.data.forEach((inventoriItem) => {
         hardwareInventoriMapping[inventoriItem.id] = inventoriItem;
@@ -140,7 +128,6 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
         list: res.data,
         mapping: hardwareInventoriMapping,
       });
-      console.log("hardwareInventoriData");
     } catch (e) {
       console.log(e);
     }
