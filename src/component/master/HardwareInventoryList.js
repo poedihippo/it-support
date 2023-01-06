@@ -64,10 +64,9 @@ function HardwareInventoryList({ state, dispatch }) {
       .then((res) => {
         if (res.status === 200) {
           let newObjCheck = {}
-          console.log(res.data);
-         
+       
           setData(res.data);
-          $('.your-selectpicker-nobutton').selectpicker('setStyle', 'remove-button-class', 'add');
+          
           $(".js-mailing-list").DataTable({
             responsive: true
           });

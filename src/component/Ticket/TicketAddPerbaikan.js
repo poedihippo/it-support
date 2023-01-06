@@ -209,6 +209,20 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
               let no_seq = 1;
               return (
                 <React.Fragment>
+                   <div>
+                    <button
+                      type="button"
+                      style={{ margin: "10px" }}
+                      className="btn btn-primary waves-effect"
+                      
+                      onClick={() => {
+                        no_seq++;
+                        push(defaultRow);
+                      }}
+                    >
+                      [+]
+                    </button>
+                  </div>
                   {!isLoad ? (<table className="table table-bordered ">
                     <thead>
                       <tr>
@@ -285,7 +299,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
                               type="button"
                               style={{ margin: "10px" }}
                               className="btn btn-primary waves-effect"
-                              type="button"
+                              
                               onClick={() => {
                                 remove(index);
                               }}
@@ -298,20 +312,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
                     </tbody>
                   </table>)
                   : <IsLoading />}
-                  <div>
-                    <button
-                      type="button"
-                      style={{ margin: "10px" }}
-                      className="btn btn-primary waves-effect"
-                      type="button"
-                      onClick={() => {
-                        no_seq++;
-                        push(defaultRow);
-                      }}
-                    >
-                      [+]
-                    </button>
-                  </div>
+                 
                 </React.Fragment>
               );
             }}
