@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, FieldArray } from "formik";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
@@ -26,25 +25,13 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
   })
   const [isLoad, setIsLoad] = useState(false)
   const today = dateFormat(new Date(), "yyyy-mm-dd");
-  const history = useHistory();
-
+  const history = useHistory()
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const defaultRow = {
     inventori_id: 0,
     keterangan: "",
   };
-  const getBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-          resolve(reader.result)
-      };
-      reader.onerror = function (error) {
-          reject(error)
-        };
-      })
-  }
+  
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
 
@@ -69,12 +56,9 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
     alasan: "",
     inventoris: [],
   };
-  const validationSchema = Yup.object({});
   const onSubmit = async (values) => {
     
-    let newDatt = {}
     let data = new FormData();
-    const checkUndef = undefined;
     data.append('subject', values.subject);
     data.append('tanggal_pengajuan', values.tanggal_pengajuan)
     data.append('jenis_perbaikan', values.jenis_perbaikan)
@@ -98,22 +82,16 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
           },
         }
       );
-      console.log(res, "check res")
       if(res.status === 200){
         setIsLoad(false)
-        // history.push("/ticket-list");
+        history.push("/ticket-list");
       }
     } catch (error) {
       console.log(error.response);
     }
   };
   useEffect(() => {
-    const arraStr = '["ss", "ll", "pp"]';
-    const resArrStr = JSON.parse(arraStr);
-    console.log(typeof resArrStr === 'ARRAY', "ceck hasil parse json", arraStr, resArrStr);
-
-
-    const yallArr = '["invinit", "laki laki]'
+  
     const getData = async () => {
       try {
         const res = await axios.get(
@@ -123,13 +101,14 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
         if (res.data[0] !== undefined) {
           initialValues.jenis_perbaikan = res.data[0].jenis_perbaikan_value;
         }
+     
         setJenisPerbaikan(res.data);
       } catch (e) {
         console.log(e);
       }
       try {
         const res = await axios.get(
-          `${config.SERVER_URL}user/:id/mypermintaaninventori`,
+          `${config.SERVER_URL}user/:id/myinventory`,
           axiosConfig
         );
         const hardwareInventoriMapping = [];
@@ -206,7 +185,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
             {(params) => {
               const { form, push, remove } = params;
               const { inventoris } = form.values;
-              let no_seq = 1;
+              
               return (
                 <React.Fragment>
                    <div>
@@ -216,7 +195,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
                       className="btn btn-primary waves-effect"
                       
                       onClick={() => {
-                        no_seq++;
+                        
                         push(defaultRow);
                       }}
                     >
@@ -398,178 +377,6 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
         </Form>
       </Formik>
     </React.Fragment>
-
-    /*
-    <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      // validationSchema={validationSchema}
-    >
-      {({ values, setFieldValue }) => (
-        <Form>
-          <div className="row clearfix">
-            <div className="col-sm-12">
-              <label>Jenis Perbaikan</label>
-              <div className="form-group">
-                <div className="form-line">
-                  
-                </div>
-              </div>
-              <label> Tanggal</label>
-              <div className="form-group">
-                <div className="form-line">
-                  <Field
-                    type="date"
-                    className="form-control"
-                    placeholder="Question"
-                    id="tanggal_pengajuan"
-                    name="tanggal_pengajuan"
-                  />
-                </div>
-              </div>
-                <label> Detail</label>
-                <FieldArray name="details">
-                  {(params) => {
-                    const { form, push, remove } = params;
-                    const { details } = form.values;
-                    console.log("params", params);
-                    let no_seq = 1;
-                    return (
-                      <React.Fragment>
-                        <table className="table table-bordered ">
-                          <thead>
-                            <tr>
-                              <th>Hardware (No Asset)</th>
-                              <th>Merek</th>
-                              <th>Tipe</th>
-                              <th>Serial Number</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {details.map((item, index) => (
-                              <tr key={index}>
-                                <td>
-                                  <Field
-                                    as="select"
-                                    className="form-control"
-                                    name={`details[${index}].hardware_inventori_id`}
-                                  >
-                                    <option value={0}>Pilih Hardware</option>
-                                    {hardwareInventoriData.list.map(
-                                      (inventoriItem, inventoriIndex) => (
-                                        <option
-                                          value={inventoriItem.id}
-                                          key={`option${index}-${inventoriIndex}`}
-                                        >
-                                          {inventoriItem.nama_hardware} (
-                                          {inventoriItem.no_asset})
-                                        </option>
-                                      )
-                                    )}
-                                  </Field>
-                                </td>
-                                <td>
-                                  <Field
-                                    type="text"
-                                    className="form-control"
-                                    value={
-                                      hardwareInventoriData.mapping[
-                                        details[index].hardware_inventori_id
-                                      ].merek
-                                    }
-                                  />
-                                </td>
-                                <td>
-                                  <Field
-                                    type="text"
-                                    className="form-control"
-                                    value={
-                                      hardwareInventoriData.mapping[
-                                        details[index].hardware_inventori_id
-                                      ].tipe
-                                    }
-                                  />
-                                </td>
-                                <td>
-                                  <Field
-                                    type="text"
-                                    className="form-control"
-                                    value={
-                                      hardwareInventoriData.mapping[
-                                        details[index].hardware_inventori_id
-                                      ].serial_number
-                                    }
-                                  />
-                                </td>
-                                <td>
-                                  <Field
-                                    as="textarea"
-                                    className="form-control"
-                                    rows="2"
-                                    name={`details[${index}].keterangan`}
-                                  />
-                                </td>
-                                <td>
-                                  <button
-                                    type="button"
-                                    style={{ margin: "10px" }}
-                                    className="btn btn-primary waves-effect"
-                                    type="button"
-                                    onClick={() => {
-                                      remove(index);
-                                    }}
-                                  >
-                                    [-]
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                        <div>
-                          <button
-                            type="button"
-                            style={{ margin: "10px" }}
-                            className="btn btn-primary waves-effect"
-                            type="button"
-                            onClick={() => {
-                              no_seq++;
-                              push(defaultRow);
-                            }}
-                          >
-                            [+]
-                          </button>
-                        </div>
-                      </React.Fragment>
-                    );
-                  }}
-                </FieldArray>
-              <label> Keterangan</label>
-              <div className="form-group">
-                <div className="form-line">
-                  <Field
-                    as="textarea"
-                    rows="3"
-                    className="form-control no-resize"
-                    placeholder="Please type what you want..."
-                    id="alasan_pembelian"
-                    name="alasan_pembelian"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <button className="btn btn-primary" type="submit">
-                Save
-              </button>
-            </div>
-          </div>
-        </Form>
-      )}
-      ;
-    </Formik>
-              */
   );
 }
 

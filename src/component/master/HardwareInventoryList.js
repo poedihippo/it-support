@@ -62,6 +62,7 @@ function HardwareInventoryList({ state, dispatch }) {
         axiosConfig
       )
       .then((res) => {
+        console.log(res, "check res")
         if (res.status === 200) {
           let newObjCheck = {}
        
@@ -72,7 +73,7 @@ function HardwareInventoryList({ state, dispatch }) {
           });
         }
       })
-      .catch((err) => console.log(err));
+      .catch((error) => console.log(error.response, "check erro response hardwareinventory"));
 
 
       // const getChannels = () => {

@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
 import $ from "jquery";
 import "datatables.net";
-import { useParams, useLocation, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
 import IsLoading from "../loading"; 
 function HardwareInventoryAssign({ state, dispatch }) {
   const [isLoad, setIsLoad] = useState(false)
-  const [data, setData] = useState([]);
   const [dataStaff, setDataStaff] = useState([]);
   const history = useHistory()
   // const isStateData = state?.currentRow
@@ -19,7 +17,6 @@ function HardwareInventoryAssign({ state, dispatch }) {
   const [handleCheck, setHandleCheck] = useState({});
   const [isMounted, setIsMounted] = useState(false);
   const [dataCh, setDataCh] = useState([]);
-  const [idCh, setIdCh] = useState(0)
   const [checkBoxAll, setCheckBoxAll] = useState(false)
   
   const refCheck = useRef()
@@ -31,7 +28,8 @@ const assignForRepairs = async () => {
       }
     }
     let postObj = {
-      user_ids: postArr
+      user_ids: postArr,
+      hardware_inventori_id: isStateData.id
     }
     if(postArr.length !== 0){
       axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, postObj, axiosConfig)
@@ -44,15 +42,7 @@ const assignForRepairs = async () => {
     }
 
 
-    // const result = await axios.post(
-    //   `${config.SERVER_URL}hardwareinventori/assignforrepair`,
-    //   postArr,
-    //   axiosConfig
-    // );
-    // if(result.status === 200){
-    //   window.location.reload()
-    // }
-    // setData(result.data);
+
   }
     useEffect(() => {
         const listStaff = async () => {
@@ -74,7 +64,7 @@ const assignForRepairs = async () => {
           .catch(error => console.log(error.response, "check error ch"))
         }
         !isMounted && getChannels()
-    },[idCh])
+    },[])
  
     const assignTo = async (dataAssign) => {
       setIsLoad(true)
@@ -82,9 +72,10 @@ const assignForRepairs = async () => {
         let isDataAssign = history?.location?.state
         isDataAssign.assign_to = dataAssign?.fullname;
         let dataIsAssign = {
-            user_ids: dataAssign
+            user_ids: dataAssign,
+            hardware_inventori_id: isStateData.id
         }
-        const resAssign = await axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, dataIsAssign, axiosConfig)
+        axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, dataIsAssign, axiosConfig)
         .then(res => {
           setIsLoad(false);
           // dispatch({type:"LIST"})
@@ -146,11 +137,9 @@ const assignForRepairs = async () => {
   const handleSortByCh = async (e) => {
       localStorage.setItem('channel_id', e.target.value);
       window.location.reload();
-      // setIdCh(e.target.value)
-      // const res = await axios.get(`${config.SERVER_URL}logindata?cabang_id=1`, axiosConfig);
-      // console.log(parseInt(e.target.value), "sama check value", res)
+     
   }
-  // console.log("check data user", parseInt(idCh) !== 0 ? idCh : "berarti nol")
+
   return (
     <>
       <section className="content">

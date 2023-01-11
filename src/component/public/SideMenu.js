@@ -179,12 +179,12 @@ function SideMenu({ user }) {
       let newObj = {}
       try{
         const res = await axios.get(`${config.SERVER_URL}logindata`, axiosConfig);
-        console.log(res, "check re")
+        
         const filterUser = res?.data?.filter(dataUsr => parseInt(dataUsr?.user_id) === parseInt(user?.id));
-        console.log(filterUser,"chec filter user")
+        
         const toObj = JSON.parse(JSON.stringify(filterUser[0]?.sunsafe_response));
         menuSideBar.forEach(isDataMenu => {
-          console.log(isDataMenu, "check data menu")
+          
           const findMenu = toObj?.payload?.menu?.find(d => d.code === isDataMenu.code);
           if(findMenu !== undefined){
             newObj[isDataMenu.code.split('-').join('')] = true
@@ -219,7 +219,6 @@ function SideMenu({ user }) {
     }
     getMenuUser()
   }, [])
-  console.log(dataMenuUser, "check state user");
  
   return (
     <section>

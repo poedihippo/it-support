@@ -22,25 +22,26 @@ function HardwareInventoryAssign({ state, dispatch }) {
   const [dataSort, setDataSort] = useState([])
   const refCheck = useRef()
 const assignForRepairs = async () => {
-    let postArr = []
-    for(let keyObj in handleCheck){
-      if(handleCheck[keyObj]?.isCheck){
-        postArr.push(handleCheck[keyObj]?.id)
-      }
-    }
-    let dataIsAssign = {
-      user_ids: postArr
-    }
-    if(postArr.length !== 0){
-      const result = await axios.post(
-        `${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`,
-        dataIsAssign,
-        axiosConfig
-      );
-      if(result.status === 200){
-        window.location.reload()
-      }
-    }
+    console.log(state, "check state")
+    // let postArr = []
+    // for(let keyObj in handleCheck){
+    //   if(handleCheck[keyObj]?.isCheck){
+    //     postArr.push(handleCheck[keyObj]?.id)
+    //   }
+    // }
+    // let dataIsAssign = {
+    //   user_ids: postArr
+    // }
+    // if(postArr.length !== 0){
+    //   const result = await axios.post(
+    //     `${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`,
+    //     dataIsAssign,
+    //     axiosConfig
+    //   );
+    //   if(result.status === 200){
+    //     window.location.reload()
+    //   }
+    // }
     // setData(result.data);
   }
     useEffect(() => {

@@ -4,15 +4,15 @@ import "datatables.net";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
-import dateFormat from "dateformat";
-const statusMapping = [
-  "Declined",
-  "Create",
-  "Approve By Supervisor",
-  "In Progress",
-  "Shipping",
-  "Completed",
-];
+// import dateFormat from "dateformat";
+// const statusMapping = [
+//   "Declined",
+//   "Create",
+//   "Approve By Supervisor",
+//   "In Progress",
+//   "Shipping",
+//   "Completed",
+// ];
 
 function MyInventory() {
   const [inventoryData, setInventoryData] = useState({
@@ -21,40 +21,41 @@ function MyInventory() {
   });
   const axiosConfig = AuthenticationService.getAxiosConfig();
 
-  useEffect(async () => {
+  useEffect(() => {
     // Update the document title using the browser API
     //console.log(state);
-    let permintaan = [];
-    let peminjaman = [];
-    try {
-      const resPermintaan = await axios.get(
-        `${config.SERVER_URL}user/mypermintaaninventori`,
-        axiosConfig
-      );
-      console.log(resPermintaan.data);
-
-      if (resPermintaan.status === 200) {
-        console.log("my inventory", resPermintaan.data);
-        permintaan = resPermintaan.data;
+    const getInventory = async () => {
+      let permintaan = [];
+      let peminjaman = [];
+      try {
+        const resPermintaan = await axios.get(
+          `${config.SERVER_URL}user/myinventory`,
+          axiosConfig
+        );
+    
+        if (resPermintaan.status === 200) {
+          permintaan = resPermintaan.data;
+        }
+        const resPeminjaman = await axios.get(
+          `${config.SERVER_URL}user/myinventory`,
+          axiosConfig
+        );
+        //console.log(res.data);
+  
+        if (resPeminjaman.status === 200) {
+          //console.log("my inventory", resPeminjaman.data);
+          peminjaman = resPeminjaman.data;
+          //setInventoryData({ ...inventoryData, peminjaman: resPeminjaman.data });
+        }
+        setInventoryData({
+          peminjaman,
+          permintaan,
+        });
+      } catch (e) {
+        console.log(e);
       }
-      const resPeminjaman = await axios.get(
-        `${config.SERVER_URL}user/mypeminjamaninventori`,
-        axiosConfig
-      );
-      //console.log(res.data);
-
-      if (resPeminjaman.status === 200) {
-        //console.log("my inventory", resPeminjaman.data);
-        peminjaman = resPeminjaman.data;
-        //setInventoryData({ ...inventoryData, peminjaman: resPeminjaman.data });
-      }
-      setInventoryData({
-        peminjaman,
-        permintaan,
-      });
-    } catch (e) {
-      console.log(e);
     }
+    getInventory()
   }, []);
   //console.log(data);
   return (
