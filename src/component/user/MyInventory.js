@@ -4,15 +4,7 @@ import "datatables.net";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
-// import dateFormat from "dateformat";
-// const statusMapping = [
-//   "Declined",
-//   "Create",
-//   "Approve By Supervisor",
-//   "In Progress",
-//   "Shipping",
-//   "Completed",
-// ];
+
 
 function MyInventory() {
   const [inventoryData, setInventoryData] = useState({
@@ -22,14 +14,13 @@ function MyInventory() {
   const axiosConfig = AuthenticationService.getAxiosConfig();
 
   useEffect(() => {
-    // Update the document title using the browser API
-    //console.log(state);
+    
     const getInventory = async () => {
       let permintaan = [];
       let peminjaman = [];
       try {
         const resPermintaan = await axios.get(
-          `${config.SERVER_URL}user/myinventory`,
+          `${config.SERVER_URL}user/:id/myinventory`,
           axiosConfig
         );
     
@@ -37,7 +28,7 @@ function MyInventory() {
           permintaan = resPermintaan.data;
         }
         const resPeminjaman = await axios.get(
-          `${config.SERVER_URL}user/myinventory`,
+          `${config.SERVER_URL}user/mypeminjamaninventori`,
           axiosConfig
         );
         //console.log(res.data);

@@ -330,33 +330,9 @@ function SideMenu({ user }) {
                 <span style={{color: activeMenu["MASTER"] !== undefined ? "red" : "black" }}>Master</span>
               </a>
               <ul className="ml-menu">
-                <li style={{display: dataMenuUser?.masterpublic ? "block" : "none"}}>
-                  <a href="#" className={`menu-toggle ${activeMenu["PUBLIC"]}`}>
-                    <i className="material-icons"></i>
-                    <span style={{color: activeMenu["PUBLICKPAGE"] !== undefined ? "red" : "black", fontWeight: activeMenu["PUBLICKPAGE"] !== undefined && "bold"}}>Public Page</span>
-                  </a>
-                  <ul className="ml-menu">
-                    <li style={{display: dataMenuUser?.masterfaq ? "block" : "none"}}>
-                      <a href="/faq">
-                        <span style={{fontWeight: pathname === "FAQ" && "bold"}}>{pathname === "FAQ" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} FAQ</span>
-                      </a>
-                    </li>
-                    <li style={{display: dataMenuUser?.mastertipsandtrick ? "block" : "none"}}>
-                      <a href="/tipsandtrick">
-                        <span style={{fontWeight: pathname === "TIPSANDTRICK" && "bold"}}>{pathname === "TIPSANDTRICK" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Tips and Trick</span>
-                      </a>
-                    </li>
-                    <li style={{display: dataMenuUser?.mastermediaanddownload ? "block" : "none"}}>
-                      <a href="/mediaanddownload">
-                        <span style={{fontWeight: pathname === "MEDIAANDDOWNLOAD" && "bold"}}>{pathname === "MEDIAANDDOWNLOAD" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Media and Download</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-
-                <li style={{display: dataMenuUser?.mastersupplierorvendor ? "block" : "none"}}>
-                  <a href="/suppliervendor">
-                    <span style={{fontWeight: pathname === "SUPPLIERVENDOR" && "bold"}}>{pathname === "SUPPLIERVENDOR" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Supplier/Vendor</span>
+                <li style={{display: dataMenuUser?.masterformpermintaan ? "block" : "none"}}>
+                  <a href="/form-permintaan">
+                    <span style={{fontWeight: pathname === "FORM-PERMINTAAN" && "bold"}}>{pathname === "FORM-PERMINTAAN" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Form Permintaan</span>
                   </a>
                 </li>
                 <li style={{display: dataMenuUser?.masterhardware ? "block" : "none"}}>
@@ -380,17 +356,43 @@ function SideMenu({ user }) {
                     </li>
                   </ul>
                 </li>
-
+                <li style={{display: dataMenuUser?.masterpublic ? "block" : "none"}}>
+                  <a href="#" className={`menu-toggle ${activeMenu["PUBLIC"]}`}>
+                    <i className="material-icons"></i>
+                    <span style={{color: activeMenu["PUBLICKPAGE"] !== undefined ? "red" : "black", fontWeight: activeMenu["PUBLICKPAGE"] !== undefined && "bold"}}>Public Page</span>
+                  </a>
+                  <ul className="ml-menu">
+                    <li style={{display: dataMenuUser?.masterfaq ? "block" : "none"}}>
+                      <a href="/faq">
+                        <span style={{fontWeight: pathname === "FAQ" && "bold"}}>{pathname === "FAQ" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} FAQ</span>
+                      </a>
+                    </li>
+                    <li style={{display: dataMenuUser?.mastertipsandtrick ? "block" : "none"}}>
+                      <a href="/tipsandtrick">
+                        <span style={{fontWeight: pathname === "TIPSANDTRICK" && "bold"}}>{pathname === "TIPSANDTRICK" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Tips and Trick</span>
+                      </a>
+                    </li>
+                    <li style={{display: dataMenuUser?.mastermediaanddownload ? "block" : "none"}}>
+                      <a href="/mediaanddownload">
+                        <span style={{fontWeight: pathname === "MEDIAANDDOWNLOAD" && "bold"}}>{pathname === "MEDIAANDDOWNLOAD" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Media and Download</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
                 <li style={{display: dataMenuUser?.mastersoftware ? "block" : "none"}}>
                   <a href="/software">
                     <span style={{fontWeight: pathname === "SOFTWARE" && "bold"}}>{pathname === "SOFTWARE" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)}Software</span>
                   </a>
                 </li>
-                <li style={{display: dataMenuUser?.masterformpermintaan ? "block" : "none"}}>
-                  <a href="/form-permintaan">
-                    <span style={{fontWeight: pathname === "FORM-PERMINTAAN" && "bold"}}>{pathname === "FORM-PERMINTAAN" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Form Permintaan</span>
+                <li style={{display: dataMenuUser?.mastersupplierorvendor ? "block" : "none"}}>
+                  <a href="/suppliervendor">
+                    <span style={{fontWeight: pathname === "SUPPLIERVENDOR" && "bold"}}>{pathname === "SUPPLIERVENDOR" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Supplier/Vendor</span>
                   </a>
                 </li>
+                
+
+                
+                
               </ul>
             </li>
             <li style={{display: dataMenuUser?.ticket ? "block" : "none"}}>
@@ -399,24 +401,26 @@ function SideMenu({ user }) {
                 <span style={{color: activeMenu["TICKET"] !== undefined ? "red" : "black" }}>Ticket</span>
               </a>
               <ul className="ml-menu">
-                <li style={{display: dataMenuUser?.ticketticketlistadmin ? "block" : "none"}}>
-                  <a href="/ticket-list">
-                    <span style={{fontWeight: pathname === "TICKET-LIST" && "bold"}}>{pathname === "TICKET-LIST" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Ticket List (Admin)</span>
-                  </a>
+                <li style={{display: dataMenuUser?.ticketopenticket ? "block" : "none"}}>
+                    <a href="/ticket-open">
+                      <span style={{fontWeight: pathname === "TICKET-OPEN" && "bold"}}>{pathname === "TICKET-OPEN" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Open Ticket</span>
+                    </a>
                 </li>
                 <li style={{display: dataMenuUser?.ticketmyticketlist ? "block" : "none"}}>
                   <a href="/my-ticket-list">
                     <span style={{fontWeight: pathname === "MY-TICKET-LIST" && "bold"}}>{pathname === "MY-TICKET-LIST" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} My Ticket List </span>
                   </a>
                 </li>
+                
+                
                 <li style={{display: dataMenuUser?.ticketmystaffticketlist ? "block" : "none"}}>
                   <a href="/my-staff-ticket-list">
                     <span style={{fontWeight: pathname === "MY-STAFF-TICKET-LIST" && "bold"}}>{pathname === "MY-STAFF-TICKET-LIST" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} My Staff Ticket List</span>
                   </a>
                 </li>
-                <li style={{display: dataMenuUser?.ticketopenticket ? "block" : "none"}}>
-                  <a href="/ticket-open">
-                    <span style={{fontWeight: pathname === "TICKET-OPEN" && "bold"}}>{pathname === "TICKET-OPEN" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Open Ticket</span>
+                <li style={{display: dataMenuUser?.ticketticketlistadmin ? "block" : "none"}}>
+                  <a href="/ticket-list">
+                    <span style={{fontWeight: pathname === "TICKET-LIST" && "bold"}}>{pathname === "TICKET-LIST" &&(<img src={RightIcon} alt="right icon" style={{width:"10px", height:"10px"}}/>)} Ticket List (Admin)</span>
                   </a>
                 </li>
               </ul>

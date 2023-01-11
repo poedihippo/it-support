@@ -37,6 +37,7 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
     keterangan: "",
   };
   const initialValues = ticketData;
+  console.log(initialValues, "check initialValues ")
   const validationSchema = Yup.object({});
   const setAssign = (push) => {
     setInventoriPush(() => push);
@@ -108,7 +109,7 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
       }
       try {
         const res = await axios.get(
-          `${config.SERVER_URL}user/:id/myinventory`,
+          `${config.SERVER_URL}hardwareinventori/assigned`,
           axiosConfig
         );
         const hardwareInventoriMapping = [];
@@ -223,20 +224,6 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
                     let no_seq = 1;
                     return !isLoad ? (
                       <React.Fragment>
-                        <div>
-                          <button
-                            type="button"
-                            style={{ margin: "10px" }}
-                            className="btn btn-primary waves-effect"
-                            
-                            onClick={() => {
-                              no_seq++;
-                              push(defaultRow);
-                            }}
-                          >
-                            [+]
-                          </button>
-                        </div>
                         <table className="table table-bordered ">
                           <thead>
                             <tr>
@@ -314,6 +301,7 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
                                       type="button"
                                       style={{ margin: "10px" }}
                                       className="btn btn-primary waves-effect"
+                                      type="button"
                                       onClick={() => {
                                         remove(index);
                                       }}
@@ -326,7 +314,20 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
                             ))}
                           </tbody>
                         </table>
-                        
+                        <div>
+                          <button
+                            type="button"
+                            style={{ margin: "10px" }}
+                            className="btn btn-primary waves-effect"
+                            type="button"
+                            onClick={() => {
+                              no_seq++;
+                              setAssign(push);
+                            }}
+                          >
+                            [+]
+                          </button>
+                        </div>
                       </React.Fragment>
                     ) : <></>;
                   }}
