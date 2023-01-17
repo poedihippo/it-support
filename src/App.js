@@ -112,7 +112,7 @@ function App() {
               path="/hardware-inventori/:id"
               component={HardwareInventory}
             />
-            <Route exact path="/hardware-inventori-assign-to" component={HardwareInventoryAssign}/>
+            <Route exact path="/hardware-inventori-assign-to/:id" component={HardwareInventoryAssign}/>
             <Route
               exact
               path="/hardware-inventori-view/:id"

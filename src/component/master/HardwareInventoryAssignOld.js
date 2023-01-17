@@ -31,7 +31,7 @@ const assignForRepairs = async () => {
       user_ids: postArr,
       hardware_inventori_id: isStateData.id
     }
-    if(postArr.length !== 0){
+   
       axios.put(`${config.SERVER_URL}hardwareinventori/${isStateData.id}/assign`, postObj, axiosConfig)
         .then(res => {
           if(res.status === 200){
@@ -39,7 +39,7 @@ const assignForRepairs = async () => {
           }
         })
         .catch(error => console.log(error.response))
-    }
+    
 
 
 
@@ -47,7 +47,8 @@ const assignForRepairs = async () => {
     useEffect(() => {
         const listStaff = async () => {
             const channelId = localStorage.getItem('channel_id');
-            const res = await axios.get(`${config.SERVER_URL}logindata?cabang_id=${parseInt(channelId) !== 0 && channelId !== undefined && channelId !== null ? parseInt(channelId) : "" }`, axiosConfig);
+            const res = await axios.get(`${config.SERVER_URL}logindata?cabang_id=${parseInt(channelId) !== 0 && channelId !== undefined && channelId !== null ? parseInt(channelId) : "" }&hardware_inventori_id=${isStateData.id}`, axiosConfig);
+            console.log(res, "check result")
             setDataStaff(res.data)
             $(".js-mailing-list").DataTable({
                 responsive: true,
@@ -84,7 +85,25 @@ const assignForRepairs = async () => {
         .catch(error => console.log(error.response))
     }
 
+    useEffect(() => {
+      const findDataForCheck = () => {
+        let newObj = {};
+        const sliceStateData = isStateData.assigned_users.split(",");
+        console.log(sliceStateData, "check slice")
+        for(let indx = 0; indx < dataStaff.length; indx++){
+          // console.log(dataStaff, "chech data staff")
+          if(dataStaff[indx].is_assigned){
+            newObj[`check${indx+1}`] = {isCheck:true, id:dataStaff[indx]?.user_id}
+          }else {
+            newObj[`check${indx+1}`] = {isCheck:false, id:dataStaff[indx]?.user_id}
+          }
+        }
+        setHandleCheck(newObj)
+        console.log(newObj, "check du",dataStaff)
+      }
 
+      dataStaff.length !== 0 && findDataForCheck()
+    }, [dataStaff])
     useEffect(() => {
     const checkBox = () => {
       for(let keyObj in handleCheck){
@@ -96,6 +115,7 @@ const assignForRepairs = async () => {
     Object.keys(handleCheck).length !== 0 && checkBox()
   }, [handleCheck])
   const handleCheckEvent = (e, data) => {
+    console.log(data, "check data")
     if(e.target.checked){
       setHandleCheck(prev => {
         return{
@@ -139,7 +159,7 @@ const assignForRepairs = async () => {
       window.location.reload();
      
   }
-
+  console.log(isStateData, "check data staff", handleCheck)
   return (
     <>
       <section className="content">
@@ -185,6 +205,7 @@ const assignForRepairs = async () => {
                       </thead>
                       <tbody ref={refCheck}>
                       {dataStaff.length !== 0 & dataStaff !== null && dataStaff !== undefined && dataStaff.map((i, indx) => {
+                        
                         return (
                           <tr key={indx} data-hardware={i.fullname}>
                             <td><input type="checkbox" name={`check${indx+1}`} style={{position:"static", opacity:"1"}} checked={handleCheck[`check${indx+1}`]?.isCheck ? true : false} class="cls"onChange={(e) => handleCheckEvent(e, i.user_id)}/></td>

@@ -135,7 +135,7 @@ function HardwareInventoryList({ state, dispatch }) {
 
   //   setHandleCheck(newObjCheck)
   // }
-  // console.log(dataCh, "check lah handle nya ")
+  console.log(data, "check data")
   return (
     <React.Fragment>
       <section className="content">
@@ -236,7 +236,7 @@ function HardwareInventoryList({ state, dispatch }) {
                                   className="btn btn-primary waves-effect "
                                   onClick={() => {
                                     history.push({
-                                      pathname: "/hardware-inventori-assign-to",
+                                      pathname: `/hardware-inventori-assign-to/${i.id}`,
                                       state:i
                                     })
                                     dispatch({type:"ASSIGN", row:i})
