@@ -48,7 +48,6 @@ const assignForRepairs = async () => {
         const listStaff = async () => {
             const channelId = localStorage.getItem('channel_id');
             const res = await axios.get(`${config.SERVER_URL}logindata?cabang_id=${parseInt(channelId) !== 0 && channelId !== undefined && channelId !== null ? parseInt(channelId) : "" }&hardware_inventori_id=${isStateData.id}`, axiosConfig);
-            console.log(res, "check result")
             setDataStaff(res.data)
             $(".js-mailing-list").DataTable({
                 responsive: true,
@@ -89,7 +88,6 @@ const assignForRepairs = async () => {
       const findDataForCheck = () => {
         let newObj = {};
         const sliceStateData = isStateData.assigned_users.split(",");
-        console.log(sliceStateData, "check slice")
         for(let indx = 0; indx < dataStaff.length; indx++){
           // console.log(dataStaff, "chech data staff")
           if(dataStaff[indx].is_assigned){
@@ -99,7 +97,6 @@ const assignForRepairs = async () => {
           }
         }
         setHandleCheck(newObj)
-        console.log(newObj, "check du",dataStaff)
       }
 
       dataStaff.length !== 0 && findDataForCheck()
@@ -115,7 +112,6 @@ const assignForRepairs = async () => {
     Object.keys(handleCheck).length !== 0 && checkBox()
   }, [handleCheck])
   const handleCheckEvent = (e, data) => {
-    console.log(data, "check data")
     if(e.target.checked){
       setHandleCheck(prev => {
         return{
@@ -159,7 +155,6 @@ const assignForRepairs = async () => {
       window.location.reload();
      
   }
-  console.log(isStateData, "check data staff", handleCheck)
   return (
     <>
       <section className="content">
