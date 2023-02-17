@@ -62,7 +62,6 @@ function TicketList({ state, dispatch }) {
       }
     }
   }, []);
-  console.log(data)
   return (
     <React.Fragment>
       <section className="content">

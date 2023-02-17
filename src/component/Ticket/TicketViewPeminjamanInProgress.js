@@ -692,6 +692,9 @@ function TicketViewPeminjamanInProgress({
               assignDetailData={assignDetailData}
               setFieldValue={setFieldValue}
               assignInventori={assignInventori}
+              dispatch={dispatch}
+              state={state}
+              setViewState={setViewState}
             />
           ) : null}
         </React.Fragment>

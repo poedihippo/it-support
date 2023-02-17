@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, FieldArray } from "formik";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
-import { useHistory } from "react-router-dom";
 import UpldFile from "../atom/uploadFile";
-import dateFormat from "dateformat";
 
 function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
   const [jenisPerbaikan, setJenisPerbaikan] = useState([]);
@@ -24,8 +21,7 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
     image2: "",
     image3: ""
   })
-  const today = dateFormat(new Date(), "yyyy-mm-dd");
-  const history = useHistory();
+
 
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const defaultRow = {
@@ -33,9 +29,7 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
     keterangan: "",
   };
   const initialValues = ticketData;
-  const validationSchema = Yup.object({});
   const onSubmit = async (values) => {
-    console.log("values", values);
     if(upldImage.image1 !== ""){
       getBase64(upldImage.image1).then(res => values.image1path = res)
     }
@@ -98,37 +92,41 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
       }
     })
   }
-  useEffect(async () => {
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}dropdowndata/jenisperbaikan`,
-        axiosConfig
-      );
-      if (res.data[0] !== undefined) {
-        initialValues.jenis_perbaikan = res.data[0].jenis_perbaikan_value;
+  useEffect( () => {
+    const getDataJenisPerbaikan = async () => {
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}dropdowndata/jenisperbaikan`,
+          axiosConfig
+        );
+        if (res.data[0] !== undefined) {
+          initialValues.jenis_perbaikan = res.data[0].jenis_perbaikan_value;
+        }
+        setJenisPerbaikan(res.data);
+      } catch (e) {
+        console.log(e);
       }
-      setJenisPerbaikan(res.data);
-    } catch (e) {
-      console.log(e);
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}user/:id/myinventory`,
+          axiosConfig
+        );
+        console.log(res, "Check res lah hai")
+        const hardwareInventoriMapping = [];
+        res.data.forEach((inventoriItem) => {
+          hardwareInventoriMapping[inventoriItem.id] = inventoriItem;
+        });
+        console.log(res.data, "check res data hardwareInventori")
+        setHardwareInventoriData({
+          list: res.data,
+          mapping: hardwareInventoriMapping,
+        });
+      } catch (e) {
+        console.log(e);
+      }
     }
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}user/mypermintaaninventori`,
-        axiosConfig
-      );
-
-      const hardwareInventoriMapping = [];
-      res.data.forEach((inventoriItem) => {
-        hardwareInventoriMapping[inventoriItem.id] = inventoriItem;
-      });
-
-      setHardwareInventoriData({
-        list: res.data,
-        mapping: hardwareInventoriMapping,
-      });
-    } catch (e) {
-      console.log(e);
-    }
+    getDataJenisPerbaikan()
+    
   }, []);
 
   return (
@@ -191,7 +189,7 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
             {(params) => {
               const { form, push, remove } = params;
               const { inventoris } = form.values;
-              let no_seq = 1;
+              console.log(inventoris, "check inventoris admin edit my user ticket")
               return (
                 <React.Fragment>
                   <table className="table table-bordered ">
@@ -206,7 +204,9 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {inventoris.map((item, index) => (
+                      {inventoris.map((item, index) => {
+                        console.log()
+                        return (
                         <tr key={index}>
                           <td>
                             <Field
@@ -267,10 +267,8 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
                           </td>
                           <td>
                             <button
-                              type="button"
                               style={{ margin: "10px" }}
                               className="btn btn-primary waves-effect"
-                              type="button"
                               onClick={() => {
                                 remove(index);
                               }}
@@ -279,7 +277,7 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
                             </button>
                           </td>
                         </tr>
-                      ))}
+                      )})}
                     </tbody>
                   </table>
                   <div>
@@ -287,9 +285,7 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
                       type="button"
                       style={{ margin: "10px" }}
                       className="btn btn-primary waves-effect"
-                      type="button"
                       onClick={() => {
-                        no_seq++;
                         push(defaultRow);
                       }}
                     >
@@ -328,7 +324,7 @@ function TicketEditPerbaikanUser({ state, dispatch, ticketData, setTitle }) {
                   style={{marginLeft:"30px"}}
                   className="btn btn-primary waves-effect"
                   onClick={() => {
-                  window.location.assign('/ticket-list')
+                  window.location.assign('/my-ticket-list')
                 }}
                 >Back</button>
             </div>

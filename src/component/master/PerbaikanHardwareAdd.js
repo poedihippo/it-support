@@ -25,10 +25,11 @@ function PerbaikanHardwareAdd({ state, dispatch }) {
   // const validationSchema = Yup.object({});
 
   const onSubmit = async (values) => {
-    setIsLoad(true)
+    
     if(values["vendor_id"] === 0){
       setIsError({vendor_id: true});
     }else {
+      setIsLoad(true)
       try {
       const res = await axios.post(
         `${config.SERVER_URL}perbaikanhardware`,

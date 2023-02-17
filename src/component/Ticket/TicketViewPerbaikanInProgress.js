@@ -31,7 +31,6 @@ function TicketViewPerbaikanInProgress({
   };
   const initialValues = ticketData;
   const validationSchema = Yup.object({});
-  console.log("ticketData", ticketData);
   const processRepair = async ({ values, inventori, setFieldValue }) => {
     try {
       const res = await axios.post(
@@ -695,6 +694,9 @@ function TicketViewPerbaikanInProgress({
               assignDetailData={assignDetailData}
               setFieldValue={setFieldValue}
               assignInventori={assignInventori}
+              state={state}
+              dispatch={dispatch}
+              setViewState={setViewState}
             />
           ) : null}
         </React.Fragment>
