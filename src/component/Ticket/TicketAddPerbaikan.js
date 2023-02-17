@@ -84,7 +84,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
       );
       if(res.status === 200){
         setIsLoad(false)
-        history.push("/ticket-list");
+        history.push("/my-ticket-list");
       }
     } catch (error) {
       console.log(error.response);
