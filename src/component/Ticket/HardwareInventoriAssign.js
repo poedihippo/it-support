@@ -7,8 +7,10 @@ function HardwareInventoriAssign({
   assignInventori,
   setFieldValue,
   assignDetailData,
+  dispatch,
+  state,
+  setViewState
 }) {
-  console.log("assignDetailData", assignDetailData);
   useEffect(async () => {
     $(".js-mailing-list").DataTable({
       responsive: true,
@@ -78,6 +80,15 @@ function HardwareInventoriAssign({
                 : null}
             </tbody>
           </table>
+          <div className="col-sm-12">
+            
+              <button className="btn btn-primary" onClick={() => {
+                dispatch({ type: "VIEW", id: state?.currentId, row: state?.currentRow });
+                setViewState("VIEW")
+              }}>
+                Back
+              </button>
+            </div>
         </div>
       </div>
     </div>

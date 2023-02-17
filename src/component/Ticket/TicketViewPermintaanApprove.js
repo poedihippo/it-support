@@ -18,7 +18,6 @@ function TicketViewPermintaanApprove({
 
   const initialValues = ticketData;
   const validationSchema = Yup.object({});
-  console.log("ticket data", ticketData);
   const approveDetail = async (
     newStatus,
     values,

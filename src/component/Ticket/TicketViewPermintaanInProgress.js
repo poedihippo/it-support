@@ -633,6 +633,9 @@ function TicketViewPermintaanInProgress({
               assignDetailData={assignDetailData}
               setFieldValue={setFieldValue}
               assignInventori={assignInventori}
+              state={state}
+              dispatch={dispatch}
+              setViewState={setViewState}
             />
           ) : /*
             <div className="row clearfix">
