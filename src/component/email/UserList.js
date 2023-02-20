@@ -38,6 +38,7 @@ function UserList(param) {
                       <thead>
                         <tr>
                           <th>Name</th>
+                          <th>Cabang</th>
                           <th>Email</th>
                           <th>Action</th>
                         </tr>
@@ -46,6 +47,7 @@ function UserList(param) {
                         {data.map((i) => (
                           <tr key={i.user_id}>
                             <td>{i.fullname}</td>
+                            <td>{i?.sunsafe_response ? JSON.parse(i?.sunsafe_response)?.payload?.cabang?.cabang_name : "-"}</td>
                             <td>{i.email}</td>
                             <td>
                               <a

@@ -155,6 +155,7 @@ const assignForRepairs = async () => {
       window.location.reload();
      
   }
+  console.log(JSON.parse(dataStaff[12]?.sunsafe_response)?.payload?.cabang?.cabang_name, "check data staff")
   return (
     <>
       <section className="content">
@@ -194,6 +195,7 @@ const assignForRepairs = async () => {
                           </th>
                           <th>FullName</th>
                           <th>Name</th>
+                          <th>Cabang</th>
                           <th>Email</th>
                           <th>Action</th>
                         </tr>
@@ -206,6 +208,7 @@ const assignForRepairs = async () => {
                             <td><input type="checkbox" name={`check${indx+1}`} style={{position:"static", opacity:"1"}} checked={handleCheck[`check${indx+1}`]?.isCheck ? true : false} class="cls"onChange={(e) => handleCheckEvent(e, i.user_id)}/></td>
                             <td>{i.fullname}</td>
                             <td>{i.username}</td>
+                            <td>{i?.sunsafe_response ? JSON.parse(i?.sunsafe_response)?.payload?.cabang?.cabang_name : "-"}</td>
                             <td>{i.email}</td>
                             <td>
                                 <button

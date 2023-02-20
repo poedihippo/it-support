@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field } from "formik";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
@@ -12,8 +10,6 @@ function HardwareInventoryView({ state, dispatch }) {
   const axiosConfig = AuthenticationService.getAxiosConfig();
   let { id } = useParams();
   const initialValues = state.currentRow;
-  const validationSchema = Yup.object({});
-  const history = useHistory();
   const onSubmit = async (values) => {
     try {
       const res = await axios.put(
@@ -29,40 +25,23 @@ function HardwareInventoryView({ state, dispatch }) {
     }
   };
 
-  useEffect(async () => {
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}suppliervendor`,
-        axiosConfig
-      );
-
-      setSupplierData(res.data);
-    } catch (e) {
-      console.log(e);
-    }
-    // get userData
-    /*
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}hardwareinventori/${id}`,
-        {
-          ...axiosConfig,
-        }
-      );
-      const payload = await res.data;
-      console.log(payload);
-
-      if (payload.error_code === 0) {
-        //initialValues = res.data.data;
-        const spesifikasi = JSON.parse(payload.data.spesifikasi);
-
-        setData({ ...payload.data, spesifikasi });
-        //console.log(res.data);
-        //setUser(res.data.data);
+  useEffect(() => {
+    const axiosConfig = AuthenticationService.getAxiosConfig();
+    const getDataSupplier = async () => {
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}suppliervendor`,
+          axiosConfig
+        );
+  
+        setSupplierData(res.data);
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
-    }*/
+    }
+
+    getDataSupplier()
+    
   }, []);
   return (
     <React.Fragment>
@@ -123,6 +102,23 @@ function HardwareInventoryView({ state, dispatch }) {
                                   id="merek"
                                   name="merek"
                                 />
+                              </div>
+                            </div>
+                            <label>Status Hardware</label>
+                            <div className="form-group">
+                              <div className="form-line">
+                                <Field
+                                  as="select"
+                                  className="form-control"
+                                  placeholder="Pilih Status Barang"
+                                  id="status_hardware"
+                                  name="status_hardware"
+                                >
+                                  <option value="AVAILABEL" selected={`${initialValues?.status_hardware === "AVAILABEL" && "selected"}`}>Availabel</option>
+                                  <option value="SCRAP" selected={`${initialValues?.status_hardware === "SCRAP" && "selected"}`}>Scrap</option>
+                                  <option value="KANIBAL" selected={`${initialValues?.status_hardware === "KANIBAL" && "selected"}`}>Kanibal</option>
+                                  <option value="SERVICE" selected={`${initialValues?.status_hardware === "SERVICE" && "selected"}`}>Service</option>
+                                </Field>
                               </div>
                             </div>
                             <label> Tipe</label>

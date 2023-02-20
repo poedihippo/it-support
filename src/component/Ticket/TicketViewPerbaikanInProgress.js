@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, FieldArray } from "formik";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
-import { useHistory } from "react-router-dom";
 import ImageTicket from "../atom/imageTicket";
-import dateFormat from "dateformat";
 import HardwareInventoriAssign from "./HardwareInventoriAssign";
 
 function TicketViewPerbaikanInProgress({
@@ -15,23 +12,14 @@ function TicketViewPerbaikanInProgress({
   ticketData,
   setTitle,
 }) {
-  const [hardwareList, setHardwareList] = useState([]);
   const [viewState, setViewState] = useState("VIEW");
   const [assignState, setAssignState] = useState("REPLACE");
   const [assignDetailData, setAssignDetailData] = useState([]);
   const [hardwareInventoryData, setHardwareInventoryData] = useState([]);
 
-  const today = dateFormat(new Date(), "yyyy-mm-dd");
-  const history = useHistory();
-
   const axiosConfig = AuthenticationService.getAxiosConfig();
-  const defaultRow = {
-    inventori_id: 0,
-    keterangan: "",
-  };
+  
   const initialValues = ticketData;
-  const validationSchema = Yup.object({});
-  console.log("ticketData", ticketData);
   const processRepair = async ({ values, inventori, setFieldValue }) => {
     try {
       const res = await axios.post(
@@ -49,7 +37,6 @@ function TicketViewPerbaikanInProgress({
     }
   };
   const processReplace = async ({ values, inventori, setFieldValue }) => {
-    console.log("inventori", inventori);
     setAssignState("REPLACE");
     setViewState("ASSIGN");
     setAssignDetailData({
@@ -158,7 +145,9 @@ function TicketViewPerbaikanInProgress({
         },
         axiosConfig
       );
-      dispatch({ type: "LIST" });
+      if(res.status === 200){
+        dispatch({ type: "LIST" });
+      }
     } catch (e) {
       console.log(e);
     }
@@ -178,7 +167,6 @@ function TicketViewPerbaikanInProgress({
           },
           axiosConfig
         );
-        console.log("res data", res.data);
         setFieldValue("status", res.data.status);
         setFieldValue("inventoris", res.data.inventoris);
         setViewState("VIEW");
@@ -193,7 +181,6 @@ function TicketViewPerbaikanInProgress({
           },
           axiosConfig
         );
-        console.log("res data", res.data);
         setFieldValue("status", res.data.status);
         setFieldValue("inventoris", res.data.inventoris);
         setViewState("VIEW");
@@ -211,7 +198,6 @@ function TicketViewPerbaikanInProgress({
       );
       const data = [];
       const mapping = [];
-      console.log("hardware inventori data", res.data);
       res.data.forEach((item, index) => {
         mapping[item.no_asset] = item;
         if (data[item.hardware_spesifikasi_id] === undefined) {
@@ -234,8 +220,6 @@ function TicketViewPerbaikanInProgress({
           spesifikasi: InventorySpec,
         });
       });
-
-      console.log("data", data);
       setHardwareInventoryData(data);
       //setHardwareInventoryDataMapping(mapping);
     } catch (e) {
@@ -260,7 +244,6 @@ function TicketViewPerbaikanInProgress({
     }
   };
   const onSubmit = async (values) => {
-    console.log("values", values);
     try {
       const res = await axios.put(
         `${config.SERVER_URL}ticketperbaikan`,
@@ -273,7 +256,7 @@ function TicketViewPerbaikanInProgress({
     }
   };
 
-  useEffect(async () => {
+  useEffect( () => {
     setInventori();
   }, []);
 
@@ -354,9 +337,8 @@ function TicketViewPerbaikanInProgress({
               <label> Detail</label>
               <FieldArray name="inventoris">
                 {(params) => {
-                  const { form, push, remove } = params;
+                  const { form } = params;
                   const { inventoris } = form.values;
-                  let no_seq = 1;
                   return (
                     <React.Fragment>
                       <table className="table table-bordered ">
@@ -403,7 +385,6 @@ function TicketViewPerbaikanInProgress({
                                       type="button"
                                       style={{ margin: "10px" }}
                                       className="btn btn-primary waves-effect"
-                                      type="button"
                                       onClick={() => {
                                         processRepair({
                                           values,
@@ -423,7 +404,6 @@ function TicketViewPerbaikanInProgress({
                                       type="button"
                                       style={{ margin: "10px" }}
                                       className="btn btn-primary waves-effect"
-                                      type="button"
                                       onClick={() => {
                                         processComplete({
                                           values,
@@ -443,7 +423,6 @@ function TicketViewPerbaikanInProgress({
                                       type="button"
                                       style={{ margin: "10px" }}
                                       className="btn btn-primary waves-effect"
-                                      type="button"
                                       onClick={() => {
                                         processReplace({
                                           values,
@@ -462,7 +441,6 @@ function TicketViewPerbaikanInProgress({
                                       type="button"
                                       style={{ margin: "10px" }}
                                       className="btn btn-primary waves-effect"
-                                      type="button"
                                       onClick={() => {
                                         processRepair({
                                           values,
@@ -485,7 +463,6 @@ function TicketViewPerbaikanInProgress({
                                     type="button"
                                     style={{ margin: "10px" }}
                                     className="btn btn-primary waves-effect"
-                                    type="button"
                                     onClick={() => {
                                       assignPeminjaman({
                                         values,
@@ -505,7 +482,6 @@ function TicketViewPerbaikanInProgress({
                                     type="button"
                                     style={{ margin: "10px" }}
                                     className="btn btn-primary waves-effect"
-                                    type="button"
                                     onClick={() => {
                                       shippingPeminjaman({
                                         values,
@@ -524,7 +500,6 @@ function TicketViewPerbaikanInProgress({
                                     type="button"
                                     style={{ margin: "10px" }}
                                     className="btn btn-primary waves-effect"
-                                    type="button"
                                     onClick={() => {
                                       receivePeminjaman({
                                         values,
@@ -543,7 +518,6 @@ function TicketViewPerbaikanInProgress({
                                     type="button"
                                     style={{ margin: "10px" }}
                                     className="btn btn-primary waves-effect"
-                                    type="button"
                                     onClick={() => {
                                       returnPeminjaman({
                                         values,
@@ -559,10 +533,8 @@ function TicketViewPerbaikanInProgress({
                                 inventoris[index].peminjaman.status === 6 &&
                                 state.userState === "ADMIN" ? (
                                   <button
-                                    type="button"
                                     style={{ margin: "10px" }}
                                     className="btn btn-primary waves-effect"
-                                    type="button"
                                     onClick={() => {
                                       completePeminjaman({
                                         values,
@@ -608,9 +580,8 @@ function TicketViewPerbaikanInProgress({
               <label> Message</label>
               <FieldArray name="messages">
                 {(params) => {
-                  const { form, push, remove } = params;
+                  const { form } = params;
                   const { messages } = form.values;
-                  let no_seq = 1;
                   return (
                     <React.Fragment>
                       <table className="table table-bordered ">

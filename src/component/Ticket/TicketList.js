@@ -7,62 +7,65 @@ import AuthenticationService from "./../../logic/AuthenticationService";
 
 function TicketList({ state, dispatch }) {
   const [data, setData] = useState([]);
-  const axiosConfig = AuthenticationService.getAxiosConfig();
-  useEffect(async () => {
-    
-    if (state.userState === "ADMIN") {
-      try {
-        const res = await axios.get(
-          `${config.SERVER_URL}ticket/admin`,
-          axiosConfig
-        );
-        if (res.status === 200) {
-          setData(res.data);
-
-          $(".js-mailing-list").DataTable({
-            responsive: true,
-          });
+  // const axiosConfig = AuthenticationService.getAxiosConfig();
+  useEffect( () => {
+    const axiosConfig = AuthenticationService.getAxiosConfig();
+    const isRunFunc = async () => {
+      if (state.userState === "ADMIN") {
+        try {
+          const res = await axios.get(
+            `${config.SERVER_URL}ticket/admin`,
+            axiosConfig
+          );
+          if (res.status === 200) {
+            setData(res.data);
+  
+            $(".js-mailing-list").DataTable({
+              responsive: true,
+            });
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
+      }
+      if (state.userState === "USER") {
+        try {
+          const res = await axios.get(
+            `${config.SERVER_URL}ticket/myticket`,
+            axiosConfig
+          );
+          if (res.status === 200) {
+            setData(res.data);
+  
+            $(".js-mailing-list").DataTable({
+              responsive: true,
+            });
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      if (state.userState === "SUPERVISOR") {
+        try {
+          const res = await axios.get(
+            `${config.SERVER_URL}ticket/mystaffticket`,
+            axiosConfig
+          );
+          if (res.status === 200) {
+            setData(res.data);
+  
+            $(".js-mailing-list").DataTable({
+              responsive: true,
+            });
+          }
+        } catch (e) {
+          console.log(e);
+        }
       }
     }
-    if (state.userState === "USER") {
-      try {
-        const res = await axios.get(
-          `${config.SERVER_URL}ticket/myticket`,
-          axiosConfig
-        );
-        if (res.status === 200) {
-          setData(res.data);
 
-          $(".js-mailing-list").DataTable({
-            responsive: true,
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (state.userState === "SUPERVISOR") {
-      try {
-        const res = await axios.get(
-          `${config.SERVER_URL}ticket/mystaffticket`,
-          axiosConfig
-        );
-        if (res.status === 200) {
-          setData(res.data);
-
-          $(".js-mailing-list").DataTable({
-            responsive: true,
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }, []);
-  console.log(data)
+    isRunFunc()
+  }, [state]);
   return (
     <React.Fragment>
       <section className="content">

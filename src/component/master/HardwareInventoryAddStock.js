@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { useParams } from "react-router";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, FieldArray } from "formik";
 import IsLoading from "../loading";
 import config from "../../config.json";
 import axios from "axios";
@@ -56,7 +55,9 @@ const consumableSubmit = async ({
       stockCardData,
       axiosConfig
     );
-    history.push("/hardware-spec");
+    if(result?.status === 200){
+      history.push("/hardware-spec");
+    }
   } catch (e) {
     console.log(e);
   }
@@ -68,7 +69,7 @@ function HardwareInventoryAddStock() {
   initialValues.hardwareSpecId = hardwareSpecId;
   const [isLoad, setIsLoad] = useState(false)
   const [supplierList, setSupplierList] = useState([]);
-  const [hardwareSpec, setHardwareSpec] = useState({});
+  // const [hardwareSpec, setHardwareSpec] = useState({});
   const [spesifikasi, setSpesifikasi] = useState({});
   const [isConsumable, setIsConsumable] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -131,6 +132,7 @@ function HardwareInventoryAddStock() {
           newObj[keyObj] = isData[keyObj]
           checkError = true
         }else {
+          postObj["status_hardware"] = "AVAILABEL"
           if(keyObj === "spesifikasi"){
             if(Object.keys(objectForSpek).length !== 0){
                 postObj[keyObj] = {}
@@ -152,35 +154,6 @@ function HardwareInventoryAddStock() {
       postArr.push(postObj)
       newArr.push(newObj)
     });
-    // Yang Lama Punya
-
-    // inventoris.forEach(isData => {
-    //   let newObj = {}
-    //   let postObj = {}
-    //   for(let keyObj in isData){
-    //     if(isData[keyObj] === "" || isData[keyObj] === 0){
-    //       newObj[keyObj] = isData[keyObj]
-    //       checkError = true
-    //     }else {
-    //       if(keyObj === "spesifikasi"){
-    //         postObj[keyObj] = {}
-    //         const spekKeys = Object.keys(isData[keyObj]);
-    //         let count = 0
-    //         for(let spekKey of spekKeys){
-    //           count = count + 1
-    //           postObj[keyObj][`type${count}`] = isData[keyObj][spekKey]
-    //         }
-            
-    //       }
-
-    //       if(keyObj !== "spesifikasi"){
-    //         postObj[keyObj] = isData[keyObj]
-    //       }
-    //     }
-    //   }
-    //   postArr.push(postObj)
-    //   newArr.push(newObj)
-    // })
     if(checkError !== true){
       setIsLoad(true)
       try {
@@ -189,8 +162,10 @@ function HardwareInventoryAddStock() {
           postArr,
           axiosConfig
         );
-        setIsLoad(false)
-        history.push("/hardware-spec");
+        if(result.status === 200){
+          setIsLoad(false)
+          history.push("/hardware-spec");
+        }
       } catch (e) {
         console.log(e);
       }
@@ -214,11 +189,11 @@ function HardwareInventoryAddStock() {
         `${config.SERVER_URL}hardwarespec/${hardwareSpecId}`,
         axiosConfig
       );
-      setHardwareSpec(hardwareSpecRes.data);
+      // setHardwareSpec(hardwareSpecRes.data);
       setIsConsumable(hardwareSpecRes.data.consumable);
       const specArr = JSON.parse(hardwareSpecRes.data.spesifikasi);
       const spec = {};
-      specArr.map((i, index) => {
+      specArr.forEach((i, index) => {
         spec[i] = "";
       });
       defaultRow.spesifikasi = spec;

@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
 
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, FieldArray } from "formik";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
-import { object } from "yup/lib/locale";
-import HardwareInventoryList from "./HardwareInventoryList";
 
 function HardwareInventoryAdd({ state, dispatch }) {
   const [supplierData, setSupplierData] = useState([]);
@@ -15,7 +11,7 @@ function HardwareInventoryAdd({ state, dispatch }) {
   const specArr = JSON.parse(state.hardwareSpecRow.spesifikasi);
   const spec = {};
 
-  specArr.map((i, index) => {
+  specArr.forEach((i, index) => {
     spec[i] = "";
   });
   const defaultRow = {
@@ -40,8 +36,8 @@ function HardwareInventoryAdd({ state, dispatch }) {
           inventoris[i],
           axiosConfig
         );
-        if (result.status == 200) {
-          if (index == dataCount) dispatch({ type: "LIST" });
+        if (result.status === 200) {
+          if (index === dataCount) dispatch({ type: "LIST" });
         }
       } catch (err) {
         console.log(err);
@@ -49,27 +45,13 @@ function HardwareInventoryAdd({ state, dispatch }) {
     }
 
     inventoris.forEach(async (inventori) => {
-      /*
-        .then((res) => {
-          console.log(res);
-          if (index == dataCount) dispatch({ type: "LIST" });
-        })
-        .catch((err) => console.log(err));
-        */
+    
     });
 
-    //console.log(values.inventori.length);
-    /*
-    axios
-      .post(`${config.SERVER_URL}hardwareinventori`, values, axiosConfig)
-      .then((res) => {
-        console.log(res);
-        // dispatch({ type: "LIST" });
-      })
-      .catch((err) => console.log(err));
-      */
+   
   };
   useEffect(() => {
+    const axiosConfig = AuthenticationService.getAxiosConfig();
     axios
       .get(`${config.SERVER_URL}suppliervendor`, axiosConfig)
       .then((res) => {

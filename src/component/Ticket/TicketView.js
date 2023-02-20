@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import $ from "jquery";
+// import $ from "jquery";
 import "datatables.net";
 import config from "../../config.json";
 import axios from "axios";
@@ -20,18 +20,23 @@ function TicketView({ state, dispatch }) {
   const [title, setTitle] = useState(
     `View Ticket ${state.currentRow.jenis_ticket}`
   );
-  const axiosConfig = AuthenticationService.getAxiosConfig();
-  useEffect(async () => {
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}ticket/details/${state.currentId}`,
-        axiosConfig
-      );
-      setTicketData(res.data);
-    } catch (e) {
-      console.log(e);
+  // const axiosConfig = AuthenticationService.getAxiosConfig();
+  useEffect( () => {
+    const axiosConfig = AuthenticationService.getAxiosConfig();
+    const getDataTicketDetails = async () => {
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}ticket/details/${state.currentId}`,
+          axiosConfig
+        );
+        setTicketData(res.data);
+      } catch (e) {
+        console.log(e);
+      }
     }
-  }, []);
+    getDataTicketDetails()
+    console.log('apip')
+  }, [state]);
 
   return (
     <React.Fragment>

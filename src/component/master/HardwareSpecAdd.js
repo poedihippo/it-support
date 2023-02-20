@@ -81,31 +81,7 @@ function HardwareSpecAdd({ state, dispatch }) {
           })
           .catch((err) => console.log(err));
     }
-    // categoryData.map(datas => {
-    //   if(datas.kode_inventori === values.kode_inventori){
-    //     setIsLoad(true)
-    //     if (isConsumable === "1") {
-    //       values.kode_inventori = "-";
-    //       values.consumable = true;
-    //     } else {
-    //       values.consumable = false;
-    //     }
 
-    //     axios
-    //     .post(`${config.SERVER_URL}hardwarespec`, values, axiosConfig)
-    //     .then((res) => {
-    //       setIsLoad(false)
-    //       dispatch({ type: "LIST" });
-    //     })
-    //     .catch((err) => console.log(err));
-    //     }else {
-    //       console.log('error')
-    //     }
-    //   })
-    
-    //console.log(values);
-
-    
   };
   const onSubmitCons = () => {
 
@@ -199,7 +175,6 @@ function HardwareSpecAdd({ state, dispatch }) {
                       validationSchema={validationSchema}
                     >
                       {({ errors, touched, isValidating }) => {
-                        console.log("errors", errors);
                         return (
                           <Form>
                             <div className="row clearfix">
@@ -275,7 +250,18 @@ function HardwareSpecAdd({ state, dispatch }) {
                                     </label>
                                   ) : null}
                                 </div>
-
+                                <label> Status</label>
+                                <div className="form-group">
+                                  <div className="form-line">
+                                    <Field
+                                      as="textarea"
+                                      rows="4"
+                                      className="form-control no-resize"
+                                      id="deskripsi"
+                                      name="deskripsi"
+                                    />
+                                  </div>
+                                </div>
                                 <label> Deskripsi</label>
                                 <div className="form-group">
                                   <div className="form-line">

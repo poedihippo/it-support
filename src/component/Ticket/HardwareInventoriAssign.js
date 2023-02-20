@@ -7,9 +7,9 @@ function HardwareInventoriAssign({
   assignInventori,
   setFieldValue,
   assignDetailData,
+  dispatch
 }) {
-  console.log("assignDetailData", assignDetailData);
-  useEffect(async () => {
+  useEffect( () => {
     $(".js-mailing-list").DataTable({
       responsive: true,
     });
@@ -77,7 +77,18 @@ function HardwareInventoriAssign({
                   ))
                 : null}
             </tbody>
+            
           </table>
+          <button
+                    className="btn btn-primary"
+                    style={{ margin: "5px" }}
+                    type="button"
+                    onClick={() => {
+                      dispatch({ type: "VIEW" });
+                    }}
+                  >
+                    Back
+                  </button>
         </div>
       </div>
     </div>
