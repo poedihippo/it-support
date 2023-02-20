@@ -155,7 +155,6 @@ const assignForRepairs = async () => {
       window.location.reload();
      
   }
-  console.log(JSON.parse(dataStaff[12]?.sunsafe_response)?.payload?.cabang?.cabang_name, "check data staff")
   return (
     <>
       <section className="content">
