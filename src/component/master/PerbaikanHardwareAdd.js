@@ -1,19 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, FieldArray } from "formik";
+// import * as Yup from "yup";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
-import { useHistory } from "react-router-dom";
 import IsLoading from "../loading";
 import dateFormat from "dateformat";
 
 function PerbaikanHardwareAdd({ state, dispatch }) {
   const [vendorList, setVendorList] = useState([]);
+  const [isError, setIsError] = useState({});
   const today = dateFormat(new Date(), "yyyy-mm-dd");
-  const [isLoad, setIsLoad] = useState(false)
-  const history = useHistory();
+  const [isLoad, setIsLoad] = useState(false);
 
   const axiosConfig = AuthenticationService.getAxiosConfig();
 
@@ -23,52 +22,55 @@ function PerbaikanHardwareAdd({ state, dispatch }) {
     catatan: "",
     inventoris: [],
   };
-  const validationSchema = Yup.object({});
+  // const validationSchema = Yup.object({});
 
   const onSubmit = async (values) => {
-    setIsLoad(true)
-
-    try {
+    
+    if(values["vendor_id"] === 0){
+      setIsError({vendor_id: true});
+    }else {
+      setIsLoad(true)
+      try {
       const res = await axios.post(
         `${config.SERVER_URL}perbaikanhardware`,
         values,
         axiosConfig
       );
-      setIsLoad(false)
+      if(res.status === 200){
+        setIsLoad(false)
       dispatch({ type: "LIST" });
+      }
     } catch (e) {
       console.log(e);
     }
+    }
+    
   };
 
-  useEffect(async () => {
-    try {
-      const inventoriRes = await axios.get(
-        `${config.SERVER_URL}hardwareinventori/brokenatit`,
-        axiosConfig
-      );
-      initialValues.inventoris = await inventoriRes.data;
-
-      const res = await axios.get(
-        `${config.SERVER_URL}suppliervendor`,
-        axiosConfig
-      );
-      if (res.status === 200) {
-        setVendorList(res.data);
-      }
-
-      /*
-        const list = [];
-
-        for (let index = 0; index < inventoriRes.data.length; index++) {
-          list.push({ ...inventoriRes.data[index], checked: 0 });
+  useEffect( () => {
+    const getDataInventori = async () => {
+      try {
+        const inventoriRes = await axios.get(
+          `${config.SERVER_URL}hardwareinventori/brokenatit`,
+          axiosConfig
+        );
+        initialValues.inventoris = await inventoriRes.data;
+  
+        const res = await axios.get(
+          `${config.SERVER_URL}suppliervendor`,
+          axiosConfig
+        );
+        if (res.status === 200) {
+          setVendorList(res.data);
         }
-        console.log("list", list);
-        initialValues.inventoris = list;
-        */
-    } catch (e) {
-      console.log(e);
+  
+       
+      } catch (e) {
+        console.log(e);
+      }
     }
+
+    getDataInventori()
   }, []);
 
   return (
@@ -123,16 +125,17 @@ function PerbaikanHardwareAdd({ state, dispatch }) {
                                       )
                                     )}
                                   </Field>
+                                  
                                 </div>
+                                {isError?.vendor_id && (<div ><span style={{color:"red"}}>Vendor Harap Dipilih</span></div>)}
                               </div>
                             </div>
                           </div>
                           <label> Detail</label>
                           <FieldArray name="inventoris">
                             {(params) => {
-                              const { form, push, remove } = params;
+                              const { form } = params;
                               const { inventoris } = form.values;
-                              let no_seq = 1;
                               return (
                                 <React.Fragment>
                                   <table className="table table-bordered ">

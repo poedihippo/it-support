@@ -666,6 +666,9 @@ function TicketViewPerbaikanInProgress({
               assignDetailData={assignDetailData}
               setFieldValue={setFieldValue}
               assignInventori={assignInventori}
+              state={state}
+              dispatch={dispatch}
+              setViewState={setViewState}
             />
           ) : null}
         </React.Fragment>
