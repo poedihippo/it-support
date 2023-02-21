@@ -122,7 +122,7 @@ function UserView() {
   return (
     <React.Fragment>
       <section className="content">
-        <div className="container-fluid">
+        <div className="container-fluid" style={{background:"white", padding:"50px 50px"}}>
           <div className="row clearfix">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div className="card">
@@ -279,6 +279,14 @@ function UserView() {
                 </div>
               </div>
             </div>
+          </div>
+          <div>
+            <button
+              className="btn btn-primary waves-effect"
+              onClick={() => {
+                window.location.assign(`/userlist`)
+              }}
+            >Back</button>
           </div>
         </div>
       </section>
