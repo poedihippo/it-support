@@ -6,8 +6,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
     const [isData, setIsData] = useState([]) 
     const dataLisence = state.currentRow.dataLisence
     const axiosConfig = AuthenticationService.getAxiosConfig();
-    const softwareId = state.currentId;
-    console.log(dataLisence, "check data lisence")
+    // const softwareId = state.currentId;
     useEffect(() => {
       const getDataLisence = async () => {
         try {
@@ -128,7 +127,7 @@ const SoftwareLisenceView = ({state, dispatch}) => {
                                           type="button"
                                           className="btn btn-primary waves-effect"
                                           onClick={() => {
-                                            dispatch({type: "ASSIGN_LISENCE", id: "softwareId", row: {main:"softwareData", lisence:"lisenceData"}})
+                                            dispatch({type: "ASSIGN_LISENCE", id: isData?.id, row: {main:"softwareData", lisence:"lisenceData"}})
                                           }}
                                         >
                                           [+]

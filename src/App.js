@@ -4,7 +4,7 @@ import { Route, useLocation, useHistory } from "react-router-dom";
 import RunGetss from "./component/master/aTestpdf";
 import HardwareInventoryAssign from "./component/master/HardwareInventoryAssignOld";
 // Hapus di atas ini
-import RequireAuth from "./logic/require";
+// import RequireAuth from "./logic/require";
 import AuthenticationService from "./logic/AuthenticationService";
 import FormPage from "./component/FormPage";
 import TopMenu from "./component/public/TopMenu";
@@ -26,7 +26,7 @@ import SupplierVendor from "./component/master/SupplierVendor";
 import HardwareSpec from "./component/master/HardwareSpec";
 import HardwareInventory from "./component/master/HardwareInventory";
 import React, { useEffect } from "react";
-import ConnectionLost from "./component/public/ConnectionLost";
+// import ConnectionLost from "./component/public/ConnectionLost";
 import HardwareInventoryAddStock from "./component/master/HardwareInventoryAddStock";
 import Software from "./component/master/Software";
 import FormPermintaan from "./component/master/FormPermintaan";
@@ -38,23 +38,26 @@ import TestPDF from "./component/email/TestPDF";
 import TestEmail from "./component/email/TestEmail";
 import HardwareInventoryView from "./component/master/HardwareInventoryView";
 import Logout from "./component/Logout";
-
+import SoftwareLisenceAssignTo from "./component/master/SoftwareLisenceAssignTo";
 function App() {
  
   const { pathname, search } = useLocation();
   const history = useHistory();
   const userLogin = AuthenticationService.getLocalCredential();
  
-  useEffect(async () => {
-    if (pathname === "/authentication") {
-      const params = new URLSearchParams(search);
-      const login_token = params.get("login_token");
-      const userData = await AuthenticationService.authentication(login_token);
-      history.push("/");
+  useEffect( () => {
+    const runParams = async () => {
+      if (pathname === "/authentication") {
+        const params = new URLSearchParams(search);
+        const login_token = params.get("login_token");
+        const userData = await AuthenticationService.authentication(login_token);
+        history.push("/");
+      }
     }
+    runParams()
     
   }, []);
-  const isTrue = true
+  // const isTrue = true
   return (
     <div className="App">
      (
@@ -124,6 +127,7 @@ function App() {
               component={HardwareInventoryAddStock}
             />
             <Route exact path="/software" component={Software} />
+            <Route exact path="/software-lisence-assign-to/:id" component={SoftwareLisenceAssignTo}/>
             <Route exact path="/form-permintaan" component={FormPermintaan} />
             <Route
               exact

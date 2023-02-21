@@ -7,7 +7,6 @@ const SoftwareLisenceAssign = ({state, dispatch}) => {
     const softwareData = state.currentRow.main;
     const axiosConfig = AuthenticationService.getAxiosConfig();
     const handleAssign = async (data) => {
-      console.log(data, "check data")
       Axios.post(`${config.SERVER_URL}softwarelisence`, data, axiosConfig)
       .then(res => console.log(res, "berarti berhasil"))
       .catch(error => console.log(error.response, "berarti ada yang error"))
@@ -34,7 +33,7 @@ const SoftwareLisenceAssign = ({state, dispatch}) => {
                           <th>Action</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      {/* <tbody>
                         {dataLisence.map((i) => (
                           <tr key={i.id}>
                             <td>{softwareData.nama_software}</td>
@@ -54,7 +53,7 @@ const SoftwareLisenceAssign = ({state, dispatch}) => {
                             </td>
                           </tr>
                         ))}
-                      </tbody>
+                      </tbody> */}
                     </table>
                   </div>
                   <div>

@@ -71,7 +71,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
     data.append('image2path', uploadImage.image2)
     data.append('image3path', uploadImage.image3)
     data.append('coba', JSON.stringify(values.inventoris))
-    
+    for(let i in data)
     
     try {
       const res = await axios.post(
@@ -84,7 +84,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
       );
       if(res.status === 200){
         setIsLoad(false)
-        history.push("/my-ticket-list");
+        history.push("/ticket-list");
       }
     } catch (error) {
       console.log(error.response);

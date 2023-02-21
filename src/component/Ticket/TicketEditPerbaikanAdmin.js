@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
+import { Formik, Form, Field, FieldArray } from "formik";
 import * as Yup from "yup";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
-import { useHistory } from "react-router-dom";
 import UpldFile from "../atom/uploadFile";
-import dateFormat from "dateformat";
 import TicketPerbaikanInventoriAssign from "./TicketPerbaikanInventoriAssign";
 import IsLoading from "../loading";
 function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
@@ -28,8 +26,6 @@ function TicketEditPerbaikanAdmin({ state, dispatch, ticketData, setTitle }) {
     image2: "",
     image3: ""
   })
-  const today = dateFormat(new Date(), "yyyy-mm-dd");
-  const history = useHistory();
 
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const defaultRow = {

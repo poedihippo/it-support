@@ -105,14 +105,14 @@ function TicketList({ state, dispatch }) {
                                 )}
                             </td>
                             <td>{i.jenis_ticket.replace(/['"]+/g, '')}</td>
-                            <td>{state.statusMapping[i.status]}</td>
+                            <td>{state.statusMapping[i.status_perbaikan_inventory]}</td>
                             <td>{i.fullname}</td>
                             <td>{i.tanggal_pengajuan}</td>
                             <td>
-                              {(i.status === 1 && state.userState === "USER") ||
-                              (i.status === 1 &&
+                              {(i.status_perbaikan_inventory === 1 && state.userState === "USER") ||
+                              (i.status_perbaikan_inventory === 1 &&
                                 state.userState === "SUPERVISOR") ||
-                              ((i.status === 2 || i.status === 3) &&
+                              ((i.status_perbaikan_inventory === 2 || i.status_perbaikan_inventory === 3) &&
                                 state.userState === "ADMIN") ||
                               (i.jenis_ticket === "PERBAIKAN") ? (
                                 <button

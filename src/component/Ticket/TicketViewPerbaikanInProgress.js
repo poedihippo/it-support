@@ -298,13 +298,9 @@ function TicketViewPerbaikanInProgress({
                   </div>
                   <label> Jenis Perbaikan</label>
                   <div className="form-group">
-                    <Field
-                      type="text"
-                      disabled={true}
-                      className="form-control"
-                      name="jenis_perbaikan"
-                      id="jenis_perbaikan"
-                    />
+                    {
+                      ticketData?.inventoris?.length === 0 ? "-" : ticketData?.inventoris[0]?.jenis_perbaikan
+                    }
                   </div>
                   <label> Request By</label>
                   <div className="form-group">

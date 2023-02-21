@@ -1,27 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React from "react";
+import { Formik, Form, Field, FieldArray,  } from "formik";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
-import { useHistory } from "react-router-dom";
 import ImageTicket from "../atom/imageTicket";
-import dateFormat from "dateformat";
 
 function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
-  const today = dateFormat(new Date(), "yyyy-mm-dd");
-  const history = useHistory();
-
+ 
   const axiosConfig = AuthenticationService.getAxiosConfig();
-  const defaultRow = {
-    inventori_id: 0,
-    keterangan: "",
-  };
+  
   const initialValues = ticketData;
-  console.log(initialValues, "check init values")
-  const validationSchema = Yup.object({});
   const processInventori = async ({ values, inventori, setFieldValue }) => {
-    console.log("pr", values);
     try {
       const res = await axios.post(
         `${config.SERVER_URL}ticketperbaikan/processinventori`,
@@ -31,7 +20,6 @@ function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
         },
         axiosConfig
       );
-      console.log("res data", res.data);
       setFieldValue("status", res.data.status);
       setFieldValue("inventoris", res.data.inventoris);
     } catch (e) {
@@ -63,13 +51,14 @@ function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
         },
         axiosConfig
       );
-      dispatch({ type: "LIST" });
+      if(res.status === 200){
+        dispatch({ type: "LIST" });
+      }
     } catch (e) {
       console.log(e);
     }
   };
   const onSubmit = async (values) => {
-    console.log("values", values);
     try {
       const res = await axios.put(
         `${config.SERVER_URL}ticketperbaikan`,
@@ -82,7 +71,7 @@ function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
     }
   };
 
-  useEffect(async () => {}, []);
+ 
 
   return (
     <Formik
@@ -121,13 +110,9 @@ function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
                 </div>
                 <label> Jenis Perbaikan</label>
                 <div className="form-group">
-                  <Field
-                    type="text"
-                    disabled={true}
-                    className="form-control"
-                    name="jenis_perbaikan"
-                    id="jenis_perbaikan"
-                  />
+                  {
+                      ticketData?.inventoris?.length === 0 ? "-" : ticketData?.inventoris[0]?.jenis_perbaikan
+                    }
                 </div>
                 <label> Request By</label>
                 <div className="form-group">
@@ -160,9 +145,8 @@ function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
             <label> Detail</label>
             <FieldArray name="inventoris">
               {(params) => {
-                const { form, push, remove } = params;
+                const { form } = params;
                 const { inventoris } = form.values;
-                let no_seq = 1;
                 return (
                   <React.Fragment>
                     <table className="table table-bordered ">
@@ -206,7 +190,6 @@ function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
                                     type="button"
                                     style={{ margin: "10px" }}
                                     className="btn btn-primary waves-effect"
-                                    type="button"
                                     onClick={() => {
                                       processInventori({
                                         values,
@@ -221,7 +204,6 @@ function TicketViewPerbaikanCreate({ state, dispatch, ticketData, setTitle }) {
                                     type="button"
                                     style={{ margin: "10px" }}
                                     className="btn btn-primary waves-effect"
-                                    type="button"
                                     onClick={() => {
                                       declineInventori({
                                         values,

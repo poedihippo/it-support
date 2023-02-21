@@ -4,38 +4,17 @@ import "datatables.net";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
-
+import { useHistory } from "react-router-dom";
 function SoftwareLisenceList({ state, dispatch }) {
   const [data, setData] = useState([]);
-  const axiosConfig = AuthenticationService.getAxiosConfig();
   const softwareData = state.currentRow;
   const softwareId = state.currentId;
-  useEffect( async () => {
+  const history = useHistory()
+  useEffect( () => {
+    const axiosConfig = AuthenticationService.getAxiosConfig();
+    
 
-    // const getDataLisenceList = async () => {
-    //   const tokenAuth = await localStorage.getItem("token");
-    //   console.log(tokenAuth, "check softwareLisenceList", softwareId)
-    //   fetch(`${config.SERVER_URL}softwarelisence/software/${softwareId}`, {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "Bearer " + tokenAuth,
-    //     },
-    //   })
-    //   .then(data => data.json())
-    //   .then(res => {
-        
-    //     console.log(res, "check re")
-    //     setData(res)
-    //     $(".js-mailing-list").DataTable({
-    //       responsive: true,
-    //     });
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response, "check")
-    //   })
-    // } 
-    // getDataLisenceList()
-
+   const getData = async () => {
     try {
       const res = await axios.get(
         `${config.SERVER_URL}softwarelisence/software/${softwareId}`,
@@ -48,7 +27,10 @@ function SoftwareLisenceList({ state, dispatch }) {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+   }
+   getData()
+  }, [softwareId]);
+  console.log(data, "check data")
   return (
     <React.Fragment>
       <section className="content">
@@ -71,6 +53,7 @@ function SoftwareLisenceList({ state, dispatch }) {
                           <th>Tanggal Aktif</th>
                           <th>Tanggal Expired</th>
                           <th>Tanggal Pembelian</th>
+                          <th>Assigned Users</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -84,6 +67,7 @@ function SoftwareLisenceList({ state, dispatch }) {
                             <td>{i.tanggal_aktif}</td>
                             <td>{i.tanggal_expired}</td>
                             <td>{i.tanggal_pembelian}</td>
+                            <td>{i?.assigned_users}</td>
                             <td>
                               <button
                                 type="button"
@@ -93,6 +77,19 @@ function SoftwareLisenceList({ state, dispatch }) {
                                 className="btn btn-primary waves-effect "
                               >
                                 View
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  history.push({
+                                    pathname: `/software-lisence-assign-to/${i.id}`,
+                                    state:i
+                                  })
+                                // dispatch({ type: "VIEW_LISENCE", id:softwareId, row:{main:softwareData, lisence:softwareData, dataLisence:i} });
+                              }}
+                                className="btn btn-primary waves-effect "
+                              >
+                                Assign To
                               </button>
                             </td>
                           </tr>

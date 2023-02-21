@@ -36,7 +36,6 @@ function HardwareInventoryList({ state, dispatch }) {
         axiosConfig
       )
       .then((res) => {
-        console.log(res, "check res")
         if (res.status === 200) {
           
        
@@ -52,7 +51,6 @@ function HardwareInventoryList({ state, dispatch }) {
 
       
   }, []);
-  
   return (
     <React.Fragment>
       <section className="content">

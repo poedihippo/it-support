@@ -34,8 +34,7 @@ function TicketView({ state, dispatch }) {
         console.log(e);
       }
     }
-    getDataTicketDetails()
-    console.log('apip')
+    getDataTicketDetails();
   }, [state]);
 
   return (
