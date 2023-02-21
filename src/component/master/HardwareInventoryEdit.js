@@ -43,12 +43,13 @@ function HardwareInventoryView({ state, dispatch }) {
     getDataSupplier()
     
   }, []);
+  
   return (
     <React.Fragment>
       <section className="content">
         <div className="container-fluid">
           <div className="block-header">
-            <h2>Software</h2>
+            <h2>Hardware</h2>
           </div>
 
           <div className="row clearfix">
@@ -62,7 +63,8 @@ function HardwareInventoryView({ state, dispatch }) {
                     // validationSchema={validationSchema}
                     enableReinitialize={true}
                   >
-                    {({ values, setFieldValue }) => (
+                    {({ values, setFieldValue }) => {
+                      return (
                       <Form>
                         <div className="row clearfix">
                           <div className="col-sm-12">
@@ -114,7 +116,7 @@ function HardwareInventoryView({ state, dispatch }) {
                                   id="status_hardware"
                                   name="status_hardware"
                                 >
-                                  <option value="AVAILABEL" selected={`${initialValues?.status_hardware === "AVAILABEL" && "selected"}`}>Availabel</option>
+                                  <option value="AVAILABEL" selected={`${initialValues?.status_hardware === "AVAILABLE" && "selected"}`}>Available</option>
                                   <option value="SCRAP" selected={`${initialValues?.status_hardware === "SCRAP" && "selected"}`}>Scrap</option>
                                   <option value="KANIBAL" selected={`${initialValues?.status_hardware === "KANIBAL" && "selected"}`}>Kanibal</option>
                                   <option value="SERVICE" selected={`${initialValues?.status_hardware === "SERVICE" && "selected"}`}>Service</option>
@@ -180,8 +182,9 @@ function HardwareInventoryView({ state, dispatch }) {
                                 </Field>
                               </div>
                             </div>
-                            {Object.keys(values.spesifikasi).map(
-                              (specKey, specIndex) => (
+                            {Object.keys(typeof values?.spesifikasi !== "string" ? values?.spesifikasi :JSON.parse(values?.spesifikasi)).map(
+                              (specKey, specIndex) => {
+                                return (
                                 <React.Fragment key={specIndex}>
                                   <label> {specKey}</label>
                                   <div className="form-group">
@@ -196,7 +199,7 @@ function HardwareInventoryView({ state, dispatch }) {
                                     </div>
                                   </div>
                                 </React.Fragment>
-                              )
+                              )}
                             )}
                             {/* <label> Spesifikasi</label>
                             <div className="form-group">
@@ -226,7 +229,7 @@ function HardwareInventoryView({ state, dispatch }) {
                           </div>
                         </div>
                       </Form>
-                    )}
+                    )}}
                   </Formik>
                 </div>
               </div>

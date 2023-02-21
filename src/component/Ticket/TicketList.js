@@ -36,7 +36,7 @@ function TicketList({ state, dispatch }) {
           );
           if (res.status === 200) {
             setData(res.data);
-  
+            
             $(".js-mailing-list").DataTable({
               responsive: true,
             });

@@ -43,7 +43,7 @@ const assignForRepairs = async () => {
     useEffect(() => {
         const listStaff = async () => {
             const channelId = localStorage.getItem('channel_id');
-            const res = await axios.get(`${config.SERVER_URL}logindata`, axiosConfig);
+            const res = await axios.get(`${config.SERVER_URL}logindata?hardware_inventori_id=${isStateData.id}`, axiosConfig);
             setDataStaff(res.data)
             $(".js-mailing-list").DataTable({
                 responsive: true,

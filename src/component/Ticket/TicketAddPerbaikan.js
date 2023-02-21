@@ -300,7 +300,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
             <div className="col-sm-12">
               <label> Trouble Detail</label>
               <div className="form-group" style={{display:"flex",justifyContent:"space-around"}}>
-                <div className="form-line img-upld">
+                <div className="form-line img-upld"style={{width:"max-content"}}>
                   <div className="preview-image">
                     <div className={`remove-image ${isImage?.image1 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image1")}>X</div>
                     {isImage?.image1 === "" ? <div >Upload your image</div>:<img src={isImage?.image1} />}
@@ -317,7 +317,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
                   />
                   
                 </div>
-                <div className="form-line img-upld">
+                <div className="form-line img-upld" style={{width:"max-content"}}>
                   <div className="preview-image">
                   <div className={`remove-image ${isImage?.image2 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image2")}>X</div>
                   {isImage?.image2 === "" ? <div >Upload your image</div>:<img src={isImage?.image2} />}
@@ -334,7 +334,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
                   />
                   
                 </div>
-                <div className="form-line img-upld">
+                <div className="form-line img-upld"style={{width:"max-content"}}>
                   <div className="preview-image" style={{position:"relative"}}>
                     <div className={`remove-image ${isImage?.image3 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image3")}>X</div>
                   {isImage?.image3 === "" ? <div>Upload your image</div>:<img src={isImage?.image3} />}

@@ -28,19 +28,19 @@ function HardwareInventoryView({ state, dispatch }) {
   const axiosConfig = AuthenticationService.getAxiosConfig();
   const getIdFromState = state?.currentRow?.data?.id
  
-  const initialValues = {
-    id: 0,
-    nama_hardware: "",
-    no_asset: "",
-    merek: "",
-    tipe: "",
-    serial_number: "",
-    harga: "",
-    nama_supplier: "",
-    spesifikasi: "",
-    lisences: [],
-  };
-  const validationSchema = Yup.object({});
+  // const initialValues = {
+  //   id: 0,
+  //   nama_hardware: "",
+  //   no_asset: "",
+  //   merek: "",
+  //   tipe: "",
+  //   serial_number: "",
+  //   harga: "",
+  //   nama_supplier: "",
+  //   spesifikasi: "",
+  //   lisences: [],
+  // };
+  // const validationSchema = Yup.object({});
   const onSubmit = (values) => {};
   const assignLisence = async (values) => {
     try {
@@ -101,40 +101,42 @@ function HardwareInventoryView({ state, dispatch }) {
       console.log(e);
     }
   };
-  useEffect(async () => {
+  useEffect( () => {
     // get userData
 
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}hardwareinventori/${getIdFromState}`,
-        {
-          ...axiosConfig,
+    const runState = async () => {
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}hardwareinventori/${getIdFromState}`,
+          {
+            ...axiosConfig,
+          }
+        );
+        const payload = await res.data;
+  
+        if (payload.error_code === 0) {
+          const spesifikasi = JSON.parse(payload.data.spesifikasi);
+  
+          setData({ ...data, ...payload.data, spesifikasi });
         }
-      );
-      const payload = await res.data;
-      console.log(payload);
-
-      if (payload.error_code === 0) {
-        const spesifikasi = JSON.parse(payload.data.spesifikasi);
-
-        setData({ ...data, ...payload.data, spesifikasi });
-      }
-
-      const lisenceRes = await axios.get(
-        `${config.SERVER_URL}hardwareinventorilisence/available`,
-        {
-          ...axiosConfig,
+  
+        const lisenceRes = await axios.get(
+          `${config.SERVER_URL}hardwareinventorilisence/available`,
+          {
+            ...axiosConfig,
+          }
+        );
+        if (lisenceRes.data.error_code === 0) {
+          setLisenceData(lisenceRes.data.payload);
+          $(".js-mailing-list").DataTable({
+            responsive: true,
+          });
         }
-      );
-      if (lisenceRes.data.error_code === 0) {
-        setLisenceData(lisenceRes.data.payload);
-        $(".js-mailing-list").DataTable({
-          responsive: true,
-        });
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
+    runState()
   }, []);
   const deleteData = (data) => {
     setDataDelete(data)
@@ -248,6 +250,17 @@ function HardwareInventoryView({ state, dispatch }) {
                                   />
                                 </div>
                               </div>
+                              <label>Status Hardware</label>
+                              <div className="form-group">
+                                  <Field
+                  
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Question"
+                                    id="status_hardware"
+                                    name="status_hardware"
+                                  />
+                                </div>
                               <label> Tipe</label>
                               <div className="form-group">
                                 <div className="form-line">

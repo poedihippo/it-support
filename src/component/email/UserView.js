@@ -31,8 +31,6 @@ function UserView() {
       const userRes = await axios.get(`${config.SERVER_URL}user/${user_id}`, {
         ...axiosConfig,
       });
-
-      
       if (userRes.data.error_code === 0) {
       
         setUser(userRes.data.userData);
@@ -94,10 +92,9 @@ function UserView() {
       let peminjaman = [];
       try {
         const resPermintaan = await axios.get(
-          `${config.SERVER_URL}user/:id/myinventory`,
+          `${config.SERVER_URL}user/${parseInt(user_id)}/userinventory`,
           axiosConfig
         );
-    
         if (resPermintaan.status === 200) {
           permintaan = resPermintaan.data;
         }
