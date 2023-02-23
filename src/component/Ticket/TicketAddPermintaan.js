@@ -28,8 +28,7 @@ function TicketAddPermintaan({ state, dispatch }) {
         values,
         axiosConfig
       );
-      console.log(res);
-      history.push("/ticket-list");
+      history.push("/my-ticket-list");
       //dispatch({ type: "LIST" });
     } catch (e) {
       console.log(e);
