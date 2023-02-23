@@ -1,7 +1,6 @@
 import React from 'react';
 import '../../../stylei.css'
 const ImageTicket = ({srcImg}) => {
-    console.log(srcImg, "check srcnya")
     return (
         <div className="form-line img-upld">
             <div className="preview-image">

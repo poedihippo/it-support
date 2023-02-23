@@ -12,15 +12,14 @@ function MyInventory() {
     peminjaman: [],
   });
   const axiosConfig = AuthenticationService.getAxiosConfig();
-
+  const getId = localStorage.getItem("id")
   useEffect(() => {
-    
     const getInventory = async () => {
       let permintaan = [];
       let peminjaman = [];
       try {
         const resPermintaan = await axios.get(
-          `${config.SERVER_URL}user/:id/myinventory`,
+          `${config.SERVER_URL}user/${getId ?? 0}/myinventory`,
           axiosConfig
         );
     
@@ -47,7 +46,7 @@ function MyInventory() {
       }
     }
     getInventory()
-  }, []);
+  }, [getId]);
   //console.log(data);
   return (
     <React.Fragment>

@@ -28,10 +28,10 @@ function HardwareInventoriAssign({
                 <th>Merek</th>
                 <th>Tipe</th>
 
-                {hardwareInventoryData[assignDetailData.hardware_spec_id] !==
+                {hardwareInventoryData[0] !==
                 undefined
                   ? hardwareInventoryData[
-                      assignDetailData.hardware_spec_id
+                      0
                     ].specField.map((i) => <th key={`th${i}`}>{i}</th>)
                   : null}
 
@@ -39,21 +39,22 @@ function HardwareInventoriAssign({
               </tr>
             </thead>
             <tbody>
-              {hardwareInventoryData[assignDetailData.hardware_spec_id] !==
+              {hardwareInventoryData[0] !==
               undefined
                 ? hardwareInventoryData[
-                    assignDetailData.hardware_spec_id
-                  ].inventoris.map((i) => (
+                    0
+                  ].inventoris.map((i) => {
+                    return (
                     <tr key={i.id}>
                       <td>{i.no_asset}</td>
                       <td>{i.serial_number}</td>
                       <td>{i.merek}</td>
                       <td>{i.tipe}</td>
                       {hardwareInventoryData[
-                        assignDetailData.hardware_spec_id
+                        0
                       ] !== undefined
                         ? hardwareInventoryData[
-                            assignDetailData.hardware_spec_id
+                          0
                           ].specField.map((f) => (
                             <td key={`td${i.id}-${f}`}>{i.spesifikasi[f]}</td>
                           ))
@@ -76,7 +77,7 @@ function HardwareInventoriAssign({
                         </button>
                       </td>
                     </tr>
-                  ))
+                  )})
                 : null}
             </tbody>
             

@@ -16,7 +16,8 @@ function TicketViewPerbaikanInProgress({
   const [assignState, setAssignState] = useState("REPLACE");
   const [assignDetailData, setAssignDetailData] = useState([]);
   const [hardwareInventoryData, setHardwareInventoryData] = useState([]);
-
+  const [idHardware, setIdHardware] = useState(0);
+  const [shippingStatus, setShippingStatus] = useState(0)
   const axiosConfig = AuthenticationService.getAxiosConfig();
   
   const initialValues = ticketData;
@@ -36,24 +37,104 @@ function TicketViewPerbaikanInProgress({
       console.log(e);
     }
   };
+
   const processReplace = async ({ values, inventori, setFieldValue }) => {
-    setAssignState("REPLACE");
-    setViewState("ASSIGN");
-    setAssignDetailData({
-      id: inventori.id,
-      hardware_spec_id: inventori.hardware_spesifikasi_id,
-    });
-    setTitle(`Assign ${inventori.nama_hardware}`);
+    try {
+      const res = await axios.get(
+        `${config.SERVER_URL}hardwareinventori/${inventori.id}/available`,
+        axiosConfig
+      );
+      const data = [];
+      const mapping = [];
+      res.data.forEach((item, index) => {
+        mapping[item.no_asset] = item;
+        if (data[item.hardware_spesifikasi_id] === undefined) {
+          const specField = [];
+          JSON.parse(item.spesifikasi, (key, value) => {
+            if (key !== "") specField.push(key);
+          });
+
+          data[item.hardware_spesifikasi_id] = {
+            specField,
+            inventoris: [],
+          };
+        }
+        const InventorySpec = [];
+        JSON.parse(item.spesifikasi, (key, value) => {
+          InventorySpec[key] = value;
+        });
+        data[item.hardware_spesifikasi_id].inventoris.push({
+          ...item,
+          spesifikasi: InventorySpec,
+        });
+      });
+      const resDataReal = data.filter(d => Object.keys(d).length === 2)
+      setHardwareInventoryData(resDataReal);
+      setAssignState("REPLACE");
+      setViewState("ASSIGN");
+      setAssignDetailData({
+        id: inventori.id,
+        hardware_spec_id: inventori.hardware_spesifikasi_id,
+      });
+      setTitle(`Assign ${inventori.nama_hardware}`);
+      //setHardwareInventoryDataMapping(mapping);
+    } catch (e) {
+      console.log(e);
+    }
+    // setAssignState("REPLACE");
+    // setViewState("ASSIGN");
+    // setAssignDetailData({
+    //   id: inventori.id,
+    //   hardware_spec_id: inventori.hardware_spesifikasi_id,
+    // });
+    // setTitle(`Assign ${inventori.nama_hardware}`);
   };
   const assignPeminjaman = async ({ values, inventori, setFieldValue }) => {
+    try {
+      const res = await axios.get(
+        `${config.SERVER_URL}hardwareinventori/${inventori.id}/available`,
+        axiosConfig
+      );
+      const data = [];
+      const mapping = [];
+      res.data.forEach((item, index) => {
+        
+        mapping[item.no_asset] = item;
+        if (data[item.hardware_spesifikasi_id] === undefined) {
+          const specField = [];
+          JSON.parse(item.spesifikasi, (key, value) => {
+            if (key !== "") specField.push(key);
+          });
+
+          data[item.hardware_spesifikasi_id] = {
+            specField,
+            inventoris: [],
+          };
+        }
+        const InventorySpec = [];
+        JSON.parse(item.spesifikasi, (key, value) => {
+          InventorySpec[key] = value;
+        });
+        data[item.hardware_spesifikasi_id].inventoris.push({
+          ...item,
+          spesifikasi: InventorySpec,
+        });
+      });
+      const resDataReal = data.filter(d => Object.keys(d).length === 2)
+      setHardwareInventoryData(resDataReal);
+      setAssignState("PEMINJAMAN");
+      setViewState("ASSIGN");
+      setAssignDetailData({
+        id: inventori.id,
+        hardware_spec_id: inventori.hardware_spesifikasi_id,
+      });
+      setTitle(`Assign ${inventori.nama_hardware}`);
+      //setHardwareInventoryDataMapping(mapping);
+    } catch (e) {
+      console.log(e);
+    }
     //console.log("inventori", inventori);
-    setAssignState("PEMINJAMAN");
-    setViewState("ASSIGN");
-    setAssignDetailData({
-      id: inventori.id,
-      hardware_spec_id: inventori.hardware_spesifikasi_id,
-    });
-    setTitle(`Assign ${inventori.nama_hardware}`);
+    
   };
   const shippingPeminjaman = async ({ values, inventori, setFieldValue }) => {
     try {
@@ -65,6 +146,9 @@ function TicketViewPerbaikanInProgress({
         },
         axiosConfig
       );
+      if(res.status === 200){
+        setShippingStatus(200);
+      }
       setFieldValue("status", res.data.status);
       setFieldValue("inventoris", res.data.inventoris);
     } catch (e) {
@@ -159,6 +243,7 @@ function TicketViewPerbaikanInProgress({
     //console.log("assign Inventori");
     try {
       if (assignState === "REPLACE") {
+        console.log(hardwareInventoriId, ticketDetailId, "check replace")
         const res = await axios.post(
           `${config.SERVER_URL}ticketperbaikan/assignreplaceinventori`,
           {
@@ -184,16 +269,16 @@ function TicketViewPerbaikanInProgress({
         setFieldValue("status", res.data.status);
         setFieldValue("inventoris", res.data.inventoris);
         setViewState("VIEW");
-        setInventori();
+        // setInventori();
       }
     } catch (e) {
       console.log(e);
     }
   };
-  const setInventori = async () => {
+  const setInventori = async (isId) => {
     try {
       const res = await axios.get(
-        `${config.SERVER_URL}hardwareinventori/available`,
+        `${config.SERVER_URL}hardwareinventori/${isId}/available`,
         axiosConfig
       );
       const data = [];
@@ -258,6 +343,7 @@ function TicketViewPerbaikanInProgress({
 
   useEffect( () => {
     setInventori();
+    setShippingStatus(0)
   }, []);
 
   return (
@@ -476,7 +562,7 @@ function TicketViewPerbaikanInProgress({
                                 state.userState === "ADMIN" ? (
                                   <button
                                     type="button"
-                                    style={{ margin: "10px" }}
+                                    style={{ margin: "10px" , display: shippingStatus === 200 ? "none" : "block"}}
                                     className="btn btn-primary waves-effect"
                                     onClick={() => {
                                       shippingPeminjaman({
@@ -658,6 +744,7 @@ function TicketViewPerbaikanInProgress({
           ) : null}
           {viewState === "ASSIGN" ? (
             <HardwareInventoriAssign
+              
               hardwareInventoryData={hardwareInventoryData}
               assignDetailData={assignDetailData}
               setFieldValue={setFieldValue}
