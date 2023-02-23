@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import config from "../../config.json";
-import axios from "axios";
-import AuthenticationService from "./../../logic/AuthenticationService";
+import React, { useState } from "react";
+// import { Formik, Form, Field, ErrorMessage } from "formik";
+// import * as Yup from "yup";
+// import config from "../../config.json";
+// import axios from "axios";
+// import AuthenticationService from "./../../logic/AuthenticationService";
 import TicketAddPerbaikan from "./TicketAddPerbaikan";
 import TicketAddPermintaan from "./TicketAddPermintaan";
 import TicketAddPeminjaman from "./TicketAddPeminjaman";
-import IsLoading from "../loading";
+// import IsLoading from "../loading";
 function TicketAdd() {
   const [pageState, setPageState] = useState("Perbaikan");
-  const [isLoad, setIsLoad] = useState(false)
+  // const [isLoad, setIsLoad] = useState(false)
   return (
     <React.Fragment>
       <section className="content">

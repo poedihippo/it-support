@@ -83,7 +83,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
       );
       if(res.status === 200){
         setIsLoad(false)
-        history.push("/ticket-list");
+        history.push("/my-ticket-list");
       }
     } catch (error) {
       console.log(error.response);
@@ -302,7 +302,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
                 <div className="form-line img-upld"style={{width:"max-content"}}>
                   <div className="preview-image">
                     <div className={`remove-image ${isImage?.image1 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image1")}>X</div>
-                    {isImage?.image1 === "" ? <div >Upload your image</div>:<img src={isImage?.image1} />}
+                    {isImage?.image1 === "" ? <div >Upload your image</div>:<img src={isImage?.image1} alt="gambar preview"/>}
                   </div>
                   <label htmlFor="image1" style={{cursor: "pointer"}}>Pilih File</label>
                   <input
@@ -319,7 +319,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
                 <div className="form-line img-upld" style={{width:"max-content"}}>
                   <div className="preview-image">
                   <div className={`remove-image ${isImage?.image2 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image2")}>X</div>
-                  {isImage?.image2 === "" ? <div >Upload your image</div>:<img src={isImage?.image2} />}
+                  {isImage?.image2 === "" ? <div >Upload your image</div>:<img src={isImage?.image2} alt="gambar preview"/>}
                   </div>
                   <label htmlFor="image2" style={{cursor: "pointer"}}>Pilih File</label>
                   <input
@@ -336,7 +336,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
                 <div className="form-line img-upld"style={{width:"max-content"}}>
                   <div className="preview-image" style={{position:"relative"}}>
                     <div className={`remove-image ${isImage?.image3 === "" ?"hiden":"showd"}`} onClick={(e) => handleRemoveImage(e, "image3")}>X</div>
-                  {isImage?.image3 === "" ? <div>Upload your image</div>:<img src={isImage?.image3} />}
+                  {isImage?.image3 === "" ? <div>Upload your image</div>:<img src={isImage?.image3} alt="gambar preview"/>}
                   </div>
                   <label htmlFor="image3" style={{cursor: "pointer"}}>Pilih File</label>
                   <input

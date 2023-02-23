@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, FieldArray } from "formik";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
@@ -22,7 +21,6 @@ function TicketAddPermintaan({ state, dispatch }) {
     alasan: "",
     details: [defaultRow],
   };
-  const validationSchema = Yup.object({});
   const onSubmit = async (values) => {
     try {
       const res = await axios.post(
@@ -38,16 +36,21 @@ function TicketAddPermintaan({ state, dispatch }) {
     }
   };
 
-  useEffect(async () => {
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}hardwarespec`,
-        axiosConfig
-      );
-      setHardwareList(res.data);
-    } catch (e) {
-      console.log(e);
+  useEffect( () => {
+
+  const axiosConfig = AuthenticationService.getAxiosConfig();
+    const getHardwareSpec = async () => {
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}hardwarespec`,
+          axiosConfig
+        );
+        setHardwareList(res.data);
+      } catch (e) {
+        console.log(e);
+      }
     }
+    getHardwareSpec()
   }, []);
 
   return (
@@ -92,7 +95,6 @@ function TicketAddPermintaan({ state, dispatch }) {
               const { form, push, remove } = params;
               const { details } = form.values;
               console.log("params", params);
-              let no_seq = 1;
               return (
                 <React.Fragment>
                   <table className="table table-bordered ">
@@ -146,7 +148,6 @@ function TicketAddPermintaan({ state, dispatch }) {
                               type="button"
                               style={{ margin: "10px" }}
                               className="btn btn-primary waves-effect"
-                              type="button"
                               onClick={() => {
                                 remove(index);
                               }}
@@ -163,9 +164,7 @@ function TicketAddPermintaan({ state, dispatch }) {
                       type="button"
                       style={{ margin: "10px" }}
                       className="btn btn-primary waves-effect"
-                      type="button"
                       onClick={() => {
-                        no_seq++;
                         push(defaultRow);
                       }}
                     >

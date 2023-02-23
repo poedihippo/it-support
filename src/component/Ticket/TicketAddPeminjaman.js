@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, FieldArray } from "formik";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "../../logic/AuthenticationService";
@@ -27,7 +26,6 @@ function TicketAddPeminjaman({ state, dispatch }) {
     alasan: "",
     details: [defaultRow],
   };
-  const validationSchema = Yup.object({});
   const onSubmit = async (values) => {
     try {
       const res = await axios.post(
@@ -35,24 +33,30 @@ function TicketAddPeminjaman({ state, dispatch }) {
         values,
         axiosConfig
       );
-      console.log(res);
-      history.push("/ticket-list");
+      if(res.status === 200){
+        history.push("/my-ticket-list");
+      }
       //dispatch({ type: "LIST" });
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect(async () => {
-    try {
-      const res = await axios.get(
-        `${config.SERVER_URL}hardwarespec`,
-        axiosConfig
-      );
-      setHardwareList(res.data);
-    } catch (e) {
-      console.log(e);
+  useEffect( () => {
+    const axiosConfig = AuthenticationService.getAxiosConfig();
+    const getHardwareSpec = async () => {
+      try {
+        const res = await axios.get(
+          `${config.SERVER_URL}hardwarespec`,
+          axiosConfig
+        );
+        setHardwareList(res.data);
+      } catch (e) {
+        console.log(e);
+      }
     }
+    getHardwareSpec()
+    
   }, []);
 
   return (
@@ -120,7 +124,6 @@ function TicketAddPeminjaman({ state, dispatch }) {
           <FieldArray name="details">
             {({ form, push }) => {
               const { details } = form.values;
-              let no_seq = 1;
               return (
                 <React.Fragment>
                   <table className="table table-bordered ">
@@ -179,9 +182,7 @@ function TicketAddPeminjaman({ state, dispatch }) {
                       type="button"
                       style={{ margin: "10px" }}
                       className="btn btn-primary waves-effect"
-                      type="button"
                       onClick={() => {
-                        no_seq++;
                         push(defaultRow);
                       }}
                     >
