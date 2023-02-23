@@ -41,7 +41,7 @@ function TicketViewPerbaikanInProgress({
   const processReplace = async ({ values, inventori, setFieldValue }) => {
     try {
       const res = await axios.get(
-        `${config.SERVER_URL}hardwareinventori/${inventori.id}/available`,
+        `${config.SERVER_URL}hardwareinventori/${inventori.hardware_spesifikasi_id}/available`,
         axiosConfig
       );
       const data = [];
@@ -92,7 +92,7 @@ function TicketViewPerbaikanInProgress({
   const assignPeminjaman = async ({ values, inventori, setFieldValue }) => {
     try {
       const res = await axios.get(
-        `${config.SERVER_URL}hardwareinventori/${inventori.id}/available`,
+        `${config.SERVER_URL}hardwareinventori/${inventori.hardware_spesifikasi_id}/available`,
         axiosConfig
       );
       const data = [];
