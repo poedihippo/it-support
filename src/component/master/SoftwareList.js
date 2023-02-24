@@ -4,12 +4,13 @@ import "datatables.net";
 import config from "../../config.json";
 import axios from "axios";
 import AuthenticationService from "./../../logic/AuthenticationService";
-
+import { useHistory } from "react-router-dom";
 function SoftwareList({ state, dispatch }) {
   const [data, setData] = useState([]);
   const [isDelete, setIsDelete] = useState(false);
   const [isDataDelete, setIsDataDelete] = useState()
   const axiosConfig = AuthenticationService.getAxiosConfig();
+  const history = useHistory();
   const deleteData = async (item) => {
     setIsDelete(true);
     setIsDataDelete(item)
@@ -29,6 +30,14 @@ function SoftwareList({ state, dispatch }) {
       })
       .catch((err) => console.log(err));
   }, []);
+  // useEffect(() => {
+  //   console.log(history.location, "chek history")
+  //   history?.location?.state && dispatch({
+  //     type: "LISENCE_LIST",
+  //     id: history?.location?.state?.id,
+  //     row: history?.location?.state?.row,
+  //   });
+  // }, [history])
   const handleDelete = async (e) => {
     if(e.currentTarget.textContent.toUpperCase() === "YES"){
       try {

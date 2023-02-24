@@ -225,8 +225,16 @@ const assignForRepairs = async () => {
                         
                         className="btn btn-primary waves-effect"
                         onClick={() => {
+                          history.push({
+                            pathname:"/software",
+                            state:{
+                              type:"LISENCE_LIST",
+                              id: isStateData?.id,
+                              row: isStateData
+                            }
+                          })
                             // dispatch({type: "LIST"})
-                            window.location.assign(`/hardware-inventori/${isStateData?.hardware_spesifikasi_id}`)
+                            // window.location.assign(`/software`)
                       }}
                     >Back</button>
                   </div>

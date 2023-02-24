@@ -102,6 +102,8 @@ function SoftwareLisenceList({ state, dispatch }) {
                     className="btn btn-primary waves-effect"
                     onClick={() => {
                       dispatch({ type: "LIST" });
+                      // window.location.assign("/software")
+                      // history.push("/software")
                     }}
                   >Back</button>
                   </div>
