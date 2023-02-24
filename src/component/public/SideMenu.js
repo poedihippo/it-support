@@ -180,7 +180,6 @@ function SideMenu({ user }) {
       try{
         const res = await axios.get(`${config.SERVER_URL}logindata`, axiosConfig);
         const filterUser = res?.data?.filter(dataUsr => parseInt(dataUsr?.user_id) === parseInt(user?.id));
-        
         const toObj = JSON.parse(JSON.stringify(filterUser[0]?.sunsafe_response));
         menuSideBar.forEach(isDataMenu => {
           
@@ -212,7 +211,7 @@ function SideMenu({ user }) {
           })
         })
       }catch(error){
-        console.log(error.response, "error side menu")
+        console.log(error, "error side menu")
       }
       setDataMenuUser(newObj);
     }
