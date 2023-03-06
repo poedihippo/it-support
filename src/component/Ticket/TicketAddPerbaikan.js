@@ -31,7 +31,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
     inventori_id: 0,
     keterangan: "",
   };
-  
+  const getId = localStorage.getItem("id")
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
 
@@ -107,7 +107,7 @@ function TicketAddPerbaikan({ state, dispatch, jenisTicket }) {
       }
       try {
         const res = await axios.get(
-          `${config.SERVER_URL}user/:id/myinventory`,
+          `${config.SERVER_URL}user/${getId ?? 0}/myinventory`,
           axiosConfig
         );
         const hardwareInventoriMapping = [];
