@@ -629,6 +629,7 @@ function TicketViewPermintaanInProgress({
           ) : null}
           {viewState === "ASSIGN" ? (
             <HardwareInventoriAssign
+              ticketData={ticketData}
               hardwareInventoryData={hardwareInventoryData}
               assignDetailData={assignDetailData}
               setFieldValue={setFieldValue}

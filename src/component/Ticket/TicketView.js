@@ -36,7 +36,7 @@ function TicketView({ state, dispatch }) {
     }
     getDataTicketDetails();
   }, [state]);
-
+  console.log(ticketData, "check ticket data")
   return (
     <React.Fragment>
       <section className="content">

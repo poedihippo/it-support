@@ -237,21 +237,22 @@ function TicketViewPerbaikanInProgress({
     }
   };
   const assignInventori = async (
-    { hardwareInventoriId, ticketDetailId },
+    { hardwareInventoriId, ticketDetailId, hardwareSpecId },
     setFieldValue
   ) => {
-    //console.log("assign Inventori");
+    console.log("assign Inventori");
     try {
       if (assignState === "REPLACE") {
-        console.log(hardwareInventoriId, ticketDetailId, "check replace")
+        console.log('masuk ke sinikah')
         const res = await axios.post(
           `${config.SERVER_URL}ticketperbaikan/assignreplaceinventori`,
           {
-            hardwareInventoriId,
-            perbaikanInventoriId: ticketDetailId,
+            perbaikan_inventory_id: 95,
+            new_hardware_id: hardwareInventoriId,
           },
           axiosConfig
         );
+        console.log(res, "check resnya yah")
         setFieldValue("status", res.data.status);
         setFieldValue("inventoris", res.data.inventoris);
         setViewState("VIEW");
@@ -744,7 +745,7 @@ function TicketViewPerbaikanInProgress({
           ) : null}
           {viewState === "ASSIGN" ? (
             <HardwareInventoriAssign
-              
+              ticketData={ticketData}
               hardwareInventoryData={hardwareInventoryData}
               assignDetailData={assignDetailData}
               setFieldValue={setFieldValue}

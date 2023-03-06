@@ -11,7 +11,6 @@ function TicketViewPeminjamanApprove({ state, dispatch, ticketData }) {
 
   const initialValues = ticketData;
   const validationSchema = Yup.object({});
-  console.log("ticket data", ticketData);
   const approveDetail = async (
     newStatus,
     values,

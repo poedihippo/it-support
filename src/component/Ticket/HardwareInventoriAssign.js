@@ -8,6 +8,7 @@ function HardwareInventoriAssign({
   setFieldValue,
   assignDetailData,
   dispatch,
+  ticketData,
   state,
   setViewState
 }) {
@@ -16,6 +17,7 @@ function HardwareInventoriAssign({
       responsive: true,
     });
   }, []);
+  console.log(ticketData, assignDetailData, "chedck lagi lah")
   return (
     <div className="row clearfix">
       <div className="col-sm-12">
@@ -44,6 +46,7 @@ function HardwareInventoriAssign({
                 ? hardwareInventoryData[
                     0
                   ].inventoris.map((i) => {
+                    // console.log(i, "check i yah")
                     return (
                     <tr key={i.id}>
                       <td>{i.no_asset}</td>
@@ -67,7 +70,8 @@ function HardwareInventoriAssign({
                             assignInventori(
                               {
                                 hardwareInventoriId: i.id,
-                                ticketDetailId: assignDetailData.id,
+                                ticketDetailId: assignDetailData?.id,
+                                hardwareSpecId:ticketData?.inventoris[0]?.inventori_id
                               },
                               setFieldValue
                             );

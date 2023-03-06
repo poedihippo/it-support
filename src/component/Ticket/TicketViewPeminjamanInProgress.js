@@ -689,6 +689,7 @@ function TicketViewPeminjamanInProgress({
           {viewState === "ASSIGN" ? (
             <HardwareInventoriAssign
               hardwareInventoryData={hardwareInventoryData}
+              ticketData={ticketData}
               assignDetailData={assignDetailData}
               setFieldValue={setFieldValue}
               assignInventori={assignInventori}
